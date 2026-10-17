@@ -73,5 +73,53 @@ Images: mockup-2, mockup-3,mockup-4
 - The color, feels, should match the vibes so that the ui is consistent.
 - the routes you used should, engineering-labs/*
 
-**Status:** Pending
+**Status:** Completed
 
+## Task 3: Engineering Labs > Tool Registry Implementation
+
+### Reference Images
+
+Located in the `guide-imgs/` folder. Multiple reference images may be provided by the developer.
+
+Images: mockup-5, mockup-6
+
+- The developer is responsible for providing and uploading the reference images.
+
+### Requirements
+
+- in mockup 5, can you please add it in tool registry section those boxes
+- in mockup 5, in arrow 1, please change it to the toggleable two buttons, these buttons associated the design or structure of those tool registries, example one button for box or grid design of tool structure, the other one is a table design resemblance in mockup 6, use icon only.
+- in mockup 5, in arrow 2, please remove it, instead there are only like small title above the div of those boxes named "All Calculations"
+- in mockup 5, in arrow 3, you should add a boxes like in mockyp 6 arrow 3 in the top of the boxes
+- in mockup 5, in arrow 4, you should add the awaiting approval just like in mockup 6 arrow 4, you should slightly change the design my stack up those awaiting approval like same vibes in mockup 5 boxes but make them like 100% width box and add a button "Show Calculation" along with accept and return to draft and also add a small text from top of those awaiting approval named "Awaiting Approval"
+- In mockup 6, in arrow 5, you should add it between in awaiting approval and all calculation, this is only applicable to those calculation
+- add a infinite scrolling, 15 items the limit until it loads again for another 15 items
+- in awaiting approval, if ever it getting more and more, you should add a height limit and make them scrollable to not eat the whole screen.
+
+## Feedback
+- Can you please set a fix width, because when i select the or change something in filter, the width is slightly moving and its because of the mousebar in the right, so its up to you.
+- Also the calculation change the color or something that indicate being hovered by the cursor 
+- Can you also add a search bar bellow the "Add Calculations" title for All Caculations
+**Status:** Completed
+
+
+## Task 3: Collapsible Sidebar
+
+### Reference Images
+
+Located in the `guide-imgs/` folder. Multiple reference images may be provided by the developer.
+
+Images: mockup-7
+
+- The developer is responsible for providing and uploading the reference images.
+
+### Requirements
+
+- In mockup 7, in the arrow, can you please make the sidebar collapsible by clicking the menu icon from the arrow, when collapsed, only the icons are visible but when opened then icon + text like same in the picture.
+
+## Feedback
+
+- It's working but I noticed when the sidebar is collapsed and tried to click the engineering labs button, it triggers the sidebar to be un-collapse again and a slight ui bug, can you also make those submenus also visible when the sidebar is collapsed? like when the user hover it or clicked it, it will show a small modal contains those submenus (this only happens during collapsed sidebar)
+
+
+**Status:** Pending
