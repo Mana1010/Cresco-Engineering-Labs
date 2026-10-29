@@ -3,6 +3,8 @@
  "db_password": "Tw4MjhCwJubaoVBC",
  "db_type": "mariadb",
  "db_user": "_60ddf771d1b0145e",
+ "developer_mode": 1,
+ "ignore_csrf": 1,
  "installed_apps": [
   "frappe",
   "engineering_labs"

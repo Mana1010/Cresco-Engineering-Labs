@@ -110,3 +110,127 @@
 2026-10-17 23:34:35,507 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
 2026-10-17 23:40:00,856 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
 2026-10-17 23:40:47,562 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-20 08:54:03,787 INFO /home/tristanvic/.local/bin/bench start
+2026-10-20 08:54:04,011 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-20 08:54:04,013 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-20 08:54:04,015 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-20 08:54:04,016 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-20 08:54:04,024 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-20 09:46:03,740 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-20 09:54:18,310 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-20 09:55:47,021 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-20 09:56:03,731 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-20 11:09:21,130 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-20 12:00:07,476 INFO /home/tristanvic/.local/bin/bench --verbose --site all backup
+2026-10-20 14:46:27,799 INFO /home/tristanvic/.local/bin/bench start
+2026-10-20 14:46:28,047 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-20 14:46:28,049 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-20 14:46:28,049 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-20 14:46:28,056 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-20 14:46:28,057 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-20 14:46:35,632 INFO /home/tristanvic/.local/bin/bench start
+2026-10-20 14:46:35,851 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-20 14:46:35,856 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-20 14:46:35,869 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-20 14:46:35,870 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-20 14:46:35,871 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-20 14:56:50,176 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-20 14:57:13,040 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-20 22:16:19,721 INFO /home/tristanvic/.local/bin/bench start
+2026-10-20 22:16:19,977 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-20 22:16:19,979 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-20 22:16:19,980 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-20 22:16:20,004 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-20 22:16:20,007 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-20 22:17:58,150 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-20 22:22:20,498 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-20 22:26:07,193 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-20 22:27:12,396 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-21 23:41:32,890 INFO /home/tristanvic/.local/bin/bench --site cresco.local execute frappe.desk.doctype.desktop_settings.desktop_settings.get_desktop_page
+2026-10-21 23:44:32,659 INFO /home/tristanvic/.local/bin/bench --site cresco.local backup
+2026-10-21 23:44:33,914 INFO /home/tristanvic/.local/bin/bench --site cresco.local migrate
+2026-10-21 23:44:42,117 INFO /home/tristanvic/.local/bin/bench --site cresco.local migrate
+2026-10-21 23:48:49,756 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-22 00:00:03,220 INFO /home/tristanvic/.local/bin/bench --verbose --site all backup
+2026-10-22 09:15:23,682 INFO /home/tristanvic/.local/bin/bench starty
+2026-10-22 09:15:26,556 INFO /home/tristanvic/.local/bin/bench start
+2026-10-22 09:15:26,854 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-22 09:15:26,855 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-22 09:15:26,853 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-22 09:15:26,858 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-22 09:15:26,864 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-22 09:15:50,874 INFO /home/tristanvic/.local/bin/bench restart
+2026-10-22 09:15:55,667 INFO /home/tristanvic/.local/bin/bench build
+2026-10-22 09:19:56,483 INFO /home/tristanvic/.local/bin/bench start
+2026-10-22 09:19:56,662 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-22 09:19:56,672 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-22 09:19:56,672 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-22 09:19:56,675 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-22 09:19:56,678 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-22 09:27:51,799 INFO /home/tristanvic/.local/bin/bench --site cresco.local clear-cache
+2026-10-22 09:27:53,122 INFO /home/tristanvic/.local/bin/bench --site cresco.local clear-website-cache
+2026-10-22 09:29:44,892 INFO /home/tristanvic/.local/bin/bench restart
+2026-10-22 09:29:47,473 INFO /home/tristanvic/.local/bin/bench start
+2026-10-22 09:29:47,684 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-22 09:29:47,687 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-22 09:29:47,690 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-22 09:29:47,692 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-22 09:29:47,711 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-22 13:36:58,772 INFO /home/tristanvic/.local/bin/bench start
+2026-10-22 13:36:58,995 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-22 13:36:58,997 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-22 13:36:58,997 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-22 13:36:59,001 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-22 13:36:59,015 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-24 00:00:04,097 INFO /home/tristanvic/.local/bin/bench --verbose --site all backup
+2026-10-24 12:00:02,887 INFO /home/tristanvic/.local/bin/bench --verbose --site all backup
+2026-10-25 00:00:04,209 INFO /home/tristanvic/.local/bin/bench --verbose --site all backup
+2026-10-25 12:00:05,204 INFO /home/tristanvic/.local/bin/bench --verbose --site all backup
+2026-10-25 18:00:04,118 INFO /home/tristanvic/.local/bin/bench --verbose --site all backup
+2026-10-27 10:21:35,020 INFO /home/tristanvic/.local/bin/bench start
+2026-10-27 10:21:35,250 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-27 10:21:35,251 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-27 10:21:35,252 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-27 10:21:35,266 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-27 10:21:35,269 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-27 10:22:02,355 INFO /home/tristanvic/.local/bin/bench start
+2026-10-27 10:22:02,621 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-27 10:22:02,623 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-27 10:22:02,623 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-27 10:22:02,636 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-27 10:22:02,642 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-27 10:22:07,588 INFO /home/tristanvic/.local/bin/bench restart
+2026-10-27 10:22:08,219 INFO A newer version of bench is available: 5.31.0 → 5.31.1
+2026-10-27 13:27:56,499 INFO /home/tristanvic/.local/bin/bench start
+2026-10-27 13:27:56,706 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-27 13:27:56,706 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-27 13:27:56,706 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-27 13:27:56,706 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-27 13:27:56,712 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-27 13:38:00,304 INFO /home/tristanvic/.local/bin/bench start
+2026-10-27 13:38:00,608 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-27 13:38:00,608 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-27 13:38:00,608 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-27 13:38:00,608 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-27 13:38:00,626 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-27 14:58:04,300 INFO /home/tristanvic/.local/bin/bench start
+2026-10-27 14:58:04,573 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-27 14:58:04,595 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-27 14:58:04,604 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-27 14:58:04,608 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-27 14:58:04,610 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-27 17:00:44,528 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-27 17:09:51,467 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-27 17:12:45,141 INFO /home/tristanvic/.local/bin/bench build --app engineering_labs
+2026-10-29 10:10:35,393 INFO /home/tristanvic/.local/bin/bench start
+2026-10-29 10:10:35,610 INFO /home/tristanvic/.local/bin/bench serve --port 8008
+2026-10-29 10:10:35,611 INFO /home/tristanvic/.local/bin/bench watch
+2026-10-29 10:10:35,616 INFO /home/tristanvic/.local/bin/bench worker
+2026-10-29 10:10:35,618 INFO /home/tristanvic/.local/bin/bench socketio
+2026-10-29 10:10:35,620 INFO /home/tristanvic/.local/bin/bench schedule
+2026-10-29 10:57:37,613 INFO /home/tristanvic/.local/bin/bench --site cresco.local set-config developer_mode 1
+2026-10-29 10:57:38,123 INFO /home/tristanvic/.local/bin/bench --site cresco.local clear-cache
+2026-10-29 11:08:21,245 INFO /home/tristanvic/.local/bin/bench list-app-sites engineering_labs
+2026-10-29 11:08:42,127 INFO /home/tristanvic/.local/bin/bench --version
+2026-10-29 11:11:23,549 INFO /home/tristanvic/.local/bin/bench --site cresco.local set-config ignore_csrf 1
+2026-10-29 11:11:47,496 INFO /home/tristanvic/.local/bin/bench list-app-sites engineering_labs

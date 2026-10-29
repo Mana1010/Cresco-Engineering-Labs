@@ -10,3 +10,45 @@ Backup Summary for cresco.local at 2026-10-17 12:00:06.980121
 Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261017_120005-cresco_local-site_config_backup.json 185.0B
 Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261017_120005-cresco_local-database.sql.gz 275.6KiB
 Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261020_120008-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-10-20 12:00:09.663673
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261020_120008-cresco_local-site_config_backup.json 185.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261020_120008-cresco_local-database.sql.gz 279.4KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261022_000005-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-10-22 00:00:06.716763
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261022_000005-cresco_local-site_config_backup.json 185.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261022_000005-cresco_local-database.sql.gz 291.8KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261024_000007-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-10-24 00:00:09.286488
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261024_000007-cresco_local-site_config_backup.json 185.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261024_000007-cresco_local-database.sql.gz 293.7KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261024_120006-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-10-24 12:00:11.432808
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261024_120006-cresco_local-site_config_backup.json 185.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261024_120006-cresco_local-database.sql.gz 293.7KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261025_000006-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-10-25 00:00:09.134765
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261025_000006-cresco_local-site_config_backup.json 185.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261025_000006-cresco_local-database.sql.gz 293.7KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261025_120007-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-10-25 12:00:10.021628
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261025_120007-cresco_local-site_config_backup.json 185.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261025_120007-cresco_local-database.sql.gz 293.7KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261025_180007-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-10-25 18:00:09.175845
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261025_180007-cresco_local-site_config_backup.json 185.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261025_180007-cresco_local-database.sql.gz 293.7KiB
+Backup for Site cresco.local has been successfully completed

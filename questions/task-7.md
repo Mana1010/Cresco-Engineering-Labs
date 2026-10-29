@@ -1,0 +1,16 @@
+# Task 7: POC Data as Doctypes: Questions
+
+Task 7 is implemented. Please confirm or correct the points below. The first one matters most.
+
+1. **Fixtures get overwritten on every migrate.** Frappe re-imports fixtures with `force=True` on every `bench migrate`. Any fixture record changed through the portal is reset to the fixture version at the next migrate: an approval, a deprecation, an added note, or an edit in the desk. I checked this during testing. Records users create themselves are left alone. That's fine for demo data, but not once real approvals and notes start being recorded. Options:
+   - **(a)** Keep fixtures for now, and later replace them with a one-time seed: an `after_install` hook, or a `bench execute` command that only inserts records if they don't exist.
+   - **(b)** Keep only setup-style records as fixtures (projects, external APIs, metrics) and seed the calculations once.
+   - **(c)** Keep fixtures as they are.
+
+   Which do you prefer?
+2. **Who can do what.** The doctypes are editable in the desk by **System Manager** only. The portal reads its data for any logged-in user; guests are sent to the login page. Approve, Return to draft, Deprecate, Re-approve and Add note also work for any logged-in user (Task 5, question 1 is still open). Which roles should be allowed to approve or deprecate? I can add an "Engineering Director" role, or use an existing one.
+3. **Where "Cresco Portal" appears on the desk.** This site's desk home is set to **Apps**, so "Cresco Portal" appears there (from the `add_to_apps_screen` hook) and opens `/portal`. I also shipped a Desktop Icon definition, so it also appears if the site is switched to the "Desktop Icons" home. "Cresco Portal" is also a real module now, holding the portal doctypes. Is this what you meant by "a module named Cresco Portal"?
+4. **Event dates were moved.** The mockup's events were on 19 and 24 September 2026, which have passed, and the dashboard only shows upcoming events. The fixtures put them on 19 and 24 **November** 2026. The dashboard now shows the next 2 upcoming events, or "No upcoming events" if there are none. Birthdays show the 3 nearest upcoming birthdays.
+5. **Figures are stored, not calculated.** The dashboard stat cards ("12 Accepted Projects assigned to me") and the Engineering Labs home figures (87% first-time pass, tool popularity, timeliness and so on) are stored records (Portal Stat, Labs Metric). They aren't calculated from other data, because the underlying data doesn't exist yet: timesheets, review audit log, per-user assignments. They're the same for every user. Should any of them be calculated from real records in a later task?
+6. **Preview runs are still simulated.** "Run via …" returns the calculation's stored **Sample Results** (only CheckWind has them), or a generic summary for the rest. Nothing is logged; the "Logged to cresco_eng_calculation_log…" line is still display-only. Each calculation's request form is now editable in the desk (Labs Calculation → Preview → Request Inputs).
+7. **Database.** The bench config says PostgreSQL, but `cresco.local` actually runs on **MariaDB** (its `site_config.json` has `db_type: mariadb`). Everything was built and tested on MariaDB. Nothing here is MariaDB-specific, but is this site meant to be on PostgreSQL?

@@ -241,3 +241,292 @@ index creation(creation))
 2026-10-13 17:20:18,195 WARNING database DDL Query made to DB:
 ALTER TABLE `tabMilestone`
 				ADD INDEX IF NOT EXISTS `reference_type_reference_name_index`(reference_type, reference_name)
+2026-10-21 23:44:43,301 WARNING database DDL Query made to DB:
+create table `tabLabs Calculation Note` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`note` text,
+`note_by` varchar(140),
+`note_date` date,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140),
+index parent(parent))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-10-21 23:44:43,365 WARNING database DDL Query made to DB:
+create table `tabLabs External API` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`api_name` varchar(140) UNIQUE,
+`display_order` int(11) NOT NULL DEFAULT 0,
+`quota_used` int(11) NOT NULL DEFAULT 0,
+`quota_limit` int(11) NOT NULL DEFAULT 0,
+`quota_unit` varchar(140),
+`quota_renews_on` date,
+`health_status` varchar(140) DEFAULT 'ok',
+`latency_ms` int(11) NOT NULL DEFAULT 0,
+`errors_24h` int(11) NOT NULL DEFAULT 0,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-10-21 23:44:43,403 WARNING database DDL Query made to DB:
+create table `tabLabs Calculation` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`calculation_name` varchar(140) UNIQUE,
+`engine_source` varchar(140),
+`calculation_type` varchar(140),
+`autonomous` tinyint(4) NOT NULL DEFAULT 0,
+`category` varchar(140),
+`version` varchar(140),
+`status` varchar(140) DEFAULT 'Draft',
+`author` varchar(140),
+`submitted_by` varchar(140),
+`submitted_on` date,
+`approved_by` varchar(140),
+`approved_on` date,
+`description` text,
+`attribution` varchar(140),
+`run_note` text,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-10-21 23:44:43,428 WARNING database DDL Query made to DB:
+create table `tabLabs Calculation Result` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`section` varchar(140),
+`label` varchar(140),
+`result_value` varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140),
+index parent(parent))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-10-21 23:44:43,455 WARNING database DDL Query made to DB:
+create table `tabLabs Metric` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`section` varchar(140),
+`label` varchar(140),
+`display_value` varchar(140),
+`count_value` int(11) NOT NULL DEFAULT 0,
+`caption` varchar(140),
+`tone` varchar(140),
+`display_order` int(11) NOT NULL DEFAULT 0,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-10-21 23:44:43,489 WARNING database DDL Query made to DB:
+create table `tabLabs Consistency Flag` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`reference` varchar(140),
+`project` varchar(140),
+`project_name` varchar(140),
+`status` varchar(140) DEFAULT 'Open',
+`message` text,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-10-21 23:44:43,514 WARNING database DDL Query made to DB:
+create table `tabLabs Calculation Input` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`input_key` varchar(140),
+`label` varchar(140),
+`input_type` varchar(140) DEFAULT 'Data',
+`options` text,
+`default_value` varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140),
+index parent(parent))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-10-21 23:44:43,539 WARNING database DDL Query made to DB:
+create table `tabPortal News Post` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`title` varchar(140),
+`body` text,
+`image` text,
+`is_published` tinyint(4) NOT NULL DEFAULT 1,
+`published_on` date,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-10-21 23:44:43,563 WARNING database DDL Query made to DB:
+create table `tabPortal Event` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`title` varchar(140),
+`starts_on` datetime(6),
+`location` varchar(140),
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-10-21 23:44:43,588 WARNING database DDL Query made to DB:
+create table `tabPortal Stat` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`label` varchar(140),
+`display_value` int(11) NOT NULL DEFAULT 0,
+`sublabel` varchar(140),
+`icon` varchar(140),
+`tone` varchar(140),
+`display_order` int(11) NOT NULL DEFAULT 0,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-10-21 23:44:43,618 WARNING database DDL Query made to DB:
+create table `tabCresco Project` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`project_code` varchar(140) UNIQUE,
+`project_name` varchar(140),
+`client` varchar(140),
+`location` varchar(140),
+`site_address` varchar(140),
+`discipline` varchar(140),
+`stage` varchar(140) DEFAULT 'WIP',
+`project_owner` varchar(140),
+`calcs_done` int(11) NOT NULL DEFAULT 0,
+`calcs_total` int(11) NOT NULL DEFAULT 0,
+`portal_ref` varchar(140),
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
+2026-10-21 23:44:43,645 WARNING database DDL Query made to DB:
+create table `tabPortal Team Member` (
+			name varchar(140) primary key,
+			creation datetime(6),
+			modified datetime(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus tinyint not null default '0',
+			idx int not null default '0',
+			`full_name` varchar(140),
+`job_title` varchar(140),
+`birthday` date,
+`image` text,
+`_user_tags` text,
+`_comments` text,
+`_assign` text,
+`_liked_by` text,
+index creation(creation))
+			ENGINE=InnoDB
+			ROW_FORMAT=DYNAMIC
+			CHARACTER SET=utf8mb4
+			COLLATE=utf8mb4_unicode_ci
