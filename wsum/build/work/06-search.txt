@@ -1,0 +1,1 @@
+Search finds a tool by its name, standard or category, for example, the ARR rainfall tool.

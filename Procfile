@@ -16,4 +16,4 @@ schedule: bench schedule
 
 worker:  bench worker 1>> logs/worker.log 2>> logs/worker.error.log
 
-tailwind: cd apps/engineering_labs && yarn -s dev
+frontend: cd apps/engineering_labs/frontend && npm run dev

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New Tool Modal (mockup)</title>
+<style>
+  :root { --blue:#0ea5e9; --blue-d:#0369a1; --ink:#111827; --muted:#6b7280; --line:#e5e7eb; --bg:#f2f2f2; --dark:#232936; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; color:var(--ink); font-size:14px; }
+  .note { max-width:1100px; margin:20px auto 0; padding:0 16px; color:var(--muted); font-size:13px; }
+  .note b { color:var(--ink); }
+
+  /* Fake page behind the modal */
+  .page { max-width:1100px; margin:12px auto; padding:0 16px; }
+  .toolbar { display:flex; justify-content:flex-end; gap:8px; background:#fff; padding:14px; border-radius:6px; box-shadow:0 1px 4px rgba(0,0,0,.12); }
+  .btn { border:1px solid #d9dde3; background:#fff; border-radius:6px; padding:8px 14px; font:inherit; cursor:pointer; }
+  .btn:hover { border-color:var(--blue); color:var(--blue-d); }
+  .btn-dark { background:var(--dark); color:#fff; border-color:var(--dark); }
+  .btn-dark:hover { background:#111620; color:#fff; border-color:#111620; }
+  .btn-sm { padding:4px 10px; font-size:13px; }
+
+  /* Modal */
+  .overlay { position:fixed; inset:0; background:rgba(17,24,39,.45); display:flex; align-items:flex-start; justify-content:center; padding:32px 16px; overflow:auto; }
+  .overlay[hidden] { display:none; }
+  .modal { width:100%; max-width:1040px; background:#fff; border-radius:10px; box-shadow:0 20px 50px rgba(0,0,0,.25); }
+  .m-head { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--line); }
+  .m-head h2 { margin:0; font-size:18px; }
+  .x { border:0; background:none; font-size:22px; cursor:pointer; color:var(--muted); }
+  .m-body { padding:20px; display:flex; flex-direction:column; gap:22px; }
+  .m-foot { display:flex; justify-content:flex-end; gap:8px; padding:14px 20px; border-top:1px solid var(--line); }
+
+  .section-title { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:0 0 10px; display:flex; align-items:center; gap:8px; }
+  .tag { font-size:11px; font-weight:600; text-transform:none; letter-spacing:0; padding:2px 7px; border-radius:4px; background:#e0f2fe; color:var(--blue-d); }
+  .tag.opt { background:#f3f4f6; color:#4b5563; }
+
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px 18px; }
+  label.f { display:flex; flex-direction:column; gap:5px; font-size:13px; font-weight:600; }
+  label.f small { font-weight:400; color:var(--muted); }
+  .req::after { content:" *"; color:#d9363e; }
+  input, select { font:inherit; padding:8px 10px; border:1px solid #d9dde3; border-radius:6px; background:#fff; width:100%; }
+  input:focus, select:focus { outline:2px solid var(--blue); outline-offset:-1px; border-color:var(--blue); }
+  input:disabled { background:#f9fafb; color:#9ca3af; }
+
+  /* Parameter grids */
+  .params { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .pcard { border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .pcard h3 { margin:0; padding:10px 12px; font-size:14px; background:#f9fafb; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+  .pcard h3 span { font-weight:400; color:var(--muted); font-size:12px; }
+  .prow { display:grid; grid-template-columns:1fr 110px 56px 28px; gap:8px; padding:10px 12px; border-bottom:1px solid #f0f1f3; align-items:start; }
+  .prow.head { padding:6px 12px; font-size:12px; font-weight:600; color:var(--muted); background:#fff; }
+  .fname { display:flex; align-items:center; gap:4px; margin-top:4px; font-size:12px; color:var(--muted); }
+  .fname input { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; padding:2px 6px; border:1px dashed #d1d5db; width:auto; flex:1; min-width:0; color:#374151; }
+  .fname input.err { border-color:#d9363e; color:#d9363e; }
+  .fname .manual { font-size:10px; color:var(--blue-d); }
+  .center { display:flex; justify-content:center; padding-top:8px; }
+  .del { border:0; background:none; color:#9ca3af; cursor:pointer; font-size:18px; padding-top:4px; }
+  .del:hover { color:#d9363e; }
+  .add { display:block; width:100%; border:0; background:none; padding:10px; color:var(--blue-d); font:inherit; font-weight:600; cursor:pointer; text-align:left; }
+  .add:hover { background:#f0f9ff; }
+  .empty { padding:14px 12px; color:var(--muted); font-size:13px; }
+
+
+  @media (max-width:760px) { .grid2, .params { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<p class="note"><b>Mockup only.</b> This is the "New Tool" modal from the 24 Nov notes: tool registration fields, then <b>Inputs (left) | Outputs (right)</b> grids. Nothing is saved.</p>
+
+<div class="page">
+  <div class="toolbar">
+    <button class="btn">Filter</button>
+    <button class="btn btn-dark" id="openBtn">+ New Tool</button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle">
+    <div class="m-head">
+      <h2 id="mtitle">New Tool</h2>
+      <button class="x" id="closeX" aria-label="Close">×</button>
+    </div>
+
+    <div class="m-body">
+      <!-- 1. Registration -->
+      <section>
+        <p class="section-title">1 · Tool registration</p>
+        <div class="grid2">
+          <label class="f"><span class="req">Tool name</span><input id="toolName" value="Bearing Capacity"></label>
+          <label class="f"><span class="req">Type</span>
+            <select id="toolType"><option>Frappe</option><option>Excel</option><option>3rd Party</option></select>
+          </label>
+          <label class="f"><span class="req">Iframe URL</span><small>The tool's page, shown in the right panel</small><input id="iframeUrl" value="https://tools.example.com/bearing-capacity"></label>
+          <label class="f"><span class="req">Tool endpoint</span><small>The API that receives the inputs on Run</small><input id="endpoint" value="https://tools.example.com/api/bearing-capacity/run"></label>
+          <label class="f">Credentials <small>Optional: API key / token if the tool needs one</small><input type="password" placeholder="••••••••"></label>
+          <label class="f">Runtime script <small>Optional: not implemented yet (24 Nov notes)</small><input disabled placeholder="Coming later"></label>
+        </div>
+      </section>
+
+      <!-- 2. Parameters -->
+      <section>
+        <p class="section-title">2 · Parameters <span class="tag">Child table of the Tool</span></p>
+        <div class="params">
+          <div class="pcard">
+            <h3>Inputs <span>sent to the endpoint on Run</span></h3>
+            <div class="prow head"><div>Label / field name</div><div>Data type</div><div style="text-align:center">Req.</div><div></div></div>
+            <div id="inputs"></div>
+            <button class="add" data-add="inputs">+ Add input</button>
+          </div>
+          <div class="pcard">
+            <h3>Outputs <span>expected back from the tool, saved per run</span></h3>
+            <div class="prow head"><div>Label / field name</div><div>Data type</div><div style="text-align:center">Req.</div><div></div></div>
+            <div id="outputs"></div>
+            <button class="add" data-add="outputs">+ Add output</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="m-foot">
+      <button class="btn" id="cancelBtn">Cancel</button>
+      <button class="btn btn-dark" id="saveBtn">Save Tool</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TYPES = ["Text", "Number", "Integer", "Date", "Select", "Check"];
+const state = {
+  inputs: [
+    { label: "Building Height", fieldname: "building_height", type: "Number", req: true, manual: false },
+    { label: "Load (kPa)", fieldname: "load_kpa", type: "Number", req: true, manual: false },
+    { label: "Soil Type", fieldname: "soil_type", type: "Select", req: false, manual: false },
+  ],
+  outputs: [
+    { label: "Bearing Capacity", fieldname: "bearing_capacity", type: "Number", req: true, manual: false },
+    { label: "Factor of Safety", fieldname: "factor_of_safety", type: "Number", req: false, manual: false },
+  ],
+};
+
+// Same idea as Frappe: lowercase, spaces → _, drop symbols.
+const scrub = s => s.toLowerCase().trim().replace(/[\s-]+/g, "_").replace(/[^a-z0-9_]/g, "").replace(/_+/g, "_").replace(/^_|_$/g, "");
+const isBad = (list, i) => {
+  const n = list[i].fieldname;
+  if (!n || !/^[a-z_][a-z0-9_]*$/.test(n)) return "Use a–z, 0–9 and _ ; don't start with a number";
+  if (list.some((r, j) => j !== i && r.fieldname === n)) return "Duplicate field name in this tool";
+  return "";
+};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function renderGrid(kind) {
+  const list = state[kind], box = document.getElementById(kind);
+  if (!list.length) { box.innerHTML = `<div class="empty">No ${kind} yet.</div>`; return; }
+  box.innerHTML = list.map((r, i) => {
+    const err = isBad(list, i);
+    return `<div class="prow">
+      <div>
+        <input data-k="${kind}" data-i="${i}" data-f="label" value="${esc(r.label)}" placeholder="Label">
+        <div class="fname" title="${esc(err || "Must match the key the tool expects")}">
+          <span>field name:</span>
+          <input class="${err ? "err" : ""}" data-k="${kind}" data-i="${i}" data-f="fieldname" value="${esc(r.fieldname)}">
+          ${r.manual ? '<span class="manual">edited</span>' : ""}
+        </div>
+      </div>
+      <select data-k="${kind}" data-i="${i}" data-f="type">${TYPES.map(t => `<option ${t === r.type ? "selected" : ""}>${t}</option>`).join("")}</select>
+      <div class="center"><input type="checkbox" style="width:auto" data-k="${kind}" data-i="${i}" data-f="req" ${r.req ? "checked" : ""}></div>
+      <button class="del" data-del="${kind}" data-i="${i}" aria-label="Remove">×</button>
+    </div>`;
+  }).join("");
+}
+
+
+function renderAll() { renderGrid("inputs"); renderGrid("outputs"); }
+
+document.addEventListener("input", e => {
+  const t = e.target, k = t.dataset.k;
+  if (!k) return;
+  const r = state[k][+t.dataset.i], f = t.dataset.f;
+  if (f === "label") { r.label = t.value; if (!r.manual) r.fieldname = scrub(t.value); }
+  else if (f === "fieldname") { r.fieldname = t.value; r.manual = true; }
+  else return;
+  // Update only the field name line, so typing keeps focus.
+  const row = t.closest(".prow"), fn = row.querySelector('[data-f="fieldname"]');
+  if (f === "label") fn.value = r.fieldname;
+  const err = isBad(state[k], +t.dataset.i);
+  fn.classList.toggle("err", !!err);
+  fn.parentElement.title = err || "Must match the key the tool expects";
+  if (f === "fieldname" && !row.querySelector(".manual")) fn.insertAdjacentHTML("afterend", '<span class="manual">edited</span>');
+});
+
+document.addEventListener("change", e => {
+  const t = e.target, k = t.dataset.k;
+  if (!k) return;
+  const r = state[k][+t.dataset.i];
+  if (t.dataset.f === "type") r.type = t.value;
+  if (t.dataset.f === "req") r.req = t.checked;
+  renderAll();
+});
+
+document.addEventListener("click", e => {
+  const t = e.target;
+  if (t.dataset.add) { state[t.dataset.add].push({ label: "", fieldname: "", type: "Text", req: false, manual: false }); renderAll(); }
+  if (t.dataset.del) { state[t.dataset.del].splice(+t.dataset.i, 1); renderAll(); }
+});
+
+const overlay = document.getElementById("overlay");
+const close = () => overlay.hidden = true;
+document.getElementById("openBtn").onclick = () => overlay.hidden = false;
+document.getElementById("closeX").onclick = close;
+document.getElementById("cancelBtn").onclick = close;
+document.getElementById("saveBtn").onclick = () => {
+  const bad = ["inputs", "outputs"].some(k => state[k].some((_, i) => isBad(state[k], i)));
+  alert(bad ? "Fix the field names in red first." : "Mockup: this would save a Labs Tool with its parameter rows.");
+};
+overlay.addEventListener("click", e => { if (e.target === overlay) close(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+
+renderAll();
+</script>
+</body>
+</html>

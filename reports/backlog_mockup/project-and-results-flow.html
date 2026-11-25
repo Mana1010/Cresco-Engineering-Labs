@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project and Results Flow</title>
+<style>
+  :root { --bg:#f5f6f8; --line:#e3e6eb; --text:#1f2933; --muted:#6b7280; --accent:#2563eb; --ok:#047857; --warn:#b45309; --bad:#b91c1c; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui, -apple-system, Segoe UI, sans-serif; background:var(--bg); color:var(--text); font-size:14px; }
+  header { background:#fff; border-bottom:1px solid var(--line); padding:12px 20px; font-weight:700; }
+  .note { margin:12px 20px; padding:8px 12px; border-radius:8px; background:#fffbeb; border:1px solid #fde68a; color:var(--warn); font-size:12px; }
+  .n { display:inline-block; font-size:10px; font-weight:700; background:#eef2ff; color:var(--accent); border-radius:99px; padding:1px 7px; margin-left:6px; vertical-align:middle; }
+  .ext { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 20px 12px; }
+  .box { background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:12px; transition:box-shadow .3s, border-color .3s; }
+  .box.flash { border-color:var(--accent); box-shadow:0 0 0 3px #bfdbfe; }
+  .box b { font-size:13px; }
+  .box .muted { color:var(--muted); }
+  main { display:grid; grid-template-columns:260px 1fr 320px; gap:12px; padding:0 20px 20px; }
+  @media (max-width:1000px) { main, .ext { grid-template-columns:1fr; } }
+  .panel { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px; }
+  .panel h3 { margin:0 0 2px; font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); }
+  .sub { font-size:11px; color:var(--muted); margin-bottom:8px; }
+  label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
+  input, select { width:100%; padding:7px 8px; border:1px solid var(--line); border-radius:6px; font-size:13px; }
+  .btn { width:100%; margin-top:12px; padding:9px; border:0; border-radius:6px; background:var(--accent); color:#fff; font-weight:600; cursor:pointer; }
+  .btn:disabled { background:#cbd5e1; cursor:not-allowed; }
+  iframe { width:100%; height:520px; border:1px dashed #94a3b8; border-radius:8px; }
+  .empty { height:520px; display:flex; align-items:center; justify-content:center; border:1px dashed #cbd5e1; border-radius:8px; color:var(--muted); font-size:13px; text-align:center; padding:20px; }
+  .rec { border:1px solid var(--line); border-radius:8px; padding:8px; margin-bottom:8px; font-size:12px; }
+  .rec.new { border-color:#a7f3d0; background:#ecfdf5; }
+  .rec.bad { border-color:#fecaca; background:#fef2f2; }
+  .rec pre { margin:4px 0 0; font-size:10.5px; white-space:pre-wrap; color:#374151; }
+  .file { font-size:12px; padding:4px 0; border-bottom:1px dashed var(--line); }
+</style>
+</head>
+<body>
+<header>Engineering Labs: project in, results out</header>
+
+<div class="note">Visualization of items #11–#16 from the 20 Nov notes. Everything is placeholder data (projects, tool, fields, endpoint). Badges like <span class="n">#13</span> show which item each part represents.</div>
+
+<!-- External systems -->
+<div class="ext">
+  <div class="box" id="portalCore">
+    <b>Portal Core</b><span class="n">#11</span><br>
+    <span class="muted">Where projects live. Engineering Labs asks it for project details.</span>
+    <div id="pcLog" style="margin-top:6px">Idle</div>
+  </div>
+  <div class="box" id="sharepoint">
+    <b>SharePoint (example)</b><span class="n">#15</span><br>
+    <span class="muted">The tool stores its own files here. Engineering Labs doesn't need them.</span>
+    <div id="spFiles" style="margin-top:6px" class="muted">No files yet</div>
+  </div>
+</div>
+
+<main>
+  <!-- LEFT: Engineering Labs inputs -->
+  <section class="panel">
+    <h3>Engineering Labs · Left panel</h3>
+    <div class="sub">Tool: <b>Sample Tool 1</b></div>
+    <label>Project <span class="n">#11</span></label>
+    <select id="project">
+      <option value="">Select a project…</option>
+      <option value="PRJ-0001">PRJ-0001</option>
+      <option value="PRJ-0002">PRJ-0002</option>
+    </select>
+    <label>Project name (from Portal Core)</label>
+    <input id="pname" readonly>
+    <label>Site address (from Portal Core)</label>
+    <input id="addr" readonly>
+    <div class="sub" style="margin-top:10px">Only project data here. Engineering Labs collects only what the tool doesn't have. <span class="n">#12</span></div>
+    <button class="btn" id="run" disabled>▶ Run</button>
+  </section>
+
+  <!-- MIDDLE: tool iframe -->
+  <section class="panel">
+    <h3>Tool · iframe (tool's own screen)</h3>
+    <div class="sub">Calculation inputs live in the tool. <span class="n">#12</span></div>
+    <div class="empty" id="empty">Select a project, then press Run</div>
+    <iframe id="frame" title="Tool" style="display:none"></iframe>
+  </section>
+
+  <!-- RIGHT: Engineering Labs records -->
+  <section class="panel">
+    <h3>Engineering Labs · Saved records</h3>
+    <div class="sub">Endpoint receives pushed data <span class="n">#13</span> · checks the contract <span class="n">#14</span> · every save = new record <span class="n">#16</span></div>
+    <div id="records"><div class="sub">Nothing received yet.</div></div>
+  </section>
+</main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const PORTAL_CORE = { // fake Portal Core data
+    "PRJ-0001": { name: "Sample Project A", address: "1 Sample St, Sydney NSW" },
+    "PRJ-0002": { name: "Sample Project B", address: "2 Example Rd, Wagga Wagga NSW" },
+  };
+  let runId = null, saves = 0;
+
+  function flash(id) { const el = $(id); el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), 900); }
+  const now = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+  // #11: select project → fetch from Portal Core
+  $("project").addEventListener("change", (e) => {
+    const id = e.target.value;
+    $("pname").value = ""; $("addr").value = ""; $("run").disabled = true;
+    if (!id) return;
+    flash("portalCore");
+    $("pcLog").textContent = `→ GET project ${id} (placeholder endpoint)… `;
+    setTimeout(() => {
+      const p = PORTAL_CORE[id];
+      $("pname").value = p.name; $("addr").value = p.address;
+      $("pcLog").textContent = `← returned ${id}: ${p.name}, ${p.address}`;
+      $("run").disabled = false;
+    }, 600);
+  });
+
+  // Run: open the tool, hand over project data only (#12)
+  $("run").addEventListener("click", () => {
+    runId = "RUN-" + Math.floor(Math.random() * 90000 + 10000);
+    const f = $("frame");
+    $("empty").style.display = "none"; f.style.display = "";
+    f.onload = () => f.contentWindow.postMessage({ type: "load", data: {
+      run_id: runId, project: $("project").value, address: $("addr").value } }, "*");
+    f.srcdoc = TOOL;
+  });
+
+  // #13 + #14 + #16: the Engineering Labs endpoint receives a push
+  window.addEventListener("message", (e) => {
+    const m = e.data;
+    if (!m) return;
+    if (m.type === "file") { // #15: the tool stored its own file elsewhere
+      flash("sharepoint");
+      if (saves === 0 && $("spFiles").classList.contains("muted")) { $("spFiles").innerHTML = ""; $("spFiles").classList.remove("muted"); }
+      $("spFiles").insertAdjacentHTML("beforeend", `<div class="file">📄 ${m.name} · ${now()}</div>`);
+      return;
+    }
+    if (m.type !== "push") return;
+    const p = m.payload;
+    const required = ["run_id", "project", "inputs", "results"];
+    const missing = required.filter((k) => !(k in p));
+    const list = $("records");
+    if (list.querySelector(".sub")) list.innerHTML = "";
+    if (missing.length) { // #14: doesn't follow the contract → rejected
+      list.insertAdjacentHTML("afterbegin", `<div class="rec bad"><b style="color:var(--bad)">✗ Rejected · ${now()}</b><br>
+        Doesn't follow the contract. Missing: ${missing.join(", ")}<pre>${JSON.stringify(p, null, 2)}</pre></div>`);
+      return;
+    }
+    saves += 1; // #16: always a NEW record, never overwrite
+    list.querySelectorAll(".rec.new").forEach((r) => r.classList.remove("new"));
+    list.insertAdjacentHTML("afterbegin", `<div class="rec new"><b style="color:var(--ok)">✓ Save #${saves} · ${now()}</b> · ${p.run_id} · ${p.project}
+      <pre>inputs:  ${JSON.stringify(p.inputs)}\nresults: ${JSON.stringify(p.results)}</pre></div>`);
+  });
+
+  // ---------- Fake TOOL page (owned by the tool devs) ----------
+  const TOOL = `<!doctype html><html><head><style>
+    body{font-family:system-ui;margin:0;padding:14px;font-size:13px}
+    .tag{font-size:11px;color:#888} label{display:block;margin:8px 0 3px;color:#555;font-size:12px}
+    input{width:100%;padding:6px;border:1px solid #ddd;border-radius:5px;box-sizing:border-box}
+    .filled{border:2px solid #2563eb;background:#eff6ff}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+    button{margin:12px 6px 0 0;padding:8px 12px;border:0;border-radius:6px;cursor:pointer;color:#fff;background:#111}
+    button.alt{background:#9ca3af}
+    .out{margin-top:10px;color:#047857}
+    .vis{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px;max-width:360px}
+    .vbox{border:1px solid #eee;border-radius:6px;padding:6px}
+    .vt{font-size:11px;color:#888;margin-bottom:4px}
+    .cap{font-size:11px;color:#555;margin-top:4px}
+  </style></head><body>
+    <div class="tag">TOOL'S OWN SCREEN · Sample Tool 1</div>
+    <div class="grid">
+      <div><label>Project (from Engineering Labs)</label><input id="project" readonly></div>
+      <div><label>Address (from Engineering Labs)</label><input id="address" readonly></div>
+      <div><label>Height (m) · typed by staff</label><input id="h" type="number" placeholder="e.g. 2.7"></div>
+      <div><label>Load (kPa) · typed by staff</label><input id="l" type="number" placeholder="e.g. 1.05"></div>
+    </div>
+    <div class="vis">
+      <div class="vbox">
+        <div class="vt">Site map (tool's visual)</div>
+        <svg viewBox="0 0 200 110" width="100%" height="110">
+          <rect width="200" height="110" fill="#e5f0e8"/>
+          <path d="M0 70 L200 55" stroke="#fff" stroke-width="8"/>
+          <path d="M70 0 L90 110" stroke="#fff" stroke-width="6"/>
+          <rect x="110" y="15" width="30" height="22" fill="#cbd5c0"/>
+          <rect x="20" y="80" width="35" height="20" fill="#cbd5c0"/>
+          <circle cx="150" cy="78" r="18" fill="#bfdbfe" opacity=".6"/>
+          <path d="M100 52 c-7 0 -11 5 -11 11 c0 8 11 20 11 20 s11-12 11-20 c0-6 -4-11 -11-11z" fill="#dc2626"/>
+          <circle cx="100" cy="63" r="4" fill="#fff"/>
+        </svg>
+        <div class="cap" id="mapcap">No site yet</div>
+      </div>
+    </div>
+    <button id="go">Calculate &amp; send</button>
+    <button id="bad" class="alt">Send without the contract</button>
+    <div class="out" id="out"></div>
+    <script>
+      var runId=null;
+      addEventListener('message',function(e){ if(!e.data||e.data.type!=='load')return; var d=e.data.data; runId=d.run_id;
+        ['project','address'].forEach(function(k){var el=document.getElementById(k); el.value=d[k]; el.classList.add('filled');});
+        document.getElementById('mapcap').textContent='📍 '+d.address; });
+      document.getElementById('go').onclick=function(){
+        var h=+document.getElementById('h').value, l=+document.getElementById('l').value;
+        if(!h||!l){ document.getElementById('out').textContent='Please type Height and Load first.'; return; }
+        var r=+(h*l).toFixed(3);
+        document.getElementById('out').textContent='Result '+r+' sent to Engineering Labs. PDF saved to SharePoint.';
+        parent.postMessage({type:'file', name:'Tool1_Report_'+runId+'.pdf'},'*');
+        parent.postMessage({type:'push', payload:{ run_id:runId, tool:'sample-tool-1', project:document.getElementById('project').value,
+          inputs:{height:h, load:l}, results:{result:r} }},'*');
+      };
+      document.getElementById('bad').onclick=function(){
+        document.getElementById('out').textContent='Sent data in the wrong format.';
+        parent.postMessage({type:'push', payload:{ value:123 }},'*');
+      };
+    <\/script></body></html>`;
+</script>
+</body>
+</html>

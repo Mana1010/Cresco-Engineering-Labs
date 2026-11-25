@@ -1,0 +1,87 @@
+{
+  "voice": "en-AU-WilliamMultilingualNeural",
+  "recording": "../my-video-week-2.mp4",
+  "output": "../engineering-labs-week-2-update.mp4",
+  "notice": "Prototype · sample data · partly functional",
+  "footer_left": "SERVIO Technologies · Engineering Labs",
+  "footer_right": "Prototype · Sample data · Partly functional",
+  "scenes": [
+    {
+      "id": "01-title",
+      "kind": "card",
+      "label": "ENGINEERING LABS · WEEKLY PROGRESS UPDATE",
+      "title": "Tools Registry redesign in Frappe UI",
+      "subtitle": "Week 2 · 16–20 November 2026",
+      "text": "Engineering Labs, weekly progress update, for week two, the sixteenth to the twentieth of November. This week, the focus was redesigning the Tools Registry to match the Portal Core look and feel."
+    },
+    {
+      "id": "02-this-week",
+      "kind": "card",
+      "label": "THIS WEEK",
+      "title": "Redesigning the Tools Registry",
+      "subtitle": "Week 2 · 16–20 November 2026",
+      "rows": [
+        ["Prototype", "Continued translating the client's POC screens into Frappe, using Frappe UI"],
+        ["Tools Registry", "Redesigned to match the Portal Core look and feel"],
+        ["Working", "Grid and list views, type filter, search and pagination, with sample data"],
+        ["Static", "New Tool and the calculation preview"]
+      ],
+      "text": "Last week, I continued translating the client's proof of concept into our Frappe app, using Frappe UI, and redesigned the Tools Registry to match the Portal Core look and feel. Some parts now work with sample data, like the filter, search and pagination. Others, like New Tool and the calculation preview, are still static."
+    },
+    {
+      "id": "03-grid",
+      "kind": "rec",
+      "start": 0.0,
+      "end": 7.0,
+      "text": "This is the redesigned Tools Registry. Each tool is a card, showing its type, version and category, and the card highlights when you hover over it."
+    },
+    {
+      "id": "04-list",
+      "kind": "rec",
+      "start": 7.0,
+      "end": 12.0,
+      "text": "The same tools can also be shown as a list."
+    },
+    {
+      "id": "05-filter",
+      "kind": "rec",
+      "start": 12.0,
+      "end": 22.0,
+      "text": "The filter narrows the tools by type. The three types are now Frappe, Excel and third party, in line with the three sockets."
+    },
+    {
+      "id": "06-search",
+      "kind": "rec",
+      "start": 22.0,
+      "end": 30.0,
+      "text": "Search finds a tool by its name, standard or category, for example, the ARR rainfall tool."
+    },
+    {
+      "id": "07-pagination",
+      "kind": "rec",
+      "start": 30.0,
+      "end": 42.0,
+      "text": "Instead of endless scrolling, the registry now uses pages, with nine tools on each page, and the screen stays in place when you change pages."
+    },
+    {
+      "id": "08-details",
+      "kind": "rec",
+      "start": 42.0,
+      "end": null,
+      "text": "Opening a tool shows its details, and a preview of how a calculation would run, marked Preliminary, subject to engineer review. This part is still static."
+    },
+    {
+      "id": "09-next",
+      "kind": "card",
+      "label": "NEXT",
+      "title": "What comes next",
+      "subtitle": "Ahead of delivery on 11 December 2026",
+      "rows": [
+        ["New Tool", "Build the \"New Tool\" form to register a tool in Engineering Labs"],
+        ["Type and link", "Define each tool's type (Frappe, Excel, 3rd Party) and where it's reached"],
+        ["Fields", "Add the tool's input and output fields (dynamic, per tool)"]
+      ],
+      "text": "Next, I'll build the New Tool form, so a tool can be registered in Engineering Labs. It will capture the tool's details and type, whether Frappe, Excel or third party, and where the tool can be reached. It will also let us define the tool's input and output fields, which are dynamic for each tool. Thank you."
+    }
+  ]
+}

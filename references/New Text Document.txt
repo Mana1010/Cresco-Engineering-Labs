@@ -1,0 +1,187 @@
+With James. So if you take a look at what we discuss earlier, is it possible to kind of come up with a, I guess, updated backlog document that limits what needs to be developed into the two parts, the container and then the sockets, the three sockets. Is that, is it feasible to kind of specify the backlog to be just those, what. 
+
+Well, to answer the question, yes, it's possible. But let me just confirm my understanding earlier in the discussion that backlogs no more else. So this remains us, the first release and all others will be will still be part of the backlog list. Okay, so it along. 
+
+One release basically kicking off. I mean, pick. No. So let's, we will look at this as a standalone project when the time comes that they want to then integrate the other tools. Cuz I have my understanding is by not to invite you, right? A container in sakasuna, and then the work to integrate the tools into one of those three sockets can follow, right? What we're proposing here is just to have that first part done as the definition of a quest collapse portal project quest go in your last work. So we're redefining or limiting our definition of the project to creating the portal, which is the container and the sockets in them. The part about integrating any of the tools becomes a separate project. Wait, it's no longer part of this for project as a feature release. It's a separate project and it will be priced separately because it may contain other enhancements to the Figuring Labs portal about you only. Exactly. So if that is something which cannot be covered as part of this project, we s we call that out. 
+
+It becomes a separate project. Okay. 
+
+Yeah, that's where I'm going at because my answer to your question earlier about if we can redefine or the backlogs base on this is doable, but there's a scope grip on this because we won't be able to test it because there is no tool that is part of the scope. 
+
+These are these are, it's that complete documented but untested. Thank you. Yeah, project. So, yeah, so the testing part, if you say, you were saying untested, okay, that's a given. We know that. It's also like creating, we creating an API layer, but nobody is using it yet. 
+
+Well, oh, technically, we can test it with the dummy app just to be able to prove that it can throw input and then that week it can receive out. But that is your, but James is right. That's the extent of it. 
+
+But. 
+
+The testing, the burden of quality or test will be on the individual apps that they create to connect to the portal. 
+
+You know, I, so my point being that then my top is not involved in the next 6 weeks. Okay, untested, right? You know, what's gonna happen is the testing will be done by Jerome as part of the other projects, right? 
+
+Right. The, but the problem there would be he would find an issue that needs to be fixed on the portal and not his app, diva. Yeah. Yes. 
+
+Yes. 
+
+So the way we address that is we already give them a maintenance agreement for that part of the proposal is, okay, we'll do this and test at Nasha. But from that point on, you have to get an annual maintenance agreement where we will make adjustments base on whatever. Yeah, testing comes up with so many time is again, which basically the same thing we would have done at the end of the portal core anyway. 
+
+Okay. 
+
+Correct. 
+
+Yep. So Ju, just to be clear, the three sockets that you mention here will be Africa native app developed up a third party app and a Microsoft excel file. So yeah, possible. Actually, most of the backlogs that we have already in Release 1 are on this side. The. elanaka specify entry sockets because before it was distributed so cumbaga ec major mid。 Requirements, Hannah. So yeah, I can adjust the backlogs from this point and how we test this estimated as well. Okay, now. 
+
+Excel. 
+
+Yep. 
+
+So is it possible, James? 
+
+Okay, well, actually, yeah, I would like whatever s, well, first of all, the updated backlog, which you will make needs to be absorb or accepted by thought, right? Cuz it's gonna be the lead down. He has to confirm that. And then, of course, he also will need to accept the fact that whatever duration you come up with, that's actually the second part of my note, debug John has to not only accept the backlog as doable based on the approach that he's come up with and with architecture, but also that she's not, he's now lead Dell. He needs to sign off on the project duration, right? So yeah, yeah, you guys have to agree on that. And then, of course, those SMS are based on the staffing that now I have here, which I wanted to also confirm friend with you guys. So if you read through it, basically the same staffing levels as we had before an initial quotation. But I become more prescriptive about what it is each person's gonna be covering. And I wanted to get that confirmation from you guys. But also the part about Jerome, I reduced his allocation here from 20 to 16, but I young and you extra four hours in the other projects, especially when it starts doing the testing. Okay, so I wanted to confirm with you what I have here as far as the activity, the assignments now. So starting with Hannah, she's not a new member of the project team, official member. I know she was already a member with board for core, right? But now I'm glad you're here to assisting me project manager, but also done. So he should be, she should be able to pro by assistance on the way that she's been able to provide assistance to you, James, in Portal Core and that will help, you know, so I'll execute what he supports to do. See, you're gonna be the new solution architect and risk for this project in the past 8 hours a week. This type of time was. And then for dev lead us, tongue put him down for 16 hours and the focus should be on design, creating the scaffolding or framework and documentation with assistance of oh, oh God, Hannah. So is that in sync with what you thought you would be doing, thought as the need there for this project. Okay. And of course, we're not declaring it to them, but this is also, I guess, for all the plot stuff comes in, you will be guiding. And I don't know if Jerome will be using that the way that you've been teaching. Kristen, do you slide? Is it easy? Okay. So he'll be using it here as well. 
+
+So the estimates gonna be done. 
+
+Yeah. No, that's fine. That's interesting. 
+
+He's using cloud. He's using cloud already, most likely, yes. 
+
+Well, the specific strategy that I was working on has to do with how to ensure the two developers using AI, when they merge their code, their AI generated code is not gonna clash. That's the strategy. But in Jerome's case, unless I is likely going to be a lone wolf, he'll be developing apps by himself individually without clashing with another code, with another developer's code. So that strategy won't work. But in few, I guess for the future, it's still foundational whenever we come into a project and we could, we do require more than one developer and they're gonna use AI, but we have to ensure none of them conflicts, no clashes. 
+
+Okay, that's the feature. But what I'm hearing here is that regardless of whether Jerome uses cloud in the development here in Gresco for Fresco Engineering Labs, it will not be sort of sync up with the cloud usage that Kristen is doing. Okay, okay. 
+
+Right now, I don't see it because there are going to be separate apps. 
+
+I, if I may share what we're doing in Portal Core is like IV Jerome's case, he's taking care of the integration layer, which is a separate project, a background project. Yes. No, it's not entirely up on app, but the, it's a layer of the different tools or the different systems that we're integrating in Portal Core. So he's taking care of wrapping all the API endpoints in that layer. While Carl with his cloud separate is in terms doing the portal as well as the consumption of those wrapped endpoints produced by Jerome. 
+
+Shop it up. 
+
+Okay, so the point is for Cresco Engineering Labs, my understanding is they are both, Ton is gonna be using cloud as guided by Ton. Jerome's already using cloud. We'll continue using it in gresco engineering labs. 
+
+However, the use of plot is not synchronous. It like, as Tod calls it, Jerome's lone wolf, which means that they're not trying to sort of see each others cloud MD. They have two separate cloud MDs. And from, okay, let me get my terminology. Say, according to what I learn from Hussein, it is using agenting AI with for pay. They're not using the same skills, right? They have two separate set of skills which may or may not be con compliant with each other. But in an ideal world, they would be using the same skills. 
+
+Yeah, yeah, there are 2 shop at Cloud MD. 
+
+Machine. I know him. 
+
+Yes. 
+
+Yes. They should be using this game skills. And it's possible that I'll have to check and review how Jerome use it. If it's not, I might suggest ways that he can optimize the use of AI. Yeah, and then. Exactly. Agree. Yeah. 
+
+Should be. 
+
+That's fine, but I think it's a good idea not to have them share the same product and do that and skills at this point because it's still, you know, it, it I think it just cause more problems. I just wanted to know whether they were or not. And I think not it's a good idea. Not for now. Okay, so if you look at that, that's Ton's responsibility. So basically falls on the design, basically the architecture design, the implementation that design, any scaffolter, scaffolding or framework that needs to be set up that but dictated by Tonyan. And of course the documentation for the sockets, which needs to be part of deliverables. And I think that needs to be included in the backlog if it's not already. James? In documentation for the sockets. I strongly suggest that be some kind of a dynamic documentation online as opposed to a PDF or a static document that should be part of the backlog. She twisted. Why not? Why wouldn't it first? 
+
+Yep. Yep. 
+
+Which by the way, Claude can also do that document. So yeah, the generated preference is not a question at all. 
+
+So Assumption. Could you tell us? Okay, Kristen. No, Chris allocation, his focus should be on development of the container, right? The portal container focuses on the sockets. Is that correct? Report. Okay, I wanna make sure I'm using the right terms here. You're saying tools. I'm saying sockets submit are two different things. Mr Perspective. Well, yes, but that's the other project I'm talking about, Cresco Portal apps. Okay. Customer, as he's building the API, these sockets, the tools are being built in other projects. 
+
+Yes. 
+
+Yes. 
+
+The tools, yeah. 
+
+Cuz if it depends, I guess, on the perspective, from Kreshlo's perspective, that's what Jerome is building our tools. 
+
+I know the shot, the APIs. Okay, the portal, besides the interface and the tools registry, it needs to have a layer that calls the different tools and receives output from the different tools. That's still part of the portal, right? That, no, that, well, I, in that case, we're entering the territory where Jerome is now going to be merging his code with Labs portal code. Those two cannot be separate option. That needs to be inside of the. So that's a Chris. 
+
+That's sounds like a socket to me. Sounds like an API layer. 
+
+Well, okay. So you're talking about process. Okay. But in terms of separation of concerns, we need to separate what's part of the sock, what I call sockets, right, and what's part of tools. 
+
+If that's, yeah, you know, if that's what you mean by shock it, then it, Jerome does not need to do that. That's a trista thing. 
+
+I think I, I, if I may. If I may coach and done, you might be referring to the contract integration. How what Jerome, what you're thinking of what Jerome can do in this project is about the registration of the tools, mainly of the three types of the tools, the third party, the native repay and Excel. But that as an object is a contract integration. That's where the tools are registered. 
+
+Right. And it's not gonna be done by Kristen or Jerome. Is that deliverable Christians or germs? 
+
+Jerome will have. So to be clear, the least amount, in my opinion of conflict would be Jerome should just do the tools. There's the socket that you're referring to is part of the Labs portal. It's not a separate thing. If I understand your definition of sockets and by, you know, in term from a functional perspective, what I'm talking about is the ability for the lab portal to add tools, this interface, if you wanna call that, where they can add a new tool, identify the link to the API, calls the out inputs, it requires the outputs to expect that kind of thing. The though that if that's the socket, then that's a lab portal functionality. That's not a separate thing that we can assign to a SE, a secondary developer. It can be, but then in that case, it's, we're now talking about a multi developer set up where base beyond Chris, besides Tristan, there's somebody else also work under. Okay. 
+
+Okay. 
+
+No, sorry. No, I, I'm not. I'm not going there. I'm not going there. Okay. But if I were to, if I understand how you're now the finding sockets that it is part of the, in fact, it should be part of portal and it's in fact, it should be part of the deliverables from Kristen. Okay, then that causes the question of why do we need Jerome in this? You already for Devops. Got it. Or why do we have understood? 
+
+Well, yeah, I guess their boss. I thought originally, Joey, and again, that this is a new thing. Originally, we thought search, some of the tools are gonna be part of the backlog, but we're saying we're not. So actually that will require change. So Jerome will just be dev ops and then he's good. We can increase his ours on the other project to work on the tools. 
+
+Okay. But when you say work on the tools, that risk on integrating those tools into the numbers. 
+
+Both developing and integrating, yeah, both developing the tools and making sure that they comply with the contract of the Labs portal, which is the shock at the center. 
+
+And if we do that, if we separate the concerns in that manner, is it possible for other people either who might have an Excel based tool to integrate them into the portal. Diana. 
+
+Yeah, if he follows the quote unquote template that we spoke about, the act will do, the Jerome will do the first actual automation that will integrate with the Labs portal. If we follow that, then yes, Isaac or anybody else can create their own Excel tool. As long as they follow the template, it will integrate with Labs Portal. 
+
+There'll be no work fine on the Portal Labs, portal itself. At that point, the air, all the work done external to it, no code changes, no work on the portal itself. 
+
+Yes, if we do our jobs right in designing and completely parameterize the way you add tools, regardless of the type, whether it's it's an it's an external app, it's a, it's a for pay app, an external app or an Excel tool. Then yeah, it's all you can just add, you can just you go through the, the, an end user can go through the interface, add the tool, start using it, and it works. 
+
+So if I understand you right, then it sounds to me like perhaps even 16 hours is overkill for the for Jerome or anybody like, well, for Jerome specifically to be spending on dev ops 16 hours a week. And it would make more sense then to maybe cut him down to eight hours a week in the labs project and throw the extra hours into others where he will be doing all that integration anyway from. 
+
+Other. 
+
+But we were able to get him at 20R. Should the above, should portal core from a commercial perspective. And apparently, you know, Shane and Isaac did that question and we can do the same. It's really up to us how we want to distribute ours but I don't think they'll blink and I or you know, link, you know, blink Lucy in the date we need that, you know. 
+
+Well, so I said I, I, I get that. But in terms of practical utilization is you really gonna be everyone product. So I guess if he needs to put, so I'm gaming this through now. So we say, okay, Jeroms, I say I have it right here now, 16 hours on rollout, because they'll accept that they need that much. Okay, yeah. Then we'll say we want to give you four hours of this time per week on other projects in case, you know, this is gonna be doing more work now because of this. Okay. And then eventually what will happen is that if they, he starts doing a lot of tools integration work, right? So then now he's gonna be in an overtime situation. Okay, but what you're saying is let's retain his 16 hours in the west collapse project in the Labs portal just because they'll accept it anyway and we can analyze that. 
+
+Not all. Yes, you're right. It's not. Yeah. 
+
+Yeah, because the, and the secondary reason for that, Joe, is there's a the flip side of that to say would be Indiana mention my utilize completely diva. At least we've got the 16 hours locked in on the dev upside. Exactly. Yeah. Yeah. 
+
+Yeah, yeah, understood. It's more risky to lose the revenue by taking them off this project. Okay, so, and I guess the other thing also is that if we don't do this, then there's no reason to replace him with Harley. A new Crystal point of, yeah, again, it's additional revenue. Okay, good point. We'll stick with that there. So this, these will be the allocation, but I guess I just have to recalibrate what will be declaring as the division of labor. So Chris, and ask me to be the one to work on both the container and sockets, right, as we call it. Yeah. Okay. And she, Jerome, will focus on the ops. 
+
+Exactly. Yeah, yeah, yeah. 
+
+Yeah, I should call it. Yeah. 
+
+There was. I. I. Unless James has a different opinion. I like them. The dockets is part of the app. It's not gonna developed as a separate applicable. Oh. 
+
+No, I. 
+
+Yes, as I have described. 
+
+May maybe we can declare him as being Devops and testing. We can already say that he can test, do bottom, do unit testing with the tools that he's already developed. But in depend UAT, what do you think he'll be devops and unit testing cuz he knows the tool set. Does that make sense? 
+
+I'm. I don't really. You can. 
+
+Traditionally, cuz, Joey, unit testing is the responsibility of the developer. Unit test his own work. And if it, that one is better. 
+
+Okay, how about I about integration testing, James the pocket. 
+
+Yeah, integration testing is definitely more and close to what Jerome is doing in the others tools, engineering tools. 
+
+Okay, process engineering testing then cuz he's in the best position to do that. He's the one to who's who will eventually be integrating the tools, right? So he's doing that testing on this side of the project. He's doing integration testing on that side of the project. With other projects, he's building the tools. Okay, but still the UAT, the real testing won't happen until they do the integration for real, which would be most likely it would be after the projects done. Okay, got it, guys. So James, in just ballparking it right now, given we just discuss, are we still looking at 6 weeks record complete, right? And G. Don, you're willing to accept that, but that's not gonna be your responsibility to make it happen, right? Okay, so as well, put in the quotation, the revised quotation, I'll use this staffing and the pricing that comes with it. And then I'll say it'll be a 16, it'll be a six week, 16, six week project. But then we start on Monday, it'll be done December 18\. Okay, this week. Yeah, that's what R1 was to begin with in our station. 
+
+Doing the development. 
+
+Yes. 
+
+Yes. Still looking at 6 weeks. 
+
+Pitch. Yeah, yeah. 
+
+Oh, hold on, Joey. Six, it's a 16, how? Six week project. Did we say six week project? And when if the official start, when do you estimate to Monday? 
+
+Monday, but Monday, but they, but Isaac already said he will accept Rick. That's already being done even now by Kristen. Yeah, the order. Oh, would you mind in a way what we've done? Correct me from James cuz if R1 scope not then the backlog involve just we discuss now plus a tool, right? We took out the tool. Okay, initially there's only gonna be one socket Kumbaga tool. Okay. So I don't know is, do you think the degree of difficulty of that socket, the two sockets, would make this more than 6 weeks? 
+
+Yeah, yeah, technically, the only thing they're all, we've already created the Labs portal and Cool London is the adding of the sockets that you call the metrics, the dashboard. Yeah, you're right. I think 6 weeks, guy, Kai and Kaya. 
+
+Yes, that's correct. Right? So, but we replace it with two more sockets because of that one tool. 
+
+What are the two additional sockets again? Drink. 
+
+The socket for third party apps. Yeah. 
+
+For pay app, Excel app, third party app, doesn't pay app. No. Okay, that in the original release schedule, the backlog for Release 1 was only one socket and integrate one tool and then Store Ministry had the other two sockets in it, but that we're getting all three sockets into the first release. Okay, great. I'll do that. And James, I'll just let leave it up to you to send an updated and not to ISA. Even by tomorrow, you backlog document, go ahead, complete it and then the concern so that they're hearing from him on that already. Okay. Okay. By end of day today, I will send them the quotation. 16 weeks with the staffing. I'm sorry, 6 weeks, 6 week with the stuff. Okay, okay. See? Yeah. 
+
+So three apps, so three sockets. Yeah, I always knew there were three sockets. I thought there were two more. And on top of those three. 
+
+I know. No. 
+
+Right, right. Okay. Yeah, yeah, yeah, yeah, yeah. 
+
+Most likely adjust the backlog document. Should I send that or should it be done already? Thank you. 
+
+Okay, understood. 6 week. 6 Week. 6 week. Okay. Right. Thank you. Bye. 
+
+6 making. Okay. Alright.

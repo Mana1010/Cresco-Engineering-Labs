@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tool Preview Mockup</title>
+<style>
+  :root { --bg:#f4f6f9; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --accent:#00a0e3; --accent-d:#0b7fb3; --slate:#5d6b82; --ok:#2f9e57; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+  .page { padding:26px; }
+  .toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .eyebrow { font-size:11px; font-weight:700; letter-spacing:.06em; color:var(--slate); text-transform:uppercase; }
+  .search { width:100%; padding:9px 12px; border:1px solid #d5dbe1; border-radius:6px; background:#fff; color:var(--muted); margin-bottom:14px; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .card { background:#fff; border-radius:8px; padding:18px; min-height:190px; box-shadow:0 1px 2px rgba(0,0,0,.05); }
+  .tag { display:inline-block; font-size:10px; padding:1px 8px; border-radius:999px; background:#e8f4fb; color:#0b7fb3; margin-right:4px; }
+  .tag.auto { background:#fdeee2; color:#b8580f; }
+  .card h3 { margin:12px 0 2px; font-size:15px; } .card p { margin:0 0 12px; font-size:11px; color:var(--muted); border-bottom:1px solid #e8ecf0; padding-bottom:12px; }
+  .meta { display:grid; grid-template-columns:1fr 1fr; font-size:12px; } .meta dt { font-size:9px; color:var(--slate); text-transform:uppercase; letter-spacing:.05em; } .meta dd { margin:0 0 6px; }
+
+  /* modal */
+  .overlay { position:fixed; inset:0; background:rgba(15,23,42,.55); display:grid; place-items:center; padding:16px; }
+  .modal { background:#fff; border-radius:10px; width:min(860px,100%); max-height:92vh; overflow:auto; box-shadow:0 20px 50px rgba(0,0,0,.25); }
+  .m-head { display:flex; justify-content:space-between; align-items:center; padding:18px 20px; border-bottom:1px solid #eef0f3; }
+  .m-head h2 { margin:0; font-size:16px; }
+  .x { border:0; background:none; font-size:18px; color:var(--muted); cursor:pointer; }
+  .m-body { padding:18px 20px 20px; }
+  .info { background:#eef7fc; border:1px solid #cfe7f4; color:#0b5f86; border-radius:6px; padding:10px 12px; font-size:12px; margin-bottom:16px; }
+  .info.linked { background:#e9f7ef; border-color:#bfe5cd; color:#1d6b3c; }
+  .cols { display:grid; grid-template-columns:280px 1fr; gap:16px; align-items:start; }
+  .panel { border:1px solid #e6e9ee; border-radius:8px; padding:14px; }
+  .panel h4 { margin:0 0 12px; font-size:10px; letter-spacing:.08em; color:var(--slate); text-transform:uppercase; }
+  label { display:block; font-size:12px; font-weight:600; margin:0 0 5px; }
+  .field { margin-bottom:14px; }
+  input, select { width:100%; padding:9px 11px; border:1px solid #d5dbe1; border-radius:6px; font:inherit; font-size:13px; background:#fff; color:var(--ink); }
+  input:focus, select:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,160,227,.15); }
+  .hint { font-size:11px; color:var(--muted); margin-top:4px; }
+  .divider { border:0; border-top:1px dashed #e3e7ec; margin:4px 0 14px; }
+  .btn { width:100%; border:0; border-radius:6px; padding:10px 12px; font:inherit; font-weight:700; font-size:13px; cursor:pointer; color:#fff; background:var(--accent); }
+  .btn:hover { filter:brightness(.95); }
+  .btn.secondary { background:#fff; color:var(--accent-d); border:1px solid #9fd3ee; margin-top:8px; }
+  .btn:disabled { opacity:.45; cursor:not-allowed; filter:none; }
+  .small { font-size:11px; color:var(--muted); margin-top:8px; }
+  .r-head { display:flex; justify-content:space-between; align-items:center; }
+  .status { font-size:10px; padding:2px 9px; border-radius:999px; background:#e3f4e9; color:#217a43; border:1px solid #bfe5cd; }
+  .sumtitle { color:var(--accent-d); font-weight:700; font-size:12px; margin:6px 0 6px; }
+  table { width:100%; border-collapse:collapse; border:1px solid #e6e9ee; }
+  td { padding:8px 10px; border-bottom:1px solid #eef0f3; font-size:12px; }
+  td:last-child { text-align:right; font-family:ui-monospace,Consolas,monospace; }
+  .empty { color:var(--muted); font-size:12px; padding:30px 0; text-align:center; }
+  .prelim { display:flex; gap:12px; background:#fff8ec; border:1px solid #f3d29a; border-radius:6px; padding:12px; margin-top:12px; font-size:12px; color:#9a5b0b; }
+  .prelim .stamp { white-space:nowrap; border:1px solid #e0a64a; border-radius:999px; padding:1px 8px; font-weight:700; font-size:10px; height:fit-content; }
+  .logline { font-family:ui-monospace,Consolas,monospace; font-size:10.5px; color:var(--muted); margin-top:10px; }
+  .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#1f2937; color:#fff; padding:10px 16px; border-radius:8px; font-size:13px; box-shadow:0 8px 20px rgba(0,0,0,.2); }
+  .new { background:#00a0e3; color:#fff; font-size:9px; border-radius:4px; padding:0 5px; margin-left:6px; vertical-align:middle; }
+  @media (max-width:760px){ .grid{grid-template-columns:1fr;} .cols{grid-template-columns:1fr;} .page{padding:16px;} }
+</style>
+</head>
+<body>
+<!-- background: Tools Registry grid -->
+<div class="page" aria-hidden="true">
+  <div class="toolbar"><span class="eyebrow">All tools</span><span class="hint">Filter by type ▾</span></div>
+  <div class="search">🔍 Search calculations by name, standard, category or version</div>
+  <div class="grid" id="bg"></div>
+</div>
+
+<!-- modal -->
+<div class="overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle">
+    <div class="m-head"><h2 id="mtitle">Preview: Environmental &amp; Embodied-Carbon Calculator</h2><button class="x" aria-label="Close">✕</button></div>
+    <div class="m-body">
+      <div class="info" id="info">Catalogue preview, not attached to a project. Runs here are for inspection only and are not recorded against a job.</div>
+
+      <div class="cols">
+        <!-- REQUEST -->
+        <div class="panel">
+          <h4>Request</h4>
+          <div class="field">
+            <label for="project">Project <span class="new">NEW</span></label>
+            <select id="project">
+              <option value="">No project (preview only)</option>
+              <option value="2026-0142" data-addr="12 Riverside Dr, Wagga Wagga NSW">2026-0142 · Riverside Apartments</option>
+              <option value="2026-0138" data-addr="4 Thornbury Rd, Wagga Wagga NSW">2026-0138 · Thornbury Townhouses</option>
+              <option value="2026-0151" data-addr="Eastlake Dr, Wagga Wagga NSW">2026-0151 · Eastlake Drainage Upgrade</option>
+            </select>
+            <div class="hint">Selecting a project fills in its site details.</div>
+          </div>
+          <hr class="divider">
+          <div class="field"><label for="addr">Site address</label><input id="addr" value="12 Riverside Dr, Wagga Wagga NSW"></div>
+          <div class="field"><label for="ref">Reference</label><input id="ref" value="Catalogue preview"></div>
+          <button class="btn" id="run">▸ Run calculation</button>
+          <button class="btn secondary" id="add" disabled>＋ Add to Project</button>
+          <div class="small" id="addHint">Run the calculation and select a project to add it.</div>
+        </div>
+
+        <!-- RESULT -->
+        <div class="panel">
+          <div class="r-head"><h4 style="margin:0">Result · Internal service class</h4><span class="status" id="status" hidden>status: success</span></div>
+          <div id="result"><div class="empty">Run the calculation to see the result.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const TOOLS = [
+  ["API","Wind Classification (CheckWind)","Revolutio Hazard API · AS 4055 / AS/NZS 1170.2","Wind & Site","v2.1",true],
+  ["Python","Climate Zone Lookup","Internal service class · NCC 2022","Environmental","v1.4",true],
+  ["API","ARR / IFD Rainfall (BOM)","ARR 2019 · council overlays","Stormwater","v1.2",false],
+  ["Python","Environmental & Embodied-Carbon Calculator","Internal service class","Environmental","v3.0",false],
+  ["Excel","Wind Pressure","Workbook · AS/NZS 1170.2","Wind & Site","v1.0",false],
+  ["Python","Arch Extract & Biax Drafting","Pipeline · Cresco residential rules","Residential (Biax)","v0.9",true],
+  ["Excel","Screw Pile Design","Workbook · AS 2159","Geotechnical","v1.1",false],
+  ["Excel","Timber Beam Sizing","Workbook · AS 1720.1","Structural","v2.0",false],
+  ["Python","Retaining Wall Design","Internal service class · AS 4678","Geotechnical","v1.3",false],
+];
+const $ = (s) => document.querySelector(s);
+$("#bg").innerHTML = TOOLS.map((t) => `<div class="card"><span class="tag">${t[0]}</span>${t[5] ? '<span class="tag auto">Autonomous</span>' : ""}
+  <h3>${t[1]}</h3><p>${t[2]}</p><dl class="meta"><div><dt>Category</dt><dd>${t[3]}</dd></div><div><dt>Version</dt><dd>${t[4]}</dd></div></dl></div>`).join("");
+
+let ranCalc = null;
+
+function updateState() {
+  const proj = $("#project").value;
+  const info = $("#info");
+  if (proj) {
+    info.className = "info linked";
+    info.textContent = `Linked to project ${proj}. "Add to Project" submits this calculation to the Calculation Catalogue for approval.`;
+  } else {
+    info.className = "info";
+    info.textContent = "Catalogue preview, not attached to a project. Runs here are for inspection only and are not recorded against a job.";
+  }
+  const canAdd = Boolean(proj && ranCalc);
+  $("#add").disabled = !canAdd;
+  $("#addHint").textContent = canAdd ? `Ready to add calc ${ranCalc} to ${proj}.`
+    : !ranCalc && !proj ? "Run the calculation and select a project to add it."
+    : !ranCalc ? "Run the calculation first." : "Select a project to add it.";
+}
+
+$("#project").onchange = (e) => {
+  const opt = e.target.selectedOptions[0];
+  if (opt.dataset.addr) $("#addr").value = opt.dataset.addr;
+  ranCalc = null;   // a new project means a new run
+  $("#status").hidden = true;
+  $("#result").innerHTML = '<div class="empty">Run the calculation to see the result.</div>';
+  updateState();
+};
+
+$("#run").onclick = () => {
+  const now = new Date();
+  ranCalc = "ENG-" + Math.floor(100000 + Math.random() * 899999);
+  const proj = $("#project").value;
+  const rows = [["Calculation","Environmental & Embodied-Carbon Calculator"],["Version","v3.0"],["Engine","Internal service class"],
+    ["Project", proj || "—"],["Site address",$("#addr").value],["Reference",$("#ref").value]];
+  $("#status").hidden = false;
+  $("#result").innerHTML = `<div class="sumtitle">Summary</div>
+    <table>${rows.map((r) => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>
+    <div class="prelim"><span class="stamp">Preliminary: Subject to Engineer Review</span>
+      <span>This report was generated by an automated calculation tool. Results must be reviewed and verified by a qualified engineer before use in design.</span></div>
+    <div class="logline">Logged to cresco_eng_calculation_log · calc ${ranCalc} · Administrator · ${now.toISOString().slice(0,16).replace("T"," ")}${proj ? " · project " + proj : ""}</div>`;
+  updateState();
+};
+
+$("#add").onclick = () => {
+  const proj = $("#project").value;
+  const t = $("#toast");
+  t.textContent = `✓ Calculation ${ranCalc} added to ${proj}, now awaiting approval in Calculation Catalogue.`;
+  t.hidden = false;
+  setTimeout(() => (t.hidden = true), 3500);
+  $("#add").disabled = true;
+  $("#addHint").textContent = `Added to ${proj}. Status: Awaiting approval.`;
+};
+updateState();
+</script>
+</body>
+</html>

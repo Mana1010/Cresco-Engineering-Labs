@@ -17,5 +17,15 @@
         "required": [],
         "idx": 2,
         "version": "0.0.1"
+    },
+    "labs_dummy": {
+        "is_repo": true,
+        "resolution": {
+            "commit_hash": "10efb9139912b98f37172419b80890975862d4f5",
+            "branch": "version-16"
+        },
+        "required": [],
+        "idx": 3,
+        "version": "0.0.1"
     }
 }

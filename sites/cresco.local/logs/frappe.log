@@ -4,3 +4,39 @@ Form Dict: {}
 2026-10-29 11:11:51,922 ERROR frappe New Exception collected in error log
 Site: cresco.local
 Form Dict: {}
+2026-10-29 11:53:04,371 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'cmd': 'engineering_labs.api.get_portal_user'}
+2026-10-29 12:12:32,366 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'cmd': 'engineering_labs.api.get_portal_user'}
+2026-10-29 13:14:55,978 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'cmd': 'engineering_labs.api.get_portal_user'}
+2026-11-02 23:00:30,137 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'cmd': 'engineering_labs.api.get_portal_user'}
+2026-11-02 23:00:31,975 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'cmd': 'engineering_labs.api.get_portal_user'}
+2026-11-03 09:03:59,804 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'cmd': 'engineering_labs.api.get_portal_user'}
+2026-11-16 13:53:13,923 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'cmd': 'engineering_labs.api.get_portal_user'}
+2026-11-16 13:57:36,489 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'cmd': 'engineering_labs.api.get_portal_user'}
+2026-11-24 09:46:46,307 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'cmd': 'engineering_labs.api.get_portal_user'}
+2026-11-25 12:07:31,850 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'offset': 'NaN', 'limit': 'NaN', 'status': 'Approved', 'cmd': 'engineering_labs.api.get_calculations'}
+2026-11-25 13:10:57,947 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'tool': '{"tool_name":"Tool 1","tool_type":"Excel","iframe_url":"http://localhost:8088/engineering-labs/tools-registry","tool_endpoint":"http://localhost:8088/engineering-labs/tools-registry","credentials":"","parameters":[{"label":"Load","field_name":"load","type":"Input","data_type":"Text","mandatory":0}]}', 'cmd': 'engineering_labs.api.create_tool'}
+2026-11-25 13:11:02,583 ERROR frappe New Exception collected in error log
+Site: cresco.local
+Form Dict: {'tool': '{"tool_name":"Tool 1","tool_type":"Excel","iframe_url":"http://localhost:8088/engineering-labs/tools-registry","tool_endpoint":"http://localhost:8088/engineering-labs/tools-registry","credentials":"","parameters":[{"label":"Load 1","field_name":"load_1","type":"Input","data_type":"Text","mandatory":0}]}', 'cmd': 'engineering_labs.api.create_tool'}

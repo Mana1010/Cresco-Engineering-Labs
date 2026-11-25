@@ -1,0 +1,29 @@
+ENGINEERING LABS - WEEKLY PROGRESS UPDATE (WEEK 2, 16-20 NOVEMBER 2026)
+Voice-over script, one block per scene. Voice: en-AU-WilliamMultilingualNeural (edge-tts)
+
+SCENE 1: Title card
+Engineering Labs, weekly progress update, for week two, the sixteenth to the twentieth of November. This week, the focus was redesigning the Tools Registry to match the Portal Core look and feel.
+
+SCENE 2: This week card
+Last week, I continued translating the client's proof of concept into our Frappe app, using Frappe UI, and redesigned the Tools Registry to match the Portal Core look and feel. Some parts now work with sample data, like the filter, search and pagination. Others, like New Tool and the calculation preview, are still static.
+
+SCENE 3: Tools Registry, grid view and hover (recording 0:00-0:07)
+This is the redesigned Tools Registry. Each tool is a card, showing its type, version and category, and the card highlights when you hover over it.
+
+SCENE 4: List view (recording 0:07-0:12)
+The same tools can also be shown as a list.
+
+SCENE 5: Filter by type (recording 0:12-0:22)
+The filter narrows the tools by type. The three types are now Frappe, Excel and third party, in line with the three sockets.
+
+SCENE 6: Search (recording 0:22-0:30)
+Search finds a tool by its name, standard or category, for example, the ARR rainfall tool.
+
+SCENE 7: Pagination (recording 0:30-0:42)
+Instead of endless scrolling, the registry now uses pages, with nine tools on each page, and the screen stays in place when you change pages.
+
+SCENE 8: Tool details and preview (recording 0:42-0:50)
+Opening a tool shows its details, and a preview of how a calculation would run, marked Preliminary, subject to engineer review. This part is still static.
+
+SCENE 9: Next card
+Next, I'll build the New Tool form, so a tool can be registered in Engineering Labs. It will capture the tool's details and type, whether Frappe, Excel or third party, and where the tool can be reached. It will also let us define the tool's input and output fields, which are dynamic for each tool. Thank you.

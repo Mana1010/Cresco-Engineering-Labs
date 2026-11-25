@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalogue Detail Views</title>
+<style>
+  :root { --bg:#f4f6f9; --panel:#fff; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --side:#0b1220; --side-ink:#cbd5e1;
+          --accent:#00a0e3; --ok:#2f9e57; --warn:#e07b16; --bad:#d9363e; --slate:#5d6b82; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+  .app { display:flex; min-height:100vh; }
+  aside { width:220px; background:var(--side); color:var(--side-ink); padding:18px 12px; flex:none; }
+  aside h1 { font-size:15px; color:#fff; margin:0 8px 18px; }
+  aside a { display:block; padding:8px 10px; border-radius:6px; color:inherit; text-decoration:none; margin-bottom:2px; }
+  aside a.active { background:#1e293b; color:#fff; box-shadow:inset 3px 0 0 var(--accent); }
+  aside a.dim { opacity:.45; }
+  main { flex:1; padding:22px 26px; min-width:0; }
+  .switch { display:flex; align-items:center; gap:10px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin-bottom:16px; flex-wrap:wrap; }
+  .seg { display:inline-flex; border:1px solid #d1d5db; border-radius:6px; overflow:hidden; }
+  .seg button { border:0; background:#fff; padding:6px 12px; font:inherit; cursor:pointer; }
+  .seg button.on { background:var(--ink); color:#fff; }
+  h2 { margin:0 0 2px; font-size:20px; }
+  .lead { color:var(--muted); margin:0 0 16px; }
+  table { width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid #edf0f3; vertical-align:top; font-size:13px; }
+  th { background:#f8fafc; font-size:11px; color:var(--slate); text-transform:uppercase; letter-spacing:.04em; }
+  tr:last-child td { border-bottom:0; }
+  tr.click { cursor:pointer; } tr.click:hover td { background:#eef7fc; }
+  .pill { display:inline-block; font-size:11px; padding:1px 8px; border-radius:999px; white-space:nowrap; }
+  .p-Approved { background:#e3f4e9; color:#217a43; } .p-Under { background:#fdeee2; color:#b8580f; }
+  .p-Draft { background:#eceff3; color:#4f5b6d; } .p-Deprecated { background:#fde8e8; color:#b42318; }
+  .badge { display:inline-block; font-size:11px; padding:1px 8px; border-radius:4px; background:#eef2ff; color:#4338ca; }
+  .muted { color:var(--muted); font-size:12px; }
+  .btn { border:0; border-radius:6px; padding:8px 13px; font:inherit; font-weight:600; cursor:pointer; color:#fff; background:var(--accent); }
+  .btn.ok { background:var(--ok); } .btn.warn { background:var(--warn); } .btn.ghost { background:#fff; color:var(--ink); border:1px solid #d1d5db; }
+  .crumb { font-size:12px; color:var(--muted); margin-bottom:10px; } .crumb a { color:var(--accent); cursor:pointer; }
+  .head { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:flex-start; margin-bottom:14px; }
+  .head h3 { margin:0 0 6px; font-size:20px; }
+  .grid { display:grid; grid-template-columns:2fr 1fr; gap:14px; }
+  .box { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .box h4 { margin:0 0 10px; font-size:12px; color:var(--slate); text-transform:uppercase; letter-spacing:.05em; }
+  dl { display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; margin:0; } dt { font-size:11px; color:var(--slate); text-transform:uppercase; } dd { margin:0; font-weight:600; }
+  .tabs { display:flex; gap:4px; border-bottom:1px solid var(--line); margin:4px 0 14px; }
+  .tabs button { border:0; background:none; padding:8px 12px; font:inherit; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; }
+  .tabs button.on { color:var(--ink); font-weight:600; border-color:var(--accent); }
+  .ip { background:#fff7ed; border:1px solid #fed7aa; color:#9a3412; border-radius:8px; padding:8px 10px; font-size:12px; margin-top:10px; }
+  .timeline div { padding:6px 0; border-bottom:1px dashed #edf0f3; font-size:13px; } .timeline div:last-child { border:0; }
+  /* modal */
+  .overlay { position:fixed; inset:0; background:rgba(15,23,42,.45); display:grid; place-items:center; padding:16px; }
+  .modal { background:#fff; border-radius:12px; width:min(620px,100%); max-height:88vh; overflow:auto; padding:20px; }
+  .note { background:#eef7fc; border:1px solid #cfe7f4; color:#0b5f86; padding:8px 12px; border-radius:8px; font-size:12px; margin-top:14px; }
+  @media (max-width:860px){ .grid{grid-template-columns:1fr;} }
+  @media (max-width:760px){ .app{flex-direction:column;} aside{width:auto;} main{padding:16px;} dl{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <h1>Engineering Labs</h1>
+    <a href="#" class="dim">Home</a>
+    <a href="#" class="dim">Tools Registry</a>
+    <a href="#" class="active">Calculation Catalogue</a>
+  </aside>
+  <main>
+    <div class="switch">
+      <b>Open details as:</b>
+      <span class="seg"><button data-mode="modal" class="on">Modal</button><button data-mode="page">Full page</button></span>
+      <span class="muted">Click any calculation below to compare. Mock-up with fake data.</span>
+    </div>
+
+    <!-- LIST -->
+    <section id="list">
+      <h2>Calculation Catalogue</h2>
+      <p class="lead">Governed library of calculations and connected engineering tools.</p>
+      <table><thead><tr><th>Calculation</th><th>Type</th><th>Category</th><th>Ver</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table>
+    </section>
+
+    <!-- FULL PAGE -->
+    <section id="page" hidden></section>
+  </main>
+</div>
+<div id="modalRoot"></div>
+
+<script>
+const CALCS = {
+  checkwind: {
+    name: "Wind Classification (CheckWind)", type: "API", socket: "Socket 3 · External", category: "Wind & Site", ver: "2.1", status: "Approved",
+    engine: "Revolutio Hazard API", owner: "Named CRESCO owner", attribution: "Data provided by Revolutio Hazard API", standard: "AS/NZS 1170.2:2021 (2011 also supported)",
+    desc: "Determines site-specific wind parameters for a location and structure height.",
+    inputs: [["Latitude","number","°","Yes"],["Longitude","number","°","Yes"],["Height","number","m","Yes"],["Standard edition","2011 / 2021","—","No (default 2021)"]],
+    outputs: [["Wind region","text"],["Regional wind speed (V_R)","m/s"],["Terrain category (8 directions)","table"],["Site wind speed","m/s"]],
+    notes: "Use the 2011 edition only for applications lodged before the 2021 transition. Results are cached for 24 h per site.",
+    versions: [["2.1","Approved","V. Chaffey","02 Oct 2026"],["2.0","Deprecated","V. Chaffey","14 Jun 2026"]],
+    activity: [["13 Nov","Note added by Tristan"],["02 Oct","v2.1 approved by V. Chaffey"],["28 Sep","v2.1 submitted for review"]],
+  },
+  lintel: {
+    name: "Lintel Loading Calculator", type: "Excel", socket: "Socket 2 · MS Excel", category: "Residential", ver: "1.0", status: "Under review",
+    engine: "Protected workbook (lintel_loading_v1.xlsx)", owner: "J. Engineer", attribution: "", standard: "AS 1170.1",
+    desc: "Calculates lintel loads from span and roof load using a protected workbook.",
+    inputs: [["Span","number","m","Yes"],["Roof load","number","kPa","Yes"],["Lintel type","list","—","Yes"]],
+    outputs: [["Design load","kN/m"],["Recommended section","text"]],
+    notes: "Awaiting engineering review of the workbook formulas.",
+    versions: [["1.0","Under review","—","—"]],
+    activity: [["12 Nov","Submitted for review by J. Engineer"],["10 Nov","Registered as Draft"]],
+  },
+  env: {
+    name: "Environmental Calculator", type: "Python", socket: "Socket 1 · Frappe Native", category: "Environmental", ver: "3.0", status: "Approved",
+    engine: "environmental_impact (tool app)", owner: "Isaac Mannion", attribution: "", standard: "—",
+    desc: "Environmental and sustainability calculations, migrated from the legacy client-side tool.",
+    inputs: [["(defined by the tool's specification)","—","—","—"]],
+    outputs: [["(defined by the tool's specification)","—"]],
+    notes: "Regression-tested against the legacy calculator's benchmark cases.",
+    versions: [["3.0","Approved","V. Chaffey","20 Oct 2026"]],
+    activity: [["20 Oct","v3.0 approved by V. Chaffey"]],
+  },
+};
+let mode = "modal";
+const $ = (s) => document.querySelector(s);
+const pill = (s) => `<span class="pill p-${s.split(" ")[0]}">${s}</span>`;
+
+$("#rows").innerHTML = Object.entries(CALCS).map(([id, c]) =>
+  `<tr class="click" data-id="${id}"><td><b>${c.name}</b><div class="muted">${c.engine}</div></td><td>${c.type}</td><td>${c.category}</td><td>${c.ver}</td><td>${pill(c.status)}</td></tr>`).join("");
+document.querySelectorAll("#rows tr").forEach((tr) => tr.onclick = () => open(tr.dataset.id));
+document.querySelectorAll("[data-mode]").forEach((b) => b.onclick = () => {
+  mode = b.dataset.mode; document.querySelectorAll("[data-mode]").forEach((x) => x.classList.toggle("on", x === b)); back();
+});
+
+function actions(c) {
+  const gov = c.status === "Approved" ? '<button class="btn warn">Deprecate</button>' : c.status === "Under review" ? '<button class="btn ok">Approve &amp; publish</button> <button class="btn ghost">Return</button>' : c.status === "Deprecated" ? '<button class="btn ok">Re-approve</button>' : "";
+  return `<button class="btn">View calculation</button> ${gov}`;
+}
+const ioTables = (c) => `
+  <table><thead><tr><th>Input</th><th>Type</th><th>Unit</th><th>Required</th></tr></thead><tbody>${c.inputs.map((i) => `<tr><td>${i[0]}</td><td>${i[1]}</td><td>${i[2]}</td><td>${i[3]}</td></tr>`).join("")}</tbody></table>
+  <table style="margin-top:10px"><thead><tr><th>Output</th><th>Unit / type</th></tr></thead><tbody>${c.outputs.map((o) => `<tr><td>${o[0]}</td><td>${o[1]}</td></tr>`).join("")}</tbody></table>
+  <div class="ip">🔒 Formulas, coefficients and workbook cells are never shown (IP protection, Developer Brief §5).</div>`;
+const overview = (c) => `<dl>
+  <div><dt>Engine / interface</dt><dd>${c.engine}</dd></div><div><dt>Category</dt><dd>${c.category}</dd></div>
+  <div><dt>Author / owner</dt><dd>${c.owner}</dd></div><div><dt>Standard</dt><dd>${c.standard}</dd></div>
+  <div style="grid-column:1/-1"><dt>Attribution</dt><dd>${c.attribution || "—"}</dd></div></dl>`;
+
+function open(id) {
+  const c = CALCS[id];
+  if (mode === "modal") {
+    $("#modalRoot").innerHTML = `<div class="overlay" id="ov"><div class="modal">
+      <div class="head"><div><h3>${c.name}</h3>${pill(c.status)} <span class="badge">${c.socket}</span> <span class="muted">v${c.ver}</span></div>
+      <button class="btn ghost" id="x">✕</button></div>
+      <p style="margin:0 0 12px">${c.desc}</p>
+      ${overview(c)}
+      <h4 style="margin:16px 0 6px;font-size:12px;color:var(--slate);text-transform:uppercase">Inputs &amp; outputs</h4>${ioTables(c)}
+      <h4 style="margin:16px 0 6px;font-size:12px;color:var(--slate);text-transform:uppercase">Usage notes</h4><p class="muted">${c.notes}</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">${actions(c)}</div>
+      <div class="note"><b>Modal:</b> quick look without leaving the list. It gets long once versions and activity are added, and has no shareable link.</div>
+    </div></div>`;
+    $("#x").onclick = $("#ov").onclick = (e) => { if (e.target.id === "x" || e.target.id === "ov") $("#modalRoot").innerHTML = ""; };
+  } else {
+    $("#list").hidden = true; $("#page").hidden = false;
+    $("#page").innerHTML = `
+      <div class="crumb"><a id="back">Calculation Catalogue</a> › ${c.name} <span class="muted">&nbsp;/engineering-labs/catalogue/${id}</span></div>
+      <div class="head"><div><h3>${c.name}</h3>${pill(c.status)} <span class="badge">${c.socket}</span> <span class="muted">v${c.ver}</span>
+        <p style="margin:8px 0 0">${c.desc}</p></div><div style="display:flex;gap:8px;flex-wrap:wrap">${actions(c)}</div></div>
+      <div class="tabs"><button class="on" data-t="ov">Overview</button><button data-t="io">Inputs &amp; outputs</button><button data-t="ver">Versions</button><button data-t="act">Activity</button></div>
+      <div data-p="ov"><div class="grid"><div class="box"><h4>Details</h4>${overview(c)}</div><div class="box"><h4>Usage notes</h4><p class="muted" style="margin:0">${c.notes}</p></div></div></div>
+      <div data-p="io" hidden><div class="box">${ioTables(c)}</div></div>
+      <div data-p="ver" hidden><table><thead><tr><th>Version</th><th>Status</th><th>Approved by</th><th>Date</th></tr></thead><tbody>${c.versions.map((v) => `<tr><td>${v[0]}</td><td>${pill(v[1])}</td><td>${v[2]}</td><td>${v[3]}</td></tr>`).join("")}</tbody></table></div>
+      <div data-p="act" hidden><div class="box timeline">${c.activity.map((a) => `<div><b>${a[0]}</b> · ${a[1]}</div>`).join("")}</div></div>
+      <div class="note"><b>Full page:</b> room for every section, its own URL (like the POC's <code>/catalogue/checkwind</code>) to share or bookmark, and the browser Back button works.</div>`;
+    $("#back").onclick = back;
+    document.querySelectorAll("[data-t]").forEach((b) => b.onclick = () => {
+      document.querySelectorAll("[data-t]").forEach((x) => x.classList.toggle("on", x === b));
+      document.querySelectorAll("[data-p]").forEach((p) => p.hidden = p.dataset.p !== b.dataset.t);
+    });
+  }
+}
+function back() { $("#list").hidden = false; $("#page").hidden = true; $("#modalRoot").innerHTML = ""; }
+</script>
+</body>
+</html>

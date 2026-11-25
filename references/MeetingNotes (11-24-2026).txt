@@ -1,0 +1,121 @@
+Key Points
+The design, interface, and data shown in the prototype are samples for visualization, not final production data.
+
+The current tool interface hardcodes fields such as project ID and project name. The requirement is to make the interface dynamic because each tool may need different inputs, as defined by an administrator.
+
+The tool interface should reflect administrator-defined parameters. When a user selects a tool, its configured input fields should appear in the left panel, while the tool itself appears in the right panel.
+
+PDF file handling was confirmed as out of scope for this discussion. Engineers using a tool will paste or otherwise provide the relevant information through the intended workflow.
+
+Tool registration is expected to include the tool name and type, an iframe URL for the right panel, a tool endpoint for sending inputs, credentials if needed, and an optional runtime script. Runtime-script logic does not need to be implemented now.
+
+Administrators must be able to define both input and expected output fields, including field names and data types. The interface should display the configured number of fields rather than a fixed set.
+
+The team discussed displaying input and output fields as separate lists or grids in the tool registry. The parent tool record would have child field records; a two-grid layout, with inputs on one side and outputs on the other, was favored as an option.
+
+Modal-based workflows were selected for adding and using tools. The modal should remain open after a run, and users should be able to close it using a close button, Escape, or clicking away. If there is unsaved data, the interface can prompt before discarding it.
+
+The run action should send the configured inputs to the tool endpoint. When the user submits the tool’s results, the system should save the calculation and its input/output values.
+
+Each run should create a separate calculation record, including the tool ID and date/time. The associated parameter records should include parameter IDs and values. Calculation records should be retained regardless of run status.
+
+Database encryption and record-level access controls were identified as later security/administration work, not part of the immediate implementation assignment. Frappe is expected to handle some platform housekeeping.
+
+The immediate implementation focus is creating the tool registry DocType and its CRUD functionality. The settings are expected to contain one endpoint for Labrador.
+
+The developer was asked to prepare a short prototype video focused only on the Engineering Labs tool registry. It should show the portal entry, expand Engineering Labs, demonstrate panel and list views, and show filtering by type (including Excel and third-party tools). The dashboard and calculation catalog should not be shown.
+
+The developer asked about a weekly status video. The requested replacement video is for the upcoming presentation; the earlier video was not received in time for the intended presentation.
+
+The developer confirmed receiving access to the document shared during the meeting.
+
+Decisions Made
+Tool input and output fields will be administrator-defined and dynamic; they will not be hardcoded into the interface.
+
+Tool registration will capture the tool name, type, iframe URL, tool endpoint, any required credentials, and an optional runtime script.
+
+The tool workflow will use modals. The modal will remain open after a run so the user can run the tool again; users must explicitly close it or otherwise dismiss it.
+
+Calculation records will be created for each run, including the tool ID and run date/time, with related parameter IDs and values. Records will be kept regardless of success or failure status.
+
+Immediate work will prioritize the tool registry DocType and CRUD operations; database security configuration is deferred.
+
+The prototype video will focus exclusively on the tool registry, not the dashboard or calculation catalog. It should be approximately one minute long.
+
+The existing design should be used for the video unless a Portal Core-aligned redesign can be completed by the stated same-day deadline.
+
+Action Items
+Tasks
+Task
+
+Responsible Party
+
+Deadline
+
+Notes
+
+Implement the tool registry DocType and basic CRUD functionality.
+
+Developer (Tristan)
+
+Before the review on November 26, 2026
+
+Immediate assignment; prioritize making tool records and their configured fields manageable.
+
+Make tool configuration dynamic, including administrator-defined input and output fields.
+
+Developer (Tristan)
+
+Before the review on November 26, 2026
+
+Include field names and types; avoid hardcoded project-specific fields.
+
+Prepare a short tool registry prototype video for the presentation.
+
+Developer (Tristan)
+
+November 24, 2026, by 5:00 p.m.
+
+Approximately one minute; show the Engineering Labs entry, tool registry, panel/list views, and filtering. Do not show the dashboard or calculation catalog.
+
+Provide feedback on the weekly progress video and related update.
+
+Meeting lead (Ton)
+
+Not specified
+
+The meeting lead said they would review and provide feedback.
+
+Set up a review meeting to look at the developer’s work.
+
+Meeting lead (Ton)
+
+Around November 26, 2026
+
+The meeting lead asked whether the developer could show work by Thursday and said they would schedule a meeting.
+
+Review the work and continue clarifying the remaining settings and implementation details.
+
+Meeting participants
+
+November 27, 2026
+
+A further check was mentioned for Friday.
+
+Deadlines
+November 24, 2026, by 5:00 p.m.: Submit the short tool registry video for the presentation.
+
+November 25, 2026, at 8:00 (AM/PM not specified): The presentation is expected to use the video.
+
+November 26, 2026: Show progress on the tool registry at the planned review.
+
+November 27, 2026: Further check-in was mentioned.
+
+Follow-Up Actions
+Confirm the tool registry’s final input/output field layout and implement the administrator-defined configuration.
+
+Demonstrate the registry in the requested video using sample tools and data, including panel view, list view, and type filtering.
+
+Schedule and hold the review of the implementation, then use that review to clarify the remaining settings and portal integration details.
+
+Defer database encryption and record-level access configuration until the later security work.

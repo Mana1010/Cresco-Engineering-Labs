@@ -1,2 +1,3 @@
 frappe
+labs_dummy
 engineering_labs

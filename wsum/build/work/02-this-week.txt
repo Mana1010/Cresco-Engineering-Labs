@@ -1,0 +1,1 @@
+Last week, I continued translating the client's proof of concept into our Frappe app, using Frappe UI, and redesigned the Tools Registry to match the Portal Core look and feel. Some parts now work with sample data, like the filter, search and pagination. Others, like New Tool and the calculation preview, are still static.

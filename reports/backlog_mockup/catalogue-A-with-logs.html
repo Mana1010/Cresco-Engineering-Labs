@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalogue A: With Logs</title>
+<style>
+  :root { --bg:#f4f6f9; --panel:#fff; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --side:#0b1220; --side-ink:#cbd5e1;
+          --accent:#00a0e3; --ok:#2f9e57; --warn:#e07b16; --bad:#d9363e; --slate:#5d6b82; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+  .app { display:flex; min-height:100vh; }
+  aside { width:220px; background:var(--side); color:var(--side-ink); padding:18px 12px; flex:none; }
+  aside h1 { font-size:15px; color:#fff; margin:0 8px 18px; }
+  aside a { display:block; padding:8px 10px; border-radius:6px; color:inherit; text-decoration:none; margin-bottom:2px; }
+  aside a.active { background:#1e293b; color:#fff; box-shadow:inset 3px 0 0 var(--accent); }
+  aside a.dim { opacity:.45; }
+  main { flex:1; padding:22px 26px; min-width:0; }
+  .banner { background:#eef7fc; border:1px solid #cfe7f4; color:#0b5f86; padding:8px 12px; border-radius:8px; font-size:12px; margin-bottom:16px; }
+  h2 { margin:0 0 2px; font-size:20px; }
+  .lead { color:var(--muted); margin:0 0 16px; }
+  .tabs { display:flex; gap:4px; border-bottom:1px solid var(--line); margin-bottom:16px; }
+  .tabs button { border:0; background:none; padding:9px 14px; font:inherit; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; }
+  .tabs button.on { color:var(--ink); font-weight:600; border-color:var(--accent); }
+  .tabs .count { background:#fdeee2; color:#b8580f; border-radius:999px; padding:0 7px; font-size:11px; margin-left:4px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:16px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 14px; }
+  .card .k { font-size:12px; color:var(--muted); } .card .v { font-size:22px; font-weight:700; } .card small { color:var(--muted); }
+  .bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; align-items:center; }
+  input, select { padding:7px 10px; border:1px solid #d1d5db; border-radius:6px; font:inherit; background:#fff; }
+  table { width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid #edf0f3; vertical-align:top; font-size:13px; }
+  th { background:#f8fafc; font-size:11px; color:var(--slate); text-transform:uppercase; letter-spacing:.04em; }
+  tr:last-child td { border-bottom:0; }
+  tr.click { cursor:pointer; } tr.click:hover td { background:#eef7fc; }
+  .pill { display:inline-block; font-size:11px; padding:1px 8px; border-radius:999px; white-space:nowrap; }
+  .p-Approved,.p-success { background:#e3f4e9; color:#217a43; } .p-Under,.p-partial,.p-Preliminary { background:#fdeee2; color:#b8580f; }
+  .p-Draft { background:#eceff3; color:#4f5b6d; } .p-Deprecated,.p-error,.p-Returned { background:#fde8e8; color:#b42318; }
+  .p-Reviewed { background:#e3f4e9; color:#217a43; }
+  .muted { color:var(--muted); font-size:12px; }
+  .pager { display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:12px; color:var(--muted); }
+  .pager button { border:1px solid #d1d5db; background:#fff; border-radius:6px; padding:4px 9px; cursor:pointer; font:inherit; }
+  .btn { border:0; border-radius:6px; padding:7px 12px; font:inherit; font-weight:600; cursor:pointer; color:#fff; background:var(--accent); }
+  .btn.ok { background:var(--ok); } .btn.warn { background:var(--warn); } .btn.ghost { background:#fff; color:var(--ink); border:1px solid #d1d5db; }
+  .drawer { position:fixed; inset:0 0 0 auto; width:min(420px,100%); background:#fff; box-shadow:-8px 0 24px rgba(0,0,0,.12); padding:20px; overflow:auto; }
+  .drawer dl { display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; } .drawer dt { font-size:11px; color:var(--slate); text-transform:uppercase; } .drawer dd { margin:0; font-weight:600; }
+  .seg { display:inline-flex; border:1px solid #d1d5db; border-radius:6px; overflow:hidden; } .seg button { border:0; background:#fff; padding:6px 10px; font:inherit; cursor:pointer; } .seg button.on { background:var(--ink); color:#fff; }
+  @media (max-width:760px){ .app{flex-direction:column;} aside{width:auto;} main{padding:16px;} }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <h1>Engineering Labs</h1>
+    <a href="#" class="dim">Home</a>
+    <a href="#" class="dim">Tools Registry</a>
+    <a href="#" class="active">Calculation Catalogue</a>
+  </aside>
+  <main>
+    <div class="banner"><b>Option A: Calculation Logs embedded.</b> There's no separate History menu; the runs live in a <b>tab inside Calculation Catalogue</b>. Mock-up only, with fake data. Based on POC Mock-ups C/D, Ton's 20 Oct meeting, and Brief §4.3/§4.5.</div>
+    <h2>Calculation Catalogue</h2>
+    <p class="lead">Governed library of calculations, items awaiting approval, and the record of every run.</p>
+
+    <div class="tabs">
+      <button data-tab="catalogue" class="on">Catalogue</button>
+      <button data-tab="awaiting">Awaiting approval <span class="count" id="awCount"></span></button>
+      <button data-tab="logs">Calculation Logs</button>
+    </div>
+
+    <!-- CATALOGUE -->
+    <section data-pane="catalogue">
+      <div class="cards" id="statusCards"></div>
+      <div class="bar">
+        <input placeholder="Search calculations…" id="q" style="flex:1;min-width:180px">
+        <select id="fType"><option value="">All types</option><option>Python</option><option>Excel</option><option>API</option></select>
+        <select id="fStatus"><option value="">All statuses</option><option>Approved</option><option>Under review</option><option>Draft</option><option>Deprecated</option></select>
+      </div>
+      <table><thead><tr><th>Calculation</th><th>Type</th><th>Category</th><th>Ver</th><th>Status</th><th>Governance</th></tr></thead><tbody id="catRows"></tbody></table>
+      <div class="pager"><span id="catCount"></span><span><button>« First</button> <button>‹ Prev</button> <button>Next ›</button> <button>Last »</button></span></div>
+    </section>
+
+    <!-- AWAITING -->
+    <section data-pane="awaiting" hidden>
+      <p class="muted">Items waiting for review. Whether this holds new <b>tools</b>, submitted <b>results</b>, or both is still to be confirmed with Ton.</p>
+      <table><thead><tr><th>Item</th><th>Kind</th><th>Submitted by</th><th>Submitted</th><th></th></tr></thead><tbody id="awRows"></tbody></table>
+    </section>
+
+    <!-- LOGS (embedded) -->
+    <section data-pane="logs" hidden>
+      <div class="bar">
+        <span class="seg"><button class="on" data-scope="mine">My runs</button><button data-scope="all">All runs (admin)</button></span>
+        <select id="lTool"><option value="">All tools</option></select>
+        <select id="lStatus"><option value="">All results</option><option>success</option><option>partial</option><option>error</option></select>
+        <input placeholder="Project ref…" id="lProj" style="width:150px">
+      </div>
+      <table><thead><tr><th>When</th><th>Calculation</th><th>Project</th><th>Run by</th><th>Result</th><th>Review</th><th>Time</th><th>PDF</th></tr></thead><tbody id="logRows"></tbody></table>
+      <div class="pager"><span id="logCount"></span><span><button>‹ Prev</button> <button>Next ›</button></span></div>
+      <p class="muted">Every run is stored permanently (append-only, 7 years). "Review" is the approval status tracked separately; results are always issued as <i>Preliminary</i> first.</p>
+    </section>
+  </main>
+</div>
+
+<div class="drawer" id="drawer" hidden></div>
+
+<script>
+const CALCS = [
+  ["Wind Classification (CheckWind)","Revolutio Hazard API","API","Wind & Site","2.1","Approved","Management-controlled","Named CRESCO owner","Data provided by Revolutio Hazard API"],
+  ["Environmental Calculator","environmental_impact (tool app)","Python","Environmental","3.0","Approved","Approved & published","Isaac Mannion",""],
+  ["ARR / IFD Stormwater","arr_tool (tool app)","Python","Civil","1.2","Approved","Approved & published","Isaac Mannion",""],
+  ["Structural Analysis (SkyCiv)","SkyCiv API v3","API","Structural","3.0","Approved","Management-controlled","Named CRESCO owner",""],
+  ["Lintel Loading Calculator","Protected workbook","Excel","Residential","1.0","Under review","Awaiting approval","J. Engineer",""],
+  ["Screw Pile Capacity","screw_piles (tool app)","Python","Geotechnical","0.9","Draft","Not runnable","Isaac Mannion",""],
+  ["Climate Zone Lookup (legacy)","Client-side HTML","Python","Environmental","1.0","Deprecated","Retired","—",""],
+];
+const LOGS = [
+  ["13 Nov 09:21","Wind Classification (CheckWind)","2026-0142","Tristan","success","Preliminary",1240],
+  ["13 Nov 08:47","ARR / IFD Stormwater","2026-0142","Tristan","success","Reviewed",180],
+  ["12 Nov 16:05","Structural Analysis (SkyCiv)","2026-0138","Tristan","error","—",30000],
+  ["12 Nov 15:40","Environmental Calculator","—","Maria","success","Preliminary",95],
+  ["12 Nov 11:58","Wind Classification (CheckWind)","2026-0151","Portal Core (API)","partial","Returned",2210],
+  ["11 Nov 10:12","Environmental Calculator","2026-0138","Tristan","success","Reviewed",92],
+];
+const $ = (s) => document.querySelector(s);
+const pill = (t) => `<span class="pill p-${t.split(" ")[0]}">${t}</span>`;
+
+document.querySelectorAll(".tabs button").forEach((b) => b.onclick = () => {
+  document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("on", x === b));
+  document.querySelectorAll("[data-pane]").forEach((p) => p.hidden = p.dataset.pane !== b.dataset.tab);
+});
+
+const statuses = [["Approved","Live · runnable"],["Under review","Pending · needs approval"],["Draft","Work · not runnable"],["Deprecated","Retired · historical"]];
+$("#statusCards").innerHTML = statuses.map(([s,d]) => `<div class="card"><div class="k">${s}</div><div class="v">${CALCS.filter((c)=>c[5]===s).length}</div><small>${d}</small></div>`).join("");
+
+function renderCat() {
+  const q = $("#q").value.toLowerCase(), t = $("#fType").value, s = $("#fStatus").value;
+  const rows = CALCS.filter((c) => (!q || c[0].toLowerCase().includes(q)) && (!t || c[2] === t) && (!s || c[5] === s));
+  $("#catRows").innerHTML = rows.map((c) => `<tr class="click" data-name="${c[0]}"><td><b>${c[0]}</b><div class="muted">${c[1]}</div></td><td>${c[2]}</td><td>${c[3]}</td><td>${c[4]}</td><td>${pill(c[5])}</td><td class="muted">${c[6]}</td></tr>`).join("");
+  $("#catCount").textContent = `${rows.length} of ${CALCS.length} calculations`;
+  document.querySelectorAll("#catRows tr").forEach((tr) => tr.onclick = () => openDetail(CALCS.find((c) => c[0] === tr.dataset.name)));
+}
+["#q","#fType","#fStatus"].forEach((s) => $(s).oninput = renderCat);
+renderCat();
+
+const aw = CALCS.filter((c) => c[5] === "Under review").map((c) => [c[0],"New tool",c[7],"12 Nov"]).concat([["CheckWind run · 2026-0142 (Rev B)","Submitted result","Tristan","13 Nov"]]);
+$("#awCount").textContent = aw.length;
+$("#awRows").innerHTML = aw.map((a) => `<tr><td><b>${a[0]}</b></td><td>${a[1]}</td><td>${a[2]}</td><td>${a[3]}</td><td><button class="btn ok">Approve</button> <button class="btn ghost">Return</button></td></tr>`).join("");
+
+let scope = "mine";
+[...new Set(LOGS.map((l) => l[1]))].forEach((t) => $("#lTool").insertAdjacentHTML("beforeend", `<option>${t}</option>`));
+document.querySelectorAll("[data-scope]").forEach((b) => b.onclick = () => { scope = b.dataset.scope; document.querySelectorAll("[data-scope]").forEach((x) => x.classList.toggle("on", x === b)); renderLogs(); });
+function renderLogs() {
+  const t = $("#lTool").value, s = $("#lStatus").value, p = $("#lProj").value.trim();
+  const rows = LOGS.filter((l) => (scope === "all" || l[3] === "Tristan") && (!t || l[1] === t) && (!s || l[4] === s) && (!p || l[2].includes(p)));
+  $("#logRows").innerHTML = rows.map((l) => `<tr><td>${l[0]}</td><td>${l[1]}</td><td>${l[2]}</td><td>${l[3]}</td><td>${pill(l[4])}</td><td>${l[5] === "—" ? "—" : pill(l[5])}</td><td>${l[6].toLocaleString()} ms</td><td>${l[4] === "error" ? "" : '<a href="#">PDF</a>'}</td></tr>`).join("");
+  $("#logCount").textContent = `${rows.length} runs${scope === "mine" ? " (yours)" : " (all users)"}`;
+}
+["#lTool","#lStatus","#lProj"].forEach((s) => $(s).oninput = renderLogs);
+renderLogs();
+
+function openDetail(c) {
+  const d = $("#drawer");
+  const actions = c[5] === "Approved" ? '<button class="btn warn">Deprecate</button>' : c[5] === "Under review" ? '<button class="btn ok">Approve &amp; publish</button>' : c[5] === "Deprecated" ? '<button class="btn ok">Re-approve</button>' : "";
+  const runs = LOGS.filter((l) => l[1] === c[0]);
+  d.innerHTML = `<button class="btn ghost" style="float:right" id="close">✕</button>
+    <h3 style="margin:0 0 4px">${c[0]}</h3>${pill(c[5])} <span class="muted">v${c[4]}</span>
+    <dl style="margin-top:16px"><div><dt>Engine / interface</dt><dd>${c[1]}</dd></div><div><dt>Category</dt><dd>${c[3]}</dd></div>
+    <div><dt>Author / owner</dt><dd>${c[7]}</dd></div><div><dt>Attribution</dt><dd>${c[8] || "—"}</dd></div></dl>
+    <h4 style="margin:18px 0 6px">Usage guidance / notes</h4><p class="muted">Operating notes, limits, caveats and required standards/version guidance.</p>
+    <h4 style="margin:18px 0 6px">Recent runs (${runs.length})</h4>
+    ${runs.length ? runs.map((l) => `<div class="muted">${l[0]} · ${l[2]} · ${l[3]} · ${l[4]}</div>`).join("") : '<div class="muted">No runs yet.</div>'}
+    <div style="margin-top:18px;display:flex;gap:8px"><button class="btn">View calculation</button>${actions}</div>`;
+  d.hidden = false;
+  $("#close").onclick = () => d.hidden = true;
+}
+</script>
+</body>
+</html>

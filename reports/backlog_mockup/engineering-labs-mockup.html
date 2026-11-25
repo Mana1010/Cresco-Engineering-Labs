@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Engineering Labs Mock-up</title>
+<style>
+  :root {
+    --bg: #f4f6f9; --panel: #fff; --ink: #1f2937; --muted: #6b7280; --line: #e5e7eb;
+    --side: #0b1220; --side-ink: #cbd5e1; --accent: #00a0e3;
+    --s1: #2f9e57; --s2: #1d6f42; --s3: #7c3aed; --warn: #e07b16; --bad: #d9363e;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); }
+  .app { display: flex; min-height: 100vh; }
+  aside { width: 230px; background: var(--side); color: var(--side-ink); padding: 18px 12px; flex: none; }
+  aside h1 { font-size: 15px; color: #fff; margin: 0 8px 4px; }
+  aside .sub { font-size: 11px; margin: 0 8px 18px; color: #64748b; }
+  aside .group { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #64748b; margin: 16px 8px 6px; }
+  aside button { display: block; width: 100%; text-align: left; background: none; border: 0; color: inherit; padding: 8px 10px; border-radius: 6px; font: inherit; cursor: pointer; }
+  aside button:hover { background: #1e293b; }
+  aside button.active { background: #1e293b; color: #fff; box-shadow: inset 3px 0 0 var(--accent); }
+  aside .tag { float: right; font-size: 10px; color: #64748b; }
+  main { flex: 1; padding: 24px 28px; min-width: 0; }
+  .banner { background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; padding: 8px 12px; border-radius: 8px; font-size: 12px; margin-bottom: 18px; }
+  h2 { margin: 0 0 4px; font-size: 20px; }
+  .lead { color: var(--muted); margin: 0 0 18px; }
+  .ref { display: inline-block; font-size: 11px; background: #eef2ff; color: #4338ca; border-radius: 4px; padding: 1px 6px; margin-left: 6px; font-weight: 500; vertical-align: middle; }
+  .grid { display: grid; gap: 14px; }
+  .cards { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .card .k { color: var(--muted); font-size: 12px; }
+  .card .v { font-size: 24px; font-weight: 600; }
+  .two { grid-template-columns: 1fr 1fr; margin-top: 14px; }
+  .bar { height: 8px; background: #eef2f7; border-radius: 4px; overflow: hidden; margin: 4px 0 10px; }
+  .bar > i { display: block; height: 100%; background: var(--accent); }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: #f8fafc; font-size: 12px; color: var(--muted); font-weight: 600; }
+  tr:last-child td { border-bottom: 0; }
+  tr.click { cursor: pointer; } tr.click:hover td { background: #eef7fc; }
+  .pill { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 999px; color: #fff; white-space: nowrap; }
+  .s1 { background: var(--s1); } .s2 { background: var(--s2); } .s3 { background: var(--s3); }
+  .ok { color: var(--s1); font-weight: 600; } .warn { color: var(--warn); font-weight: 600; } .bad { color: var(--bad); font-weight: 600; }
+  .runner { grid-template-columns: 320px 1fr; }
+  label { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
+  input, select { width: 100%; padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 6px; font: inherit; }
+  .btn { background: var(--accent); color: #fff; border: 0; border-radius: 6px; padding: 9px 14px; font: inherit; cursor: pointer; margin-top: 14px; }
+  .btn.ghost { background: #fff; color: var(--ink); border: 1px solid #d1d5db; }
+  pre { background: #0f172a; color: #e2e8f0; padding: 14px; border-radius: 8px; overflow: auto; font-size: 12px; margin: 0; }
+  .pdf { border: 1px solid var(--line); background: #fff; border-radius: 8px; padding: 18px; position: relative; overflow: hidden; min-height: 180px; }
+  .pdf .wm { position: absolute; inset: 0; display: grid; place-items: center; transform: rotate(-18deg); color: rgba(217,54,62,.14); font-weight: 800; font-size: 22px; pointer-events: none; text-align: center; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+  .tabs button { border: 1px solid #d1d5db; background: #fff; border-radius: 6px; padding: 5px 10px; cursor: pointer; font: inherit; font-size: 12px; }
+  .tabs button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  /* flow diagram */
+  .flow { display: grid; gap: 10px; justify-items: center; }
+  .box { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; text-align: center; min-width: 200px; }
+  .box small { display: block; color: var(--muted); font-size: 11px; }
+  .box.core { border: 2px solid var(--accent); }
+  .arrow { color: var(--muted); font-size: 18px; line-height: 1; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .note { color: var(--muted); font-size: 12px; margin-top: 10px; }
+  @media (max-width: 760px) {
+    .app { flex-direction: column; } aside { width: auto; }
+    .two, .runner { grid-template-columns: 1fr; } main { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <h1>Engineering Labs</h1>
+    <div class="sub">Backlog mock-up · 11 Nov draft</div>
+    <div class="group">Staff portal</div>
+    <button data-view="home" class="active">Home <span class="tag">#31</span></button>
+    <button data-view="catalogue">Tool Catalogue <span class="tag">#26 #29</span></button>
+    <button data-view="history">History <span class="tag">#08 #29</span></button>
+    <div class="group">Frappe Desk (admin)</div>
+    <button data-view="registry">Register Tool <span class="tag">#28</span></button>
+    <button data-view="docs">API Docs (Swagger) <span class="tag">#23</span></button>
+    <button data-view="desklog">Calculation Log <span class="tag">#08</span></button>
+    <div class="group">Behind the scenes</div>
+    <button data-view="flow">How it works <span class="tag">#19</span></button>
+    <div class="group">Not an official menu</div>
+    <button data-view="health">/health preview <span class="tag">#09</span></button>
+  </aside>
+
+  <main>
+    <div class="banner">Mock-up for discussion only. It's based on the 11 Nov backlog review (draft), and all data is fake. The menus and screens aren't confirmed. Grey tags show the backlog item each part comes from.</div>
+
+    <!-- HOME -->
+    <section data-page="home">
+      <h2>Home <span class="ref">#31 Usage Analytics</span></h2>
+      <p class="lead">Operational overview counted from the calculation audit log (#08).</p>
+      <div class="grid cards">
+        <div class="card"><div class="k">Unique staff users (30d)</div><div class="v">42</div></div>
+        <div class="card"><div class="k">Calculations run (30d)</div><div class="v">1,318</div></div>
+        <div class="card"><div class="k">Avg execution time</div><div class="v">840 ms</div></div>
+        <div class="card"><div class="k">Failed runs</div><div class="v">2.1%</div></div>
+      </div>
+      <div class="grid two">
+        <div class="card">
+          <b>Tool popularity</b>
+          <div id="popularity"></div>
+        </div>
+        <div class="card">
+          <b>API health & quota</b> <span class="ref">#09 #18</span>
+          <table style="margin-top:8px">
+            <tr><th>Service</th><th>Status</th><th>Quota used</th></tr>
+            <tr><td>Portal / DB / Redis</td><td class="ok">● Healthy</td><td>—</td></tr>
+            <tr><td>CheckWind API</td><td class="ok">● Healthy</td><td>61%</td></tr>
+            <tr><td>SkyCiv API</td><td class="warn">● Slow</td><td>34%</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATALOGUE -->
+    <section data-page="catalogue" hidden>
+      <h2>Tool Catalogue <span class="ref">#26 Registry</span><span class="ref">#29 Tool menu</span></h2>
+      <p class="lead">Approved tools staff can run. Each tool is attached to one of the 3 sockets. Click a tool to open its input form.</p>
+      <table>
+        <thead><tr><th>Tool</th><th>Socket</th><th>Version</th><th>Status</th></tr></thead>
+        <tbody id="toolRows"></tbody>
+      </table>
+      <p class="note">
+        <span class="pill s1">Socket 1 · Frappe Native</span> internal Python (#16) ·
+        <span class="pill s2">Socket 2 · MS Excel</span> protected workbook (#17) ·
+        <span class="pill s3">Socket 3 · External</span> third-party API (#18)
+      </p>
+    </section>
+
+    <!-- RUNNER -->
+    <section data-page="runner" hidden>
+      <h2 id="runTitle">Run tool</h2>
+      <p class="lead">Input form built from the tool's registered inputs (#29). Results come back in the standard envelope (#04), plus a PDF (#30).</p>
+      <div class="grid runner">
+        <div class="card">
+          <b>Inputs</b> <span class="ref">#29 form builder</span>
+          <div id="runForm"></div>
+          <label>Project reference (optional)</label><input value="LAB-2026-0142">
+          <button class="btn" id="runBtn">Run calculation</button>
+          <button class="btn ghost" data-go="catalogue">Back</button>
+        </div>
+        <div class="card">
+          <div class="tabs"><button class="on" data-out="json">JSON result</button><button data-out="pdf">PDF report</button></div>
+          <div id="outJson"><pre id="json">Run the calculation to see the result.</pre></div>
+          <div id="outPdf" hidden>
+            <div class="pdf">
+              <div class="wm">PRELIMINARY — SUBJECT TO<br>ENGINEER REVIEW</div>
+              <b>CRESCO · Engineering Labs</b><br>
+              <span id="pdfTitle">Calculation report</span><br><br>
+              <small>Calculation ID: <span id="pdfId">—</span><br>Standard edition recorded · Run by current user<br>Disclaimer and branding per #33</small>
+            </div>
+            <p class="note">Rendered by a Jinja2 print format (#30) and shown in an &lt;iframe&gt;.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section data-page="history" hidden>
+      <h2>History <span class="ref">#08 Audit Log</span><span class="ref">#29 History viewer</span></h2>
+      <p class="lead">My calculation runs. Every run is stored permanently (append-only, 7-year retention) and its PDF can be downloaded again.</p>
+      <div class="banner" style="background:#eef7fc;border-color:#cfe7f4;color:#0b5f86">👤 Signed in as <b>Tristan</b>. Only <b>your own</b> runs are shown here (Developer Brief §4.5: "calculations run by the logged-in staff member"). Admins see everyone's runs in <a href="#" data-go="desklog">Desk → Calculation Log</a>.</div>
+      <table>
+        <thead><tr><th>When</th><th>Tool</th><th>Project</th><th>Status</th><th>Time</th><th></th></tr></thead>
+        <tbody id="histRows"></tbody>
+      </table>
+    </section>
+
+    <!-- REGISTRY (Desk) -->
+    <section data-page="registry" hidden>
+      <h2>Register Tool <span class="ref">#28 Desk + Web Forms</span></h2>
+      <p class="lead">In Frappe Desk, an admin registers a tool, picks its socket, sets the version and approves it before staff can use it.</p>
+      <div class="card" style="max-width:520px">
+        <label>Tool name</label><input value="Lintel Loading Calculator">
+        <label>Socket</label>
+        <select><option>Socket 1 · Frappe Native</option><option selected>Socket 2 · MS Excel</option><option>Socket 3 · External API</option></select>
+        <label>Engine / endpoint</label><input value="lintel_loading_v1.xlsx (input cells B2:B6 → result D10)">
+        <label>Version</label><input value="1.0">
+        <label>Approval state</label>
+        <select><option>Draft</option><option selected>Under review</option><option>Approved</option><option>Deprecated</option></select>
+        <button class="btn">Save</button>
+      </div>
+    </section>
+
+    <!-- DOCS (Desk) -->
+    <section data-page="docs" hidden>
+      <h2>API Docs <span class="ref">#21 #23 Swagger UI</span></h2>
+      <p class="lead">Interactive docs inside Frappe Desk, so tool owners can learn the socket contracts and test calls themselves.</p>
+      <table>
+        <thead><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><b>POST</b></td><td><code>/api/v1/socket/frappe-native</code></td><td>Run an internal Python tool (#12, #16)</td></tr>
+          <tr><td><b>POST</b></td><td><code>/api/v1/socket/excel-tool</code></td><td>Run a protected Excel workbook (#13, #17)</td></tr>
+          <tr><td><b>POST</b></td><td><code>/api/v1/socket/external-app</code></td><td>Call a third-party API through the adapter (#14, #18)</td></tr>
+          <tr><td><b>GET</b></td><td><code>/api/v1/health</code></td><td>App, database and Redis status (#09)</td></tr>
+        </tbody>
+      </table>
+      <p class="note">System callers send an <code>X-API-Key</code> header (#07). Staff use Microsoft 365 sign-in instead.</p>
+    </section>
+
+    <!-- FLOW -->
+    <section data-page="flow" hidden>
+      <h2>How it works <span class="ref">Container + Sockets</span></h2>
+      <p class="lead">The path of one calculation request through the system.</p>
+      <div class="flow">
+        <div class="row">
+          <div class="box">Staff (Workbench)<small>M365 SSO login · #29</small></div>
+          <div class="box">Other system (e.g. Portal Core)<small>X-API-Key · #07</small></div>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="box core">Universal Socket Router<small>#19 · looks up the tool in the Registry (#26)</small></div>
+        <div class="arrow">↓</div>
+        <div class="row">
+          <div class="box"><span class="pill s1">Socket 1</span><br>Frappe Native<small>Python tools · #16</small></div>
+          <div class="box"><span class="pill s2">Socket 2</span><br>MS Excel<small>Workbooks · #17</small></div>
+          <div class="box"><span class="pill s3">Socket 3</span><br>External API<small>Retry + cache · #18</small></div>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="box">Standard envelope<small>{status, source, calculation_id, cached_at, standard_edition, data, errors} · #04</small></div>
+        <div class="arrow">↓</div>
+        <div class="row">
+          <div class="box">Audit log<small>append-only, 7 years · #08</small></div>
+          <div class="box">JSON + PDF<small>Preliminary watermark · #30</small></div>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="row">
+          <div class="box">History<small>#29</small></div>
+          <div class="box">Usage dashboard<small>#31</small></div>
+        </div>
+      </div>
+      <p class="note" style="text-align:center">Testing: the Dummy App (#24) fires fake tools through all 3 sockets. Monitoring: the health endpoint (#09).</p>
+    </section>
+    <!-- DESK: full calculation log (admins) -->
+    <section data-page="desklog" hidden>
+      <div class="banner" style="background:#f1f5f9;border-color:#cbd5e1;color:#334155">This is <b>Frappe Desk</b> (<code>/app/labs-calculation-log</code>), Frappe's built-in admin screen, not the staff portal. It's shown to <b>admins only</b> and lists <b>every user's</b> runs. It's read-only: there's no New, Edit or Delete, because the log is append-only. Showing it in Desk is a suggestion, not stated in the brief.</div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+        <h2 style="margin:0">Calculation Log</h2>
+        <span class="ref">#08 Audit Log</span>
+        <span style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn ghost" style="margin:0">⬇ Export</button>
+          <button class="btn ghost" style="margin:0;opacity:.45;cursor:not-allowed" title="Append-only: records can't be created by hand">+ Add (disabled)</button>
+        </span>
+      </div>
+      <div class="card" style="display:flex;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:10px">
+        <select id="dlUser" style="width:auto"><option value="">Requested by: All users</option></select>
+        <select id="dlTool" style="width:auto"><option value="">Tool: All</option></select>
+        <select id="dlStatus" style="width:auto"><option value="">Status: All</option><option>success</option><option>partial</option><option>error</option></select>
+        <input placeholder="Project ref…" id="dlProj" style="width:160px">
+        <span id="dlCount" style="margin-left:auto;align-self:center;color:var(--muted);font-size:12px"></span>
+      </div>
+      <table>
+        <thead><tr><th>Calculation ID</th><th>Tool</th><th>Requested by</th><th>Project ref</th><th>Status</th><th>Execution</th><th>Created</th></tr></thead>
+        <tbody id="dlRows"></tbody>
+      </table>
+      <p class="note">Click a row to see the full record (request and response payloads, API version), read-only. Fields follow Developer Brief §4.3. Notice the <b>X-API-Key</b> rows: runs requested by Portal Core through the API appear here too, but in nobody's personal History.</p>
+      <div class="card" id="dlDetail" hidden style="margin-top:12px">
+        <b id="dlDetailTitle"></b> <span class="ref">read-only</span>
+        <pre id="dlDetailJson" style="margin-top:8px"></pre>
+      </div>
+    </section>
+
+    <!-- HEALTH (not an official menu) -->
+    <section data-page="health" hidden>
+      <div class="banner" style="background:#fef2f2;border-color:#fecaca;color:#991b1b">This isn't one of the official Engineering Labs menus. #09 is an <b>API endpoint</b> (<code>/api/v1/health</code>) that returns JSON for monitoring tools such as UptimeRobot or Jerome's DevOps checks. Staff never see it. This page only shows what it returns, and what an optional status page built on it could look like.</div>
+      <h2>Service health <span class="ref">#09 Health Endpoint</span></h2>
+      <p class="lead">Reports application uptime, database connectivity and Redis queue status.</p>
+
+      <div class="tabs"><button class="on" data-hv="raw">1 · What the endpoint returns (real)</button><button data-hv="ui">2 · Optional status page (illustration)</button></div>
+
+      <div id="hvRaw">
+        <div class="grid two" style="margin-top:0">
+          <div class="card">
+            <b>All healthy</b> <span class="ok">HTTP 200</span>
+            <pre style="margin-top:8px">GET /api/v1/health
+
+{
+  "status": "ok",
+  "app": {
+    "version": "1.0.0",
+    "uptime_seconds": 864210
+  },
+  "checks": {
+    "database": { "status": "ok", "latency_ms": 3 },
+    "redis_cache": { "status": "ok", "latency_ms": 1 },
+    "redis_queue": {
+      "status": "ok",
+      "pending_jobs": 4,
+      "workers": 2
+    }
+  },
+  "checked_at": "2026-11-11T09:30:00+08:00"
+}</pre>
+          </div>
+          <div class="card">
+            <b>Something is down</b> <span class="bad">HTTP 503</span>
+            <pre style="margin-top:8px">GET /api/v1/health
+
+{
+  "status": "degraded",
+  "app": {
+    "version": "1.0.0",
+    "uptime_seconds": 864390
+  },
+  "checks": {
+    "database": { "status": "ok", "latency_ms": 4 },
+    "redis_cache": { "status": "ok", "latency_ms": 1 },
+    "redis_queue": {
+      "status": "error",
+      "error": "Connection refused",
+      "workers": 0
+    }
+  },
+  "checked_at": "2026-11-11T09:33:00+08:00"
+}</pre>
+          </div>
+        </div>
+        <p class="note">Monitoring tools mainly read the <b>HTTP status code</b>: 200 means healthy, 503 means a problem, so send an alert. The endpoint usually needs no login (<code>allow_guest</code>), so it should expose no secrets or detailed internals. The exact fields aren't defined in the backlog; this shape is a suggestion.</p>
+      </div>
+
+      <div id="hvUi" hidden>
+        <div class="card" style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <span id="hvDot" style="width:14px;height:14px;border-radius:50%;background:var(--s1);flex:none"></span>
+          <div><b id="hvHead">All systems operational</b><br><small style="color:var(--muted)">Last checked <span id="hvTime">just now</span> · auto-refresh every 30 s</small></div>
+          <button class="btn ghost" id="hvToggle" style="margin:0 0 0 auto">Simulate outage</button>
+        </div>
+        <div class="grid cards" id="hvCards"></div>
+        <div class="card" style="margin-top:14px">
+          <b>Uptime, last 30 days</b>
+          <div id="hvBars" style="display:flex;gap:3px;margin-top:10px;height:28px;align-items:stretch"></div>
+          <small style="color:var(--muted)">Each bar is one day. Green means no failed checks.</small>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const TOOLS = [
+    { name: "Environmental Calculator", socket: 1, ver: "3.0", status: "Approved", inputs: [["Concrete volume (m³)", "180"], ["Reinforcing steel (kg)", "14500"]] },
+    { name: "Climate Zone Lookup", socket: 1, ver: "1.2", status: "Approved", inputs: [["Site address", "12 Riverside Dr, Wagga Wagga NSW"]] },
+    { name: "ARR / IFD Stormwater", socket: 1, ver: "1.0", status: "Approved", inputs: [["Site address", "12 Riverside Dr, Wagga Wagga NSW"], ["Catchment area (ha)", "2.4"]] },
+    { name: "Lintel Loading Calculator", socket: 2, ver: "1.0", status: "Under review", inputs: [["Span (m)", "2.4"], ["Roof load (kPa)", "0.9"]] },
+    { name: "Wind Classification (CheckWind)", socket: 3, ver: "2.1", status: "Approved", inputs: [["Latitude", "-35.115"], ["Longitude", "147.369"], ["Height (m)", "8"], ["Standard edition", "2021"]] },
+    { name: "Structural Analysis (SkyCiv)", socket: 3, ver: "3.0", status: "Approved", inputs: [["Model file", "frame_model.json"], ["Load combination", "1.2G + 1.5Q"]] },
+    { name: "Arch Extract + Biax", socket: 3, ver: "0.9", status: "Draft", inputs: [["Architectural file", "plans_rev_c.pdf"]] },
+  ];
+  const SOCKET = { 1: ["s1", "Socket 1 · Frappe Native", "internal"], 2: ["s2", "Socket 2 · MS Excel", "excel"], 3: ["s3", "Socket 3 · External", "external"] };
+  const $ = (s) => document.querySelector(s);
+
+  function show(view) {
+    document.querySelectorAll("[data-page]").forEach((p) => (p.hidden = p.dataset.page !== view));
+    const navView = view === "runner" ? "catalogue" : view;
+    document.querySelectorAll("aside button").forEach((b) => b.classList.toggle("active", b.dataset.view === navView));
+  }
+  document.querySelectorAll("[data-view], [data-go]").forEach((b) => b.addEventListener("click", () => show(b.dataset.view || b.dataset.go)));
+
+  $("#popularity").innerHTML = [["Wind Classification (CheckWind)", 46], ["Climate Zone Lookup", 24], ["Environmental Calculator", 17], ["Structural Analysis (SkyCiv)", 13]]
+    .map(([n, p]) => `<div style="font-size:12px;margin-top:8px">${n} <span style="float:right">${p}%</span></div><div class="bar"><i style="width:${p}%"></i></div>`).join("");
+
+  $("#toolRows").innerHTML = TOOLS.map((t, i) => {
+    const [cls, label] = SOCKET[t.socket];
+    const st = t.status === "Approved" ? "ok" : t.status === "Draft" ? "bad" : "warn";
+    return `<tr class="click" data-i="${i}"><td><b>${t.name}</b></td><td><span class="pill ${cls}">${label}</span></td><td>${t.ver}</td><td class="${st}">${t.status}</td></tr>`;
+  }).join("");
+
+  let current = null;
+  document.querySelectorAll("#toolRows tr").forEach((tr) => tr.addEventListener("click", () => {
+    current = TOOLS[tr.dataset.i];
+    $("#runTitle").innerHTML = `${current.name} <span class="pill ${SOCKET[current.socket][0]}">${SOCKET[current.socket][1]}</span>`;
+    $("#runForm").innerHTML = current.inputs.map(([l, v]) => `<label>${l}</label><input value="${v}">`).join("");
+    $("#json").textContent = "Run the calculation to see the result.";
+    $("#pdfId").textContent = "—";
+    show("runner");
+  }));
+
+  $("#runBtn").addEventListener("click", () => {
+    const id = crypto.randomUUID ? crypto.randomUUID() : "3f2a9c1e-0000-4000-8000-000000000000";
+    const envelope = {
+      status: "success",
+      source: SOCKET[current.socket][2],
+      calculation_id: id,
+      cached_at: current.socket === 3 ? new Date().toISOString() : null,
+      standard_edition: current.name.includes("Wind") ? "AS/NZS 1170.2:2021" : null,
+      data: { note: "Fake result for the mock-up", inputs_received: current.inputs.length },
+      errors: null,
+    };
+    $("#json").textContent = JSON.stringify(envelope, null, 2);
+    $("#pdfTitle").textContent = current.name + " — Calculation report";
+    $("#pdfId").textContent = id;
+  });
+
+  document.querySelectorAll("[data-out]").forEach((b) => b.addEventListener("click", () => {
+    document.querySelectorAll("[data-out]").forEach((x) => x.classList.toggle("on", x === b));
+    $("#outJson").hidden = b.dataset.out !== "json";
+    $("#outPdf").hidden = b.dataset.out !== "pdf";
+  }));
+
+  // Desk: full calculation log (all users)
+  const LOG = [
+    ["a1f3", "hazard_api", "tristan@cresco (staff)", "LAB-2026-0142", "success", 1240, "11 Nov 09:21", "1170.2:2021"],
+    ["b7c2", "climate_zone", "tristan@cresco (staff)", "LAB-2026-0142", "success", 180, "11 Nov 08:47", "internal"],
+    ["c9d4", "env_calc", "maria@cresco (staff)", "—", "success", 95, "11 Nov 08:30", "internal"],
+    ["d2e8", "hazard_api", "Portal Core (X-API-Key)", "LAB-2026-0151", "partial", 2210, "11 Nov 08:02", "1170.2:2021"],
+    ["e5f1", "skyciv", "tristan@cresco (staff)", "LAB-2026-0138", "error", 30000, "10 Nov 16:05", "v3"],
+    ["f6a9", "climate_zone", "Portal Core (X-API-Key)", "LAB-2026-0138", "success", 160, "10 Nov 15:40", "internal"],
+    ["0b3c", "env_calc", "tristan@cresco (staff)", "—", "success", 95, "10 Nov 14:12", "internal"],
+    ["1c7e", "skyciv", "james@cresco (staff)", "LAB-2026-0142", "success", 4120, "10 Nov 11:58", "v3"],
+  ];
+  const uniq = (i) => [...new Set(LOG.map((r) => r[i]))];
+  uniq(2).forEach((u) => $("#dlUser").insertAdjacentHTML("beforeend", `<option>${u}</option>`));
+  uniq(1).forEach((t) => $("#dlTool").insertAdjacentHTML("beforeend", `<option>${t}</option>`));
+  function renderLog() {
+    const u = $("#dlUser").value, t = $("#dlTool").value, s = $("#dlStatus").value, p = $("#dlProj").value.trim().toLowerCase();
+    const rows = LOG.filter((r) => (!u || r[2] === u) && (!t || r[1] === t) && (!s || r[4] === s) && (!p || r[3].toLowerCase().includes(p)));
+    $("#dlCount").textContent = `${rows.length} of ${LOG.length} records`;
+    $("#dlRows").innerHTML = rows.map((r) => {
+      const cls = r[4] === "success" ? "ok" : r[4] === "partial" ? "warn" : "bad";
+      return `<tr class="click" data-id="${r[0]}"><td><code>${r[0]}…</code></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td class="${cls}">${r[4]}</td><td>${r[5].toLocaleString()} ms</td><td>${r[6]}</td></tr>`;
+    }).join("");
+    document.querySelectorAll("#dlRows tr").forEach((tr) => tr.addEventListener("click", () => {
+      const r = LOG.find((x) => x[0] === tr.dataset.id);
+      $("#dlDetail").hidden = false;
+      $("#dlDetailTitle").textContent = `Calculation ${r[0]}…`;
+      $("#dlDetailJson").textContent = JSON.stringify({
+        id: r[0] + "-0000-4000-8000-000000000000", tool: r[1], api_version: r[7],
+        request_payload: { note: "full inputs sent" }, response_payload: { note: "full envelope returned" },
+        status: r[4], execution_ms: r[5], requested_by: r[2], project_ref: r[3] === "—" ? null : r[3], created_at: r[6],
+      }, null, 2);
+    }));
+  }
+  ["#dlUser", "#dlTool", "#dlStatus", "#dlProj"].forEach((s) => $(s).addEventListener("input", renderLog));
+  renderLog();
+  // the History banner link jumps to the Desk log
+  document.querySelectorAll('a[data-go]').forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); show(a.dataset.go); }));
+
+  // Health preview
+  document.querySelectorAll("[data-hv]").forEach((b) => b.addEventListener("click", () => {
+    document.querySelectorAll("[data-hv]").forEach((x) => x.classList.toggle("on", x === b));
+    $("#hvRaw").hidden = b.dataset.hv !== "raw";
+    $("#hvUi").hidden = b.dataset.hv !== "ui";
+  }));
+  let outage = false;
+  function renderHealth() {
+    const checks = [
+      ["Application", "Up 10 days", "ok"],
+      ["Database (MariaDB)", "3 ms", "ok"],
+      ["Redis cache", "1 ms", "ok"],
+      ["Redis queue", outage ? "Connection refused · 0 workers" : "4 pending · 2 workers", outage ? "bad" : "ok"],
+    ];
+    $("#hvCards").innerHTML = checks.map(([n, d, s]) =>
+      `<div class="card"><div class="k">${n}</div><div class="${s}" style="font-size:16px">${s === "ok" ? "● Operational" : "● Down"}</div><small style="color:var(--muted)">${d}</small></div>`).join("");
+    $("#hvDot").style.background = outage ? "var(--bad)" : "var(--s1)";
+    $("#hvHead").textContent = outage ? "Degraded: background jobs unavailable" : "All systems operational";
+    $("#hvToggle").textContent = outage ? "Restore" : "Simulate outage";
+    $("#hvTime").textContent = new Date().toLocaleTimeString();
+    $("#hvBars").innerHTML = Array.from({ length: 30 }, (_, i) => {
+      const bad = (i === 12) || (outage && i === 29);
+      const warn = i === 21;
+      return `<i style="flex:1;border-radius:2px;background:${bad ? "var(--bad)" : warn ? "var(--warn)" : "var(--s1)"}" title="Day ${i + 1}"></i>`;
+    }).join("");
+  }
+  $("#hvToggle").addEventListener("click", () => { outage = !outage; renderHealth(); });
+  renderHealth();
+
+  const HIST = [
+    ["11 Nov 09:21", "Wind Classification (CheckWind)", "LAB-2026-0142", "Success", "1,240 ms"],
+    ["11 Nov 08:47", "Climate Zone Lookup", "LAB-2026-0142", "Success", "180 ms"],
+    ["10 Nov 16:05", "Structural Analysis (SkyCiv)", "LAB-2026-0138", "Failed", "30,000 ms"],
+    ["10 Nov 14:12", "Environmental Calculator", "—", "Success", "95 ms"],
+  ];
+  $("#histRows").innerHTML = HIST.map(([w, t, p, s, ms]) =>
+    `<tr><td>${w}</td><td>${t}</td><td>${p}</td><td class="${s === "Success" ? "ok" : "bad"}">${s}</td><td>${ms}</td><td>${s === "Success" ? '<a href="#" onclick="return false">PDF</a>' : ""}</td></tr>`).join("");
+</script>
+</body>
+</html>

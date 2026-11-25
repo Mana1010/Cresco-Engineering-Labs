@@ -1,0 +1,1 @@
+Opening a tool shows its details, and a preview of how a calculation would run, marked Preliminary, subject to engineer review. This part is still static.

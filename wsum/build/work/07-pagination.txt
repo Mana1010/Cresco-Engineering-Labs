@@ -1,0 +1,1 @@
+Instead of endless scrolling, the registry now uses pages, with nine tools on each page, and the screen stays in place when you change pages.

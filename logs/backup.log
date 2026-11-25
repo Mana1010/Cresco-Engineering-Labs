@@ -52,3 +52,397 @@ Backup Summary for cresco.local at 2026-10-25 18:00:09.175845
 Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261025_180007-cresco_local-site_config_backup.json 185.0B
 Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261025_180007-cresco_local-database.sql.gz 293.7KiB
 Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261029_120005-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-10-29 12:00:15.523106
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261029_120005-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261029_120005-cresco_local-database.sql.gz 290.6KiB
+Backup for Site cresco.local has been successfully completed
+Backup failed for Site cresco.local. Database or site_config.json may be corrupted
+Traceback with variables (most recent call last):
+  File "apps/frappe/frappe/commands/site.py", line 881, in backup
+    odb = scheduled_backup(
+      context = CliCtxObj(force=False, profile=False, sites=['cresco.local'], verbose=True)
+      with_files = False
+      backup_path = None
+      backup_path_db = None
+      backup_path_files = None
+      backup_path_private_files = None
+      backup_path_conf = None
+      ignore_backup_conf = False
+      verbose = True
+      compress = False
+      include = ''
+      exclude = ''
+      old_backup_metadata = False
+      scheduled_backup = <function scheduled_backup at 0x7d0c0d78eda0>
+      exit_code = 0
+      rollback_callback = None
+      site = 'cresco.local'
+  File "apps/frappe/frappe/utils/backups.py", line 589, in scheduled_backup
+    return new_backup(
+      older_than = 6
+      ignore_files = True
+      backup_path = None
+      backup_path_db = None
+      backup_path_files = None
+      backup_path_private_files = None
+      backup_path_conf = None
+      ignore_conf = False
+      include_doctypes = ''
+      exclude_doctypes = ''
+      compress = False
+      force = True
+      verbose = True
+      old_backup_metadata = False
+      rollback_callback = frappe.utils.CallbackManager()
+  File "apps/frappe/frappe/utils/backups.py", line 626, in new_backup
+    odb = BackupGenerator(
+      older_than = 6
+      ignore_files = True
+      backup_path = None
+      backup_path_db = None
+      backup_path_files = None
+      backup_path_private_files = None
+      backup_path_conf = None
+      ignore_conf = False
+      include_doctypes = ''
+      exclude_doctypes = ''
+      compress = False
+      force = True
+      verbose = True
+      old_backup_metadata = False
+      rollback_callback = frappe.utils.CallbackManager()
+  File "apps/frappe/frappe/utils/backups.py", line 89, in __init__
+    self.setup_backup_tables()
+      self = frappe.utils.backups.BackupGenerator(backup_path=None, backup_path_conf=None, backup_path_db=None, backup_path_files=None, backup_path_private_files=None, compress_files=False, db_host='127.0.0.1', db_name='_60ddf771d1b0145e', db_port=3306, db_socket=None, db_type='mariadb', exclude_doctypes='', ignore_conf=False, include_doctypes='', old_backup_metadata=False, partial=False, password='Tw4MjhCwJubaoVBC', rollback_callback=frappe.utils.CallbackManager(-), site_slug='cresco_local', user='_60ddf771d1b0145e', verbose=True)
+      db_name = '_60ddf771d1b0145e'
+      user = '_60ddf771d1b0145e'
+      password = ********
+      backup_path = None
+      backup_path_db = None
+      backup_path_files = None
+      backup_path_private_files = None
+      db_socket = None
+      db_host = '127.0.0.1'
+      db_port = 3306
+      db_type = 'mariadb'
+      backup_path_conf = None
+      ignore_conf = False
+      compress_files = False
+      include_doctypes = ''
+      exclude_doctypes = ''
+      verbose = True
+      old_backup_metadata = False
+      rollback_callback = frappe.utils.CallbackManager()
+      site = 'cresco.local'
+  File "apps/frappe/frappe/utils/backups.py", line 126, in setup_backup_tables
+    self._set_existing_tables()
+      self = frappe.utils.backups.BackupGenerator(backup_path=None, backup_path_conf=None, backup_path_db=None, backup_path_files=None, backup_path_private_files=None, compress_files=False, db_host='127.0.0.1', db_name='_60ddf771d1b0145e', db_port=3306, db_socket=None, db_type='mariadb', exclude_doctypes='', ignore_conf=False, include_doctypes='', old_backup_metadata=False, partial=False, password='Tw4MjhCwJubaoVBC', rollback_callback=frappe.utils.CallbackManager(-), site_slug='cresco_local', user='_60ddf771d1b0145e', verbose=True)
+  File "apps/frappe/frappe/utils/backups.py", line 122, in _set_existing_tables
+    self._existing_tables = frappe.db.get_tables()
+      self = frappe.utils.backups.BackupGenerator(backup_path=None, backup_path_conf=None, backup_path_db=None, backup_path_files=None, backup_path_private_files=None, compress_files=False, db_host='127.0.0.1', db_name='_60ddf771d1b0145e', db_port=3306, db_socket=None, db_type='mariadb', exclude_doctypes='', ignore_conf=False, include_doctypes='', old_backup_metadata=False, partial=False, password='Tw4MjhCwJubaoVBC', rollback_callback=frappe.utils.CallbackManager(-), site_slug='cresco_local', user='_60ddf771d1b0145e', verbose=True)
+  File "apps/frappe/frappe/database/mariadb/mysqlclient.py", line 524, in get_tables
+    .run(pluck=True)
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+      cached = True
+      to_query = True
+      tables = None
+      information_schema = pypika.queries.Schema()
+  File "apps/frappe/frappe/query_builder/utils.py", line 143, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+      query = 'SELECT `table_name` FROM `information_schema`.`tables` WHERE `table_schema`=%(param1)s'
+      args = ()
+      kwargs = {'pluck': True}
+      dt = None
+      parent_dt = None
+      fields = []
+      child_queries = "_child_queries"
+      params = {'param1': '_60ddf771d1b0145e'}
+  File "apps/frappe/frappe/database/database.py", line 249, in sql
+    self.connect()
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+      query = 'SELECT `table_name` FROM `information_schema`.`tables` WHERE `table_schema`=%(param1)s'
+      values = {'param1': '_60ddf771d1b0145e'}
+      as_dict = 0
+      as_list = 0
+      debug = False
+      ignore_ddl = 0
+      auto_commit = 0
+      update = None
+      explain = False
+      run = True
+      pluck = True
+      as_iterator = False
+      query_type = 'select'
+  File "apps/frappe/frappe/database/database.py", line 147, in connect
+    self.get_connection()
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+  File "apps/frappe/frappe/database/mariadb/mysqlclient.py", line 113, in get_connection
+    conn = self._get_connection()
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+  File "apps/frappe/frappe/database/mariadb/mysqlclient.py", line 118, in _get_connection
+    return self.create_connection()
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+  File "apps/frappe/frappe/database/mariadb/mysqlclient.py", line 121, in create_connection
+    return MySQLdb.connect(**self.get_connection_settings())
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+  File "env/lib/python3.14/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+      args = ()
+      kwargs = {'user': '_60ddf771d1b0145e', 'conv': {<class 'int'>: <function Thing2Str at 0x7d0c0d578e00>, <class 'float'>: <function Float2Str at 0x7d0c0d578eb0>, <class 'NoneType'>: <function None2NULL at 0x7d0c0d578f60>, <class 'array.array'>: <function array2Str at 0x7d0c0d579170>, <class 'bool'>: <function Bool2Str at 0x7d0c0d578bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7d0c0d579010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7d0c0d578670>, <class 'datetime.timedelta'>: <function escape_timedelta at 0x7d0c0d57afb0>, <class 'set'>: <function Set2Str at 0x7d0c0d578d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7d0c0d5790c0>, 1: <class 'int'>, 2: <c...t'>: <function escape_dict at 0x7d0c0d57b060>, <class 'frozenset'>: <function escape_frozenset at 0x7d0c0d53b8a0>}, 'charset': 'utf8mb4', 'use_unicode': True, 'local_infile': False, 'multi_statements': False, 'database': '_60ddf771d1b0145e', 'host': '127.0.0.1', 'port': 3306, 'password': '********'}
+      Connection = MySQLdb.connections.Connection
+  File "env/lib/python3.14/site-packages/MySQLdb/connections.py", line 200, in __init__
+    super().__init__(*args, **kwargs2)
+      self = <_mysql.connection open to '(null)' at 0x8b13b00>
+      args = ()
+      kwargs = {'user': '_60ddf771d1b0145e', 'conv': {<class 'int'>: <function Thing2Str at 0x7d0c0d578e00>, <class 'float'>: <function Float2Str at 0x7d0c0d578eb0>, <class 'NoneType'>: <function None2NULL at 0x7d0c0d578f60>, <class 'array.array'>: <function array2Str at 0x7d0c0d579170>, <class 'bool'>: <function Bool2Str at 0x7d0c0d578bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7d0c0d579010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7d0c0d578670>, <class 'datetime.timedelta'>: <function escape_timedelta at 0x7d0c0d57afb0>, <class 'set'>: <function Set2Str at 0x7d0c0d578d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7d0c0d5790c0>, 1: <class 'int'>, 2: <c...t'>: <function escape_dict at 0x7d0c0d57b060>, <class 'frozenset'>: <function escape_frozenset at 0x7d0c0d53b8a0>}, 'charset': 'utf8mb4', 'use_unicode': True, 'local_infile': False, 'multi_statements': False, 'database': '_60ddf771d1b0145e', 'host': '127.0.0.1', 'port': 3306, 'password': '********'}
+      CLIENT = <module 'MySQLdb.constants.CLIENT' from 'env/lib/python3.14/site-packages/MySQLdb/constants/CLIENT.py'>
+      FIELD_TYPE = <module 'MySQLdb.constants.FIELD_TYPE' from 'env/lib/python3.14/site-packages/MySQLdb/constants/FIELD_TYPE.py'>
+      conversions = {<class 'int'>: <function Thing2Str at 0x7d0c0d578e00>, <class 'float'>: <function Float2Str at 0x7d0c0d578eb0>, <class 'NoneType'>: <function None2NULL at 0x7d0c0d578f60>, <class 'array.array'>: <function array2Str at 0x7d0c0d579170>, <class 'bool'>: <function Bool2Str at 0x7d0c0d578bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7d0c0d579010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7d0c0d578670>, <class 'datetime.timedelta'>: <function DateTimeDelta2literal at 0x7d0c0d578720>, <class 'set'>: <function Set2Str at 0x7d0c0d578d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7d0c0d5790c0>, 1: <class 'int'>, 2: <class 'int'>, 3: <class 'int'>, 4:...r_None at 0x7d0c0d5783b0>, 11: <function TimeDelta_or_None at 0x7d0c0d578460>, 10: <function Date_or_None at 0x7d0c0d5785c0>, 249: <class 'bytes'>, 250: <class 'bytes'>, 251: <class 'bytes'>, 252: <class 'bytes'>, 254: <class 'bytes'>, 253: <class 'bytes'>, 15: <class 'bytes'>, 245: <class 'bytes'>}
+      _bytes_or_str = ((128, bytes), (None, str))
+      kwargs2 = {'user': '_60ddf771d1b0145e', 'conv': {<class 'int'>: <function Thing2Str at 0x7d0c0d578e00>, <class 'float'>: <function Float2Str at 0x7d0c0d578eb0>, <class 'NoneType'>: <function None2NULL at 0x7d0c0d578f60>, <class 'array.array'>: <function array2Str at 0x7d0c0d579170>, <class 'bool'>: <function Bool2Str at 0x7d0c0d578bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7d0c0d579010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7d0c0d578670>, <class 'datetime.timedelta'>: <function escape_timedelta at 0x7d0c0d57afb0>, <class 'set'>: <function Set2Str at 0x7d0c0d578d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7d0c0d5790c0>, 1: <class 'int'>, 2: <c...ass 'bytes'>, <class 'dict'>: <function escape_dict at 0x7d0c0d57b060>, <class 'frozenset'>: <function escape_frozenset at 0x7d0c0d53b8a0>}, 'charset': 'utf8mb4', 'local_infile': False, 'database': '_60ddf771d1b0145e', 'host': '127.0.0.1', 'port': 3306, 'password': '********', 'client_flag': 131072}
+      conv = {<class 'int'>: <function Thing2Str at 0x7d0c0d578e00>, <class 'float'>: <function Float2Str at 0x7d0c0d578eb0>, <class 'NoneType'>: <function None2NULL at 0x7d0c0d578f60>, <class 'array.array'>: <function array2Str at 0x7d0c0d579170>, <class 'bool'>: <function Bool2Str at 0x7d0c0d578bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7d0c0d579010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7d0c0d578670>, <class 'datetime.timedelta'>: <function escape_timedelta at 0x7d0c0d57afb0>, <class 'set'>: <function Set2Str at 0x7d0c0d578d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7d0c0d5790c0>, 1: <class 'int'>, 2: <class 'int'>, 3: <class 'int'>, 4: <cla...249: <class 'bytes'>, 250: <class 'bytes'>, 251: <class 'bytes'>, 252: <class 'bytes'>, 254: <class 'bytes'>, 253: <class 'bytes'>, 15: <class 'bytes'>, 245: <class 'bytes'>, <class 'dict'>: <function escape_dict at 0x7d0c0d57b060>, <class 'frozenset'>: <function escape_frozenset at 0x7d0c0d53b8a0>}
+      conv2 = {<class 'int'>: <function Thing2Str at 0x7d0c0d578e00>, <class 'float'>: <function Float2Str at 0x7d0c0d578eb0>, <class 'NoneType'>: <function None2NULL at 0x7d0c0d578f60>, <class 'array.array'>: <function array2Str at 0x7d0c0d579170>, <class 'bool'>: <function Bool2Str at 0x7d0c0d578bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7d0c0d579010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7d0c0d578670>, <class 'datetime.timedelta'>: <function escape_timedelta at 0x7d0c0d57afb0>, <class 'set'>: <function Set2Str at 0x7d0c0d578d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7d0c0d5790c0>, 1: <class 'int'>, 2: <class 'int'>, 3: <class 'int'>, 4: <cla...249: <class 'bytes'>, 250: <class 'bytes'>, 251: <class 'bytes'>, 252: <class 'bytes'>, 254: <class 'bytes'>, 253: <class 'bytes'>, 15: <class 'bytes'>, 245: <class 'bytes'>, <class 'dict'>: <function escape_dict at 0x7d0c0d57b060>, <class 'frozenset'>: <function escape_frozenset at 0x7d0c0d53b8a0>}
+      k = frozenset
+      v = <function escape_frozenset at 0x7d0c0d53b8a0>
+      cursorclass = MySQLdb.cursors.Cursor
+      charset = 'utf8mb4'
+      collation = ''
+      use_unicode = True
+      sql_mode = ''
+      client_flag = 131072
+      multi_statements = False
+      autocommit = False
+      __class__ = MySQLdb.connections.Connection
+MySQLdb.OperationalError: (1045, "Access denied for user '_60ddf771d1b0145e'@'localhost' (using password: YES)")
+Backup failed for Site cresco.local. Database or site_config.json may be corrupted
+Traceback with variables (most recent call last):
+  File "apps/frappe/frappe/commands/site.py", line 881, in backup
+    odb = scheduled_backup(
+      context = CliCtxObj(force=False, profile=False, sites=['cresco.local'], verbose=True)
+      with_files = False
+      backup_path = None
+      backup_path_db = None
+      backup_path_files = None
+      backup_path_private_files = None
+      backup_path_conf = None
+      ignore_backup_conf = False
+      verbose = True
+      compress = False
+      include = ''
+      exclude = ''
+      old_backup_metadata = False
+      scheduled_backup = <function scheduled_backup at 0x7e173597ada0>
+      exit_code = 0
+      rollback_callback = None
+      site = 'cresco.local'
+  File "apps/frappe/frappe/utils/backups.py", line 589, in scheduled_backup
+    return new_backup(
+      older_than = 6
+      ignore_files = True
+      backup_path = None
+      backup_path_db = None
+      backup_path_files = None
+      backup_path_private_files = None
+      backup_path_conf = None
+      ignore_conf = False
+      include_doctypes = ''
+      exclude_doctypes = ''
+      compress = False
+      force = True
+      verbose = True
+      old_backup_metadata = False
+      rollback_callback = frappe.utils.CallbackManager()
+  File "apps/frappe/frappe/utils/backups.py", line 626, in new_backup
+    odb = BackupGenerator(
+      older_than = 6
+      ignore_files = True
+      backup_path = None
+      backup_path_db = None
+      backup_path_files = None
+      backup_path_private_files = None
+      backup_path_conf = None
+      ignore_conf = False
+      include_doctypes = ''
+      exclude_doctypes = ''
+      compress = False
+      force = True
+      verbose = True
+      old_backup_metadata = False
+      rollback_callback = frappe.utils.CallbackManager()
+  File "apps/frappe/frappe/utils/backups.py", line 89, in __init__
+    self.setup_backup_tables()
+      self = frappe.utils.backups.BackupGenerator(backup_path=None, backup_path_conf=None, backup_path_db=None, backup_path_files=None, backup_path_private_files=None, compress_files=False, db_host='127.0.0.1', db_name='_60ddf771d1b0145e', db_port=3306, db_socket=None, db_type='mariadb', exclude_doctypes='', ignore_conf=False, include_doctypes='', old_backup_metadata=False, partial=False, password='Tw4MjhCwJubaoVBC', rollback_callback=frappe.utils.CallbackManager(-), site_slug='cresco_local', user='_60ddf771d1b0145e', verbose=True)
+      db_name = '_60ddf771d1b0145e'
+      user = '_60ddf771d1b0145e'
+      password = ********
+      backup_path = None
+      backup_path_db = None
+      backup_path_files = None
+      backup_path_private_files = None
+      db_socket = None
+      db_host = '127.0.0.1'
+      db_port = 3306
+      db_type = 'mariadb'
+      backup_path_conf = None
+      ignore_conf = False
+      compress_files = False
+      include_doctypes = ''
+      exclude_doctypes = ''
+      verbose = True
+      old_backup_metadata = False
+      rollback_callback = frappe.utils.CallbackManager()
+      site = 'cresco.local'
+  File "apps/frappe/frappe/utils/backups.py", line 126, in setup_backup_tables
+    self._set_existing_tables()
+      self = frappe.utils.backups.BackupGenerator(backup_path=None, backup_path_conf=None, backup_path_db=None, backup_path_files=None, backup_path_private_files=None, compress_files=False, db_host='127.0.0.1', db_name='_60ddf771d1b0145e', db_port=3306, db_socket=None, db_type='mariadb', exclude_doctypes='', ignore_conf=False, include_doctypes='', old_backup_metadata=False, partial=False, password='Tw4MjhCwJubaoVBC', rollback_callback=frappe.utils.CallbackManager(-), site_slug='cresco_local', user='_60ddf771d1b0145e', verbose=True)
+  File "apps/frappe/frappe/utils/backups.py", line 122, in _set_existing_tables
+    self._existing_tables = frappe.db.get_tables()
+      self = frappe.utils.backups.BackupGenerator(backup_path=None, backup_path_conf=None, backup_path_db=None, backup_path_files=None, backup_path_private_files=None, compress_files=False, db_host='127.0.0.1', db_name='_60ddf771d1b0145e', db_port=3306, db_socket=None, db_type='mariadb', exclude_doctypes='', ignore_conf=False, include_doctypes='', old_backup_metadata=False, partial=False, password='Tw4MjhCwJubaoVBC', rollback_callback=frappe.utils.CallbackManager(-), site_slug='cresco_local', user='_60ddf771d1b0145e', verbose=True)
+  File "apps/frappe/frappe/database/mariadb/mysqlclient.py", line 524, in get_tables
+    .run(pluck=True)
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+      cached = True
+      to_query = True
+      tables = None
+      information_schema = pypika.queries.Schema()
+  File "apps/frappe/frappe/query_builder/utils.py", line 143, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+      query = 'SELECT `table_name` FROM `information_schema`.`tables` WHERE `table_schema`=%(param1)s'
+      args = ()
+      kwargs = {'pluck': True}
+      dt = None
+      parent_dt = None
+      fields = []
+      child_queries = "_child_queries"
+      params = {'param1': '_60ddf771d1b0145e'}
+  File "apps/frappe/frappe/database/database.py", line 249, in sql
+    self.connect()
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+      query = 'SELECT `table_name` FROM `information_schema`.`tables` WHERE `table_schema`=%(param1)s'
+      values = {'param1': '_60ddf771d1b0145e'}
+      as_dict = 0
+      as_list = 0
+      debug = False
+      ignore_ddl = 0
+      auto_commit = 0
+      update = None
+      explain = False
+      run = True
+      pluck = True
+      as_iterator = False
+      query_type = 'select'
+  File "apps/frappe/frappe/database/database.py", line 147, in connect
+    self.get_connection()
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+  File "apps/frappe/frappe/database/mariadb/mysqlclient.py", line 113, in get_connection
+    conn = self._get_connection()
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+  File "apps/frappe/frappe/database/mariadb/mysqlclient.py", line 118, in _get_connection
+    return self.create_connection()
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+  File "apps/frappe/frappe/database/mariadb/mysqlclient.py", line 121, in create_connection
+    return MySQLdb.connect(**self.get_connection_settings())
+      self = frappe.database.mariadb.mysqlclient.MariaDBDatabase(after_commit=frappe.utils.CallbackManager(-), after_rollback=frappe.utils.CallbackManager(-), auto_commit_on_many_writes=0, before_commit=frappe.utils.CallbackManager(-), before_rollback=frappe.utils.CallbackManager(-), cur_db_name='_60ddf771d1b0145e', db_type='mariadb', host='127.0.0.1', logger=<Logger database-cresco.local (WARNING)>, password='Tw4MjhCwJubaoVBC', port=3306, socket=None, transaction_writes=0, type_map={'Currency': ('decimal', '21,9'), 'Int': ('int', '11'), 'Long Int': ('bigint', '20'), 'Float': ('decimal', '21,9'), 'Percent': ('decimal', '21,9'), 'Check': ('tinyint', '4'), 'Small Text': ('text', ''), 'Long Text': ('long...'), 'Color': ('varchar', 140), 'Barcode': ('longtext', ''), 'Geolocation': ('longtext', ''), 'Duration': ('decimal', '21,9'), 'Icon': ('varchar', 140), 'Phone': ('varchar', 140), 'Autocomplete': ('varchar', 140), 'JSON': ('json', '')}, user='_60ddf771d1b0145e', value_cache=collections.defaultdict{})
+  File "env/lib/python3.14/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+      args = ()
+      kwargs = {'user': '_60ddf771d1b0145e', 'conv': {<class 'int'>: <function Thing2Str at 0x7e1735764e00>, <class 'float'>: <function Float2Str at 0x7e1735764eb0>, <class 'NoneType'>: <function None2NULL at 0x7e1735764f60>, <class 'array.array'>: <function array2Str at 0x7e1735765170>, <class 'bool'>: <function Bool2Str at 0x7e1735764bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7e1735765010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7e1735764670>, <class 'datetime.timedelta'>: <function escape_timedelta at 0x7e1735766fb0>, <class 'set'>: <function Set2Str at 0x7e1735764d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7e17357650c0>, 1: <class 'int'>, 2: <c...t'>: <function escape_dict at 0x7e1735767060>, <class 'frozenset'>: <function escape_frozenset at 0x7e17357278a0>}, 'charset': 'utf8mb4', 'use_unicode': True, 'local_infile': False, 'multi_statements': False, 'database': '_60ddf771d1b0145e', 'host': '127.0.0.1', 'port': 3306, 'password': '********'}
+      Connection = MySQLdb.connections.Connection
+  File "env/lib/python3.14/site-packages/MySQLdb/connections.py", line 200, in __init__
+    super().__init__(*args, **kwargs2)
+      self = <_mysql.connection open to '(null)' at 0x1e2409b0>
+      args = ()
+      kwargs = {'user': '_60ddf771d1b0145e', 'conv': {<class 'int'>: <function Thing2Str at 0x7e1735764e00>, <class 'float'>: <function Float2Str at 0x7e1735764eb0>, <class 'NoneType'>: <function None2NULL at 0x7e1735764f60>, <class 'array.array'>: <function array2Str at 0x7e1735765170>, <class 'bool'>: <function Bool2Str at 0x7e1735764bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7e1735765010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7e1735764670>, <class 'datetime.timedelta'>: <function escape_timedelta at 0x7e1735766fb0>, <class 'set'>: <function Set2Str at 0x7e1735764d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7e17357650c0>, 1: <class 'int'>, 2: <c...t'>: <function escape_dict at 0x7e1735767060>, <class 'frozenset'>: <function escape_frozenset at 0x7e17357278a0>}, 'charset': 'utf8mb4', 'use_unicode': True, 'local_infile': False, 'multi_statements': False, 'database': '_60ddf771d1b0145e', 'host': '127.0.0.1', 'port': 3306, 'password': '********'}
+      CLIENT = <module 'MySQLdb.constants.CLIENT' from 'env/lib/python3.14/site-packages/MySQLdb/constants/CLIENT.py'>
+      FIELD_TYPE = <module 'MySQLdb.constants.FIELD_TYPE' from 'env/lib/python3.14/site-packages/MySQLdb/constants/FIELD_TYPE.py'>
+      conversions = {<class 'int'>: <function Thing2Str at 0x7e1735764e00>, <class 'float'>: <function Float2Str at 0x7e1735764eb0>, <class 'NoneType'>: <function None2NULL at 0x7e1735764f60>, <class 'array.array'>: <function array2Str at 0x7e1735765170>, <class 'bool'>: <function Bool2Str at 0x7e1735764bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7e1735765010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7e1735764670>, <class 'datetime.timedelta'>: <function DateTimeDelta2literal at 0x7e1735764720>, <class 'set'>: <function Set2Str at 0x7e1735764d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7e17357650c0>, 1: <class 'int'>, 2: <class 'int'>, 3: <class 'int'>, 4:...r_None at 0x7e17357643b0>, 11: <function TimeDelta_or_None at 0x7e1735764460>, 10: <function Date_or_None at 0x7e17357645c0>, 249: <class 'bytes'>, 250: <class 'bytes'>, 251: <class 'bytes'>, 252: <class 'bytes'>, 254: <class 'bytes'>, 253: <class 'bytes'>, 15: <class 'bytes'>, 245: <class 'bytes'>}
+      _bytes_or_str = ((128, bytes), (None, str))
+      kwargs2 = {'user': '_60ddf771d1b0145e', 'conv': {<class 'int'>: <function Thing2Str at 0x7e1735764e00>, <class 'float'>: <function Float2Str at 0x7e1735764eb0>, <class 'NoneType'>: <function None2NULL at 0x7e1735764f60>, <class 'array.array'>: <function array2Str at 0x7e1735765170>, <class 'bool'>: <function Bool2Str at 0x7e1735764bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7e1735765010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7e1735764670>, <class 'datetime.timedelta'>: <function escape_timedelta at 0x7e1735766fb0>, <class 'set'>: <function Set2Str at 0x7e1735764d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7e17357650c0>, 1: <class 'int'>, 2: <c...ass 'bytes'>, <class 'dict'>: <function escape_dict at 0x7e1735767060>, <class 'frozenset'>: <function escape_frozenset at 0x7e17357278a0>}, 'charset': 'utf8mb4', 'local_infile': False, 'database': '_60ddf771d1b0145e', 'host': '127.0.0.1', 'port': 3306, 'password': '********', 'client_flag': 131072}
+      conv = {<class 'int'>: <function Thing2Str at 0x7e1735764e00>, <class 'float'>: <function Float2Str at 0x7e1735764eb0>, <class 'NoneType'>: <function None2NULL at 0x7e1735764f60>, <class 'array.array'>: <function array2Str at 0x7e1735765170>, <class 'bool'>: <function Bool2Str at 0x7e1735764bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7e1735765010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7e1735764670>, <class 'datetime.timedelta'>: <function escape_timedelta at 0x7e1735766fb0>, <class 'set'>: <function Set2Str at 0x7e1735764d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7e17357650c0>, 1: <class 'int'>, 2: <class 'int'>, 3: <class 'int'>, 4: <cla...249: <class 'bytes'>, 250: <class 'bytes'>, 251: <class 'bytes'>, 252: <class 'bytes'>, 254: <class 'bytes'>, 253: <class 'bytes'>, 15: <class 'bytes'>, 245: <class 'bytes'>, <class 'dict'>: <function escape_dict at 0x7e1735767060>, <class 'frozenset'>: <function escape_frozenset at 0x7e17357278a0>}
+      conv2 = {<class 'int'>: <function Thing2Str at 0x7e1735764e00>, <class 'float'>: <function Float2Str at 0x7e1735764eb0>, <class 'NoneType'>: <function None2NULL at 0x7e1735764f60>, <class 'array.array'>: <function array2Str at 0x7e1735765170>, <class 'bool'>: <function Bool2Str at 0x7e1735764bf0>, <class 'datetime.date'>: <function Thing2Literal at 0x7e1735765010>, <class 'datetime.datetime'>: <function DateTime2literal at 0x7e1735764670>, <class 'datetime.timedelta'>: <function escape_timedelta at 0x7e1735766fb0>, <class 'set'>: <function Set2Str at 0x7e1735764d50>, <class 'decimal.Decimal'>: <function Decimal2Literal at 0x7e17357650c0>, 1: <class 'int'>, 2: <class 'int'>, 3: <class 'int'>, 4: <cla...249: <class 'bytes'>, 250: <class 'bytes'>, 251: <class 'bytes'>, 252: <class 'bytes'>, 254: <class 'bytes'>, 253: <class 'bytes'>, 15: <class 'bytes'>, 245: <class 'bytes'>, <class 'dict'>: <function escape_dict at 0x7e1735767060>, <class 'frozenset'>: <function escape_frozenset at 0x7e17357278a0>}
+      k = frozenset
+      v = <function escape_frozenset at 0x7e17357278a0>
+      cursorclass = MySQLdb.cursors.Cursor
+      charset = 'utf8mb4'
+      collation = ''
+      use_unicode = True
+      sql_mode = ''
+      client_flag = 131072
+      multi_statements = False
+      autocommit = False
+      __class__ = MySQLdb.connections.Connection
+MySQLdb.OperationalError: (1045, "Access denied for user '_60ddf771d1b0145e'@'localhost' (using password: YES)")
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261105_120006-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-05 12:00:08.762005
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261105_120006-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261105_120006-cresco_local-database.sql.gz 296.8KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261108_000003-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-08 00:00:05.613010
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261108_000003-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261108_000003-cresco_local-database.sql.gz 296.8KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261108_180007-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-08 18:00:09.335902
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261108_180007-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261108_180007-cresco_local-database.sql.gz 296.8KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261113_120008-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-13 12:00:10.847806
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261113_120008-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261113_120008-cresco_local-database.sql.gz 290.3KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261115_000013-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-15 00:00:17.458020
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261115_000013-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261115_000013-cresco_local-database.sql.gz 290.3KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261118_000003-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-18 00:00:05.963870
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261118_000003-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261118_000003-cresco_local-database.sql.gz 292.4KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261119_120010-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-19 12:00:12.195064
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261119_120010-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261119_120010-cresco_local-database.sql.gz 293.9KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261121_000004-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-21 00:00:07.031796
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261121_000004-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261121_000004-cresco_local-database.sql.gz 294.3KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261121_120008-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-21 12:00:11.146886
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261121_120008-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261121_120008-cresco_local-database.sql.gz 294.3KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261121_180005-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-21 18:00:07.891415
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261121_180005-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261121_180005-cresco_local-database.sql.gz 294.3KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261122_000011-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-22 00:00:13.217127
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261122_000011-cresco_local-site_config_backup.json 226.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261122_000011-cresco_local-database.sql.gz 294.3KiB
+Backup for Site cresco.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_60ddf771d1b0145e --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _60ddf771d1b0145e | /usr/bin/gzip >> ./cresco.local/private/backups/20261125_120006-cresco_local-database.sql.gz
+
+Backup Summary for cresco.local at 2026-11-25 12:00:09.863868
+Config  : /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261125_120006-cresco_local-site_config_backup.json 293.0B
+Database: /home/tristanvic/cresco_engineering/sites/cresco.local/private/backups/20261125_120006-cresco_local-database.sql.gz 296.3KiB
+Backup for Site cresco.local has been successfully completed

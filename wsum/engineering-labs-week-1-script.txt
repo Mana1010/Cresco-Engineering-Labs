@@ -1,0 +1,33 @@
+ENGINEERING LABS - WEEKLY PROGRESS UPDATE (WEEK OF 9 NOVEMBER 2026)
+Voice-over script, one block per scene. Voice: en-AU-WilliamMultilingualNeural (edge-tts)
+
+SCENE 1: Title card
+Engineering Labs, weekly progress update, for the week of 9 November. This week, the focus was the backlog and a first look at the user interface.
+
+SCENE 2: This week card
+Last week, I reviewed the backlog, the developer brief and the client's proof of concept. I then translated the proof of concept screens into our Frappe app, using Frappe UI components. Please note, everything you'll see is a static prototype with sample data. Nothing is functional yet.
+
+SCENE 3: Sidebar (recording 0:01-0:04)
+Engineering Labs sits in the portal's sidebar. Opening it expands the menu and goes straight to Home.
+
+SCENE 4: Engineering Labs Home (0:04-0:22)
+Home brings the key numbers together: lead indicators, calculation volume, returns by reason, consistency flags, tool popularity, timeliness, and the health and quota of the external APIs. These follow the proof of concept, and the values are sample data for now.
+
+SCENE 5: Calculation Catalogue placeholder (0:22-0:26)
+The Calculation Catalogue isn't built yet. For now, it's a placeholder, and its design will follow once we confirm what it should hold.
+
+SCENE 6: Tools Registry - grid view (0:26-0:38)
+The Tools Registry lists the calculation tools. I added a grid view, so each tool is easier to scan, with its type, category and version at a glance. You can also filter by type.
+
+SCENE 7: Tools Registry - list view (0:38-0:43)
+The same tools can also be shown as a list, built with the Frappe UI list component.
+
+SCENE 8: Tool details and preview (0:43-0:56)
+Opening a tool shows its details. From there, a preview shows how a calculation would run, with the result marked Preliminary, subject to engineer review.
+
+SCENE 9: Tools list (0:56-1:04)
+The list holds every tool from the proof of concept, ready to be connected to the real tools later.
+
+SCENE 10: Next card
+Next, I'll redesign the screens to match the Portal Core look and feel, and align them with the backlog. I'll also design and build the Calculation Catalogue. Then I'll list the backlog items that are still missing, and start development once the schema is ready, ahead of delivery on 11 December. Thank you.
+

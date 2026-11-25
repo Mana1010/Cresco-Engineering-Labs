@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Middleware Tools Panel</title>
+<style>
+  :root { --bg:#f5f6f8; --card:#fff; --line:#e3e6eb; --text:#1f2933; --muted:#6b7280; --accent:#2563eb; --warn:#b45309; --ok:#047857; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, sans-serif; background:var(--bg); color:var(--text); font-size:14px; }
+  header { background:#fff; border-bottom:1px solid var(--line); padding:12px 20px; display:flex; align-items:center; gap:12px; }
+  header b { font-size:16px; }
+  .tag { font-size:11px; padding:2px 8px; border-radius:99px; background:#eef2ff; color:var(--accent); }
+  .note { background:#fffbeb; border:1px solid #fde68a; color:var(--warn); padding:8px 12px; border-radius:8px; margin:12px 20px; font-size:12px; }
+  .flow { display:flex; gap:6px; flex-wrap:wrap; margin:0 20px 12px; font-size:12px; }
+  .flow span { background:#fff; border:1px solid var(--line); padding:4px 10px; border-radius:6px; }
+  .flow span.on { border-color:var(--accent); color:var(--accent); font-weight:600; }
+  main { display:grid; grid-template-columns: 240px 280px 1fr; gap:12px; padding:0 20px 20px; min-height:560px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; display:flex; flex-direction:column; }
+  .panel h3 { margin:0 0 4px; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+  .src { font-size:11px; color:var(--muted); margin-bottom:10px; }
+  .tool { border:1px solid var(--line); border-radius:8px; padding:8px 10px; margin-bottom:8px; cursor:pointer; }
+  .tool:hover { border-color:#c7d2fe; }
+  .tool.sel { border-color:var(--accent); background:#eff6ff; }
+  .tool small { display:block; color:var(--muted); font-size:11px; }
+  label { display:block; font-size:12px; color:var(--muted); margin:8px 0 4px; }
+  input, select { width:100%; padding:7px 8px; border:1px solid var(--line); border-radius:6px; font-size:13px; }
+  button { margin-top:12px; padding:9px; border:0; border-radius:6px; background:var(--accent); color:#fff; font-weight:600; cursor:pointer; }
+  button:disabled { background:#cbd5e1; cursor:not-allowed; }
+  .empty { color:var(--muted); font-size:12px; text-align:center; margin:auto; padding:20px; }
+  iframe { flex:1; width:100%; border:1px dashed #94a3b8; border-radius:8px; min-height:320px; background:#fafafa; }
+  .result { margin-top:10px; border:1px solid #a7f3d0; background:#ecfdf5; border-radius:8px; padding:10px; font-size:12px; display:none; }
+  .result pre { margin:6px 0 0; white-space:pre-wrap; font-size:11px; }
+  .pill { font-size:11px; color:var(--ok); font-weight:600; }
+</style>
+</head>
+<body>
+
+<header><b>Engineering Labs</b><span class="tag">Mockup: tools from middleware</span></header>
+
+<div class="note">
+  Visualization only. The tool names, fields and endpoints are placeholders, not confirmed. From the 20 Nov notes: the tool list comes from Jerome's middleware, the tool opens in an iframe, and results are pushed back to Engineering Labs.
+  Still open: how the list is exposed, how inputs reach the iframe, and how results are linked to the run.
+</div>
+
+<div class="flow" id="flow">
+  <span data-s="1">1. Fetch tools from middleware</span>
+  <span data-s="2">2. Pick a tool</span>
+  <span data-s="3">3. Left panel: project + inputs</span>
+  <span data-s="4">4. Run → tool opens in iframe</span>
+  <span data-s="5">5. Tool pushes results → Engineering Labs saves</span>
+</div>
+
+<main>
+  <!-- 1. Tools list -->
+  <section class="panel">
+    <h3>Tools</h3>
+    <div class="src">Source: <code>GET middleware /tools</code> (placeholder)</div>
+    <div id="tools"><div class="empty">Loading tools from middleware…</div></div>
+  </section>
+
+  <!-- 2. Left panel inputs -->
+  <section class="panel">
+    <h3>Inputs (Engineering Labs)</h3>
+    <div class="src" id="toolName">No tool selected</div>
+    <label>Project</label>
+    <select id="project" disabled>
+      <option value="">Select a project…</option>
+      <option data-addr="1 Sample St, Sydney NSW">PRJ-0001 · Sample Project A</option>
+      <option data-addr="2 Example Rd, Wagga Wagga NSW">PRJ-0002 · Sample Project B</option>
+    </select>
+    <label>Site address (from Portal Core)</label>
+    <input id="addr" readonly placeholder="Filled after selecting a project">
+    <label>Reference</label>
+    <input id="ref" placeholder="Optional" disabled>
+    <button id="run" disabled>▶ Run</button>
+    <div class="src" style="margin-top:8px">Engineering Labs collects only what the tool needs but doesn't already have, e.g. project data.</div>
+  </section>
+
+  <!-- 3. Iframe -->
+  <section class="panel">
+    <h3>Tool (iframe: the tool's own UI)</h3>
+    <div class="src" id="frameSrc">Nothing loaded</div>
+    <div class="empty" id="frameEmpty">Pick a tool and press Run</div>
+    <iframe id="frame" style="display:none" title="Tool"></iframe>
+    <div class="result" id="result">
+      <span class="pill">✓ Results received by Engineering Labs</span> (pushed by the tool/middleware → Engineering Labs endpoint)
+      <pre id="resultJson"></pre>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Placeholder data standing in for the middleware response.
+  const MIDDLEWARE_TOOLS = [
+    { id: "tool-1", name: "Sample Tool 1", type: "Excel", version: "v1.0" },
+    { id: "tool-2", name: "Sample Tool 2", type: "Third-party", version: "v2.1" },
+    { id: "tool-3", name: "Sample Tool 3", type: "Excel", version: "v1.3" },
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  let selected = null;
+
+  function step(n) {
+    document.querySelectorAll("#flow span").forEach((s) => s.classList.toggle("on", Number(s.dataset.s) === n));
+  }
+
+  // Step 1: simulate fetching from the middleware.
+  step(1);
+  setTimeout(() => {
+    $("tools").innerHTML = MIDDLEWARE_TOOLS.map((t) =>
+      `<div class="tool" data-id="${t.id}"><b>${t.name}</b><small>${t.type} · ${t.version} · registered in middleware</small></div>`
+    ).join("");
+    document.querySelectorAll(".tool").forEach((el) => el.addEventListener("click", () => pick(el.dataset.id)));
+    step(2);
+  }, 900);
+
+  // Step 2: pick a tool.
+  function pick(id) {
+    selected = MIDDLEWARE_TOOLS.find((t) => t.id === id);
+    document.querySelectorAll(".tool").forEach((el) => el.classList.toggle("sel", el.dataset.id === id));
+    $("toolName").textContent = `${selected.name} (${selected.type})`;
+    $("project").disabled = false;
+    $("ref").disabled = false;
+    $("result").style.display = "none";
+    $("frame").style.display = "none";
+    $("frameEmpty").style.display = "";
+    $("frameSrc").textContent = "Nothing loaded";
+    step(3);
+    check();
+  }
+
+  // Step 3: project → address (stands in for the Portal Core lookup).
+  $("project").addEventListener("change", (e) => {
+    const opt = e.target.selectedOptions[0];
+    $("addr").value = opt.dataset.addr || "";
+    check();
+  });
+  function check() { $("run").disabled = !(selected && $("project").value); }
+
+  // Step 4: Run → load the tool's own UI in the iframe.
+  $("run").addEventListener("click", () => {
+    const runId = "RUN-" + Math.floor(Math.random() * 90000 + 10000);
+    const project = $("project").value.split(" · ")[0];
+    $("frameSrc").textContent = `src = middleware URL for ${selected.id} (placeholder) · run_id ${runId}`;
+    $("frameEmpty").style.display = "none";
+    $("result").style.display = "none";
+    const f = $("frame");
+    f.style.display = "";
+    f.srcdoc = toolPage(selected, project, $("addr").value, runId);
+    step(4);
+  });
+
+  // The fake "tool UI" inside the iframe. It posts its result back to simulate the push.
+  function toolPage(tool, project, addr, runId) {
+    return `<!doctype html><html><body style="font-family:system-ui;padding:16px;background:#fff;font-size:13px">
+      <div style="font-size:11px;color:#888">This is the TOOL's own screen (owned by the tool, not by Engineering Labs)</div>
+      <h3 style="margin:6px 0">${tool.name}</h3>
+      <div style="color:#555;margin-bottom:10px">Received from Engineering Labs: project <b>${project}</b> · ${addr}</div>
+      <label>Tool-specific input A</label><br><input id="a" value="10" style="padding:6px;margin:4px 0 8px"><br>
+      <label>Tool-specific input B</label><br><input id="b" value="2.5" style="padding:6px;margin:4px 0 8px"><br>
+      <button id="go" style="padding:8px 12px;background:#111;color:#fff;border:0;border-radius:6px">Calculate &amp; send</button>
+      <div id="out" style="margin-top:10px;color:#047857"></div>
+      <script>
+        document.getElementById('go').onclick = function () {
+          var a = +document.getElementById('a').value, b = +document.getElementById('b').value;
+          document.getElementById('out').textContent = 'Result: ' + (a*b).toFixed(2) + ', sent to Engineering Labs';
+          parent.postMessage({ run_id: '${runId}', tool: '${tool.id}', project: '${project}',
+            inputs: { a: a, b: b }, results: { output_1: +(a*b).toFixed(2) } }, '*');
+        };
+      <\/script></body></html>`;
+  }
+
+  // Step 5: simulate Engineering Labs receiving the pushed results.
+  window.addEventListener("message", (e) => {
+    if (!e.data || !e.data.run_id) return;
+    $("resultJson").textContent = JSON.stringify(e.data, null, 2) +
+      "\n\n→ saved as a Calculation record (each save = new audit record)";
+    $("result").style.display = "block";
+    step(5);
+  });
+</script>
+</body>
+</html>

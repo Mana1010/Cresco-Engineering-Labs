@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Engineering Labs Demo</title>
+<style>
+  :root { --bg:#f5f6f8; --line:#e3e6eb; --text:#1f2933; --muted:#6b7280; --accent:#2563eb; --ok:#047857; --warn:#b45309; --bad:#b91c1c; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui, -apple-system, Segoe UI, sans-serif; background:var(--bg); color:var(--text); font-size:14px; }
+  header { background:#fff; border-bottom:1px solid var(--line); padding:12px 20px; display:flex; align-items:center; gap:12px; }
+  header b { font-size:16px; }
+  .crumb { color:var(--muted); font-size:13px; }
+  .crumb a { color:var(--accent); cursor:pointer; text-decoration:none; }
+  .note { margin:12px 20px; padding:8px 12px; border-radius:8px; background:#fffbeb; border:1px solid #fde68a; color:var(--warn); font-size:12px; }
+  .n { display:inline-block; font-size:10px; font-weight:700; background:#eef2ff; color:var(--accent); border-radius:99px; padding:1px 7px; margin-left:6px; vertical-align:middle; }
+  .hidden { display:none !important; }
+
+  /* Catalogue */
+  .bar { display:flex; gap:10px; align-items:center; margin:0 20px 12px; flex-wrap:wrap; }
+  .bar input { flex:1; min-width:200px; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-size:13px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:12px; padding:0 20px 20px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:6px; }
+  .card.live { cursor:pointer; }
+  .card.live:hover { border-color:var(--accent); box-shadow:0 2px 10px rgba(37,99,235,.12); }
+  .card.off { opacity:.55; }
+  .card h4 { margin:0; font-size:15px; }
+  .card p { margin:0; font-size:12px; color:var(--muted); }
+  .tags { display:flex; gap:6px; flex-wrap:wrap; }
+  .tag { font-size:11px; padding:2px 8px; border-radius:99px; background:#f1f5f9; color:#475569; }
+  .tag.a { background:#eef2ff; color:var(--accent); }
+  .tag.c { background:#fdf4ff; color:#a21caf; }
+  .tag.b { background:#ecfdf5; color:var(--ok); }
+  .card .foot { margin-top:auto; font-size:12px; font-weight:600; color:var(--accent); }
+  .card.off .foot { color:var(--muted); font-weight:400; }
+
+  /* Workspace */
+  .ext { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 20px 12px; }
+  .box { background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:12px; transition:box-shadow .3s, border-color .3s; }
+  .box.flash { border-color:var(--accent); box-shadow:0 0 0 3px #bfdbfe; }
+  .box b { font-size:13px; }
+  .muted { color:var(--muted); }
+  main.ws { display:grid; grid-template-columns:280px 1fr; gap:12px; padding:0 20px 12px; }
+  @media (max-width:900px) { main.ws, .ext { grid-template-columns:1fr; } }
+  .recs { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:8px; }
+  .recs .rec { margin-bottom:0; }
+  .panel { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px; }
+  .panel h3 { margin:0 0 2px; font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); }
+  .sub { font-size:11px; color:var(--muted); margin-bottom:8px; }
+  label { display:block; font-size:12px; color:var(--muted); margin:10px 0 4px; }
+  .panel input, .panel select { width:100%; padding:7px 8px; border:1px solid var(--line); border-radius:6px; font-size:13px; }
+  .btn { width:100%; margin-top:12px; padding:9px; border:0; border-radius:6px; background:var(--accent); color:#fff; font-weight:600; cursor:pointer; }
+  .btn:disabled { background:#cbd5e1; cursor:not-allowed; }
+  iframe { width:100%; height:900px; border:1px dashed #94a3b8; border-radius:8px; background:#fff; }
+  .empty { height:300px; display:flex; align-items:center; justify-content:center; border:1px dashed #cbd5e1; border-radius:8px; color:var(--muted); font-size:13px; text-align:center; padding:20px; }
+  .rec { border:1px solid var(--line); border-radius:8px; padding:8px; margin-bottom:8px; font-size:12px; }
+  .rec.new { border-color:#a7f3d0; background:#ecfdf5; }
+  .rec.bad { border-color:#fecaca; background:#fef2f2; }
+  .rec pre { margin:4px 0 0; font-size:10.5px; white-space:pre-wrap; color:#374151; }
+  .file { font-size:12px; padding:4px 0; border-bottom:1px dashed var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <b>Engineering Labs</b>
+  <span class="crumb" id="crumb">Tools</span>
+</header>
+
+<div class="note">Demo only: the tools, numbers, formulas, projects and endpoints are mock data and not accurate. Based on the 20 Nov proposal: tools listed in Engineering Labs, the tool opens in an iframe, project data comes from Portal Core, and results are pushed back.</div>
+
+<!-- ================= VIEW 1: TOOL LIST ================= -->
+<section id="viewList">
+  <div class="bar">
+    <input id="search" placeholder="Search tools…">
+    <span class="muted" style="font-size:12px">Mock list · tools registered in the middleware / Engineering Labs</span>
+  </div>
+  <div class="grid" id="toolGrid"></div>
+</section>
+
+<!-- ================= VIEW 2: WORKSPACE ================= -->
+<section id="viewWs" class="hidden">
+  <div class="ext">
+    <div class="box" id="portalCore">
+      <b>Portal Core</b><span class="n">#11</span><br>
+      <span class="muted">Where projects live. Engineering Labs asks it for project details.</span>
+      <div id="pcLog" style="margin-top:6px">Idle</div>
+    </div>
+    <div class="box" id="sharepoint">
+      <b>SharePoint (example)</b><span class="n">#15</span><br>
+      <span class="muted">The tool stores its own files here. Engineering Labs doesn't need them.</span>
+      <div id="spFiles" style="margin-top:6px" class="muted">No files yet</div>
+    </div>
+  </div>
+
+  <main class="ws">
+    <section class="panel">
+      <h3>Engineering Labs · Left panel</h3>
+      <div class="sub">Tool: <b id="wsTool">-</b></div>
+      <label>Project <span class="n">#11</span></label>
+      <select id="project">
+        <option value="">Select a project…</option>
+        <option value="PRJ-0001">PRJ-0001</option>
+        <option value="PRJ-0002">PRJ-0002</option>
+        <option value="PRJ-0003">PRJ-0003</option>
+      </select>
+      <label>Project name (from Portal Core)</label>
+      <input id="pname" readonly>
+      <label>Site address (from Portal Core)</label>
+      <input id="addr" readonly>
+      <div class="sub" style="margin-top:10px">Only project data here. The calculation inputs live in the tool. <span class="n">#12</span></div>
+      <button class="btn" id="run" disabled>▶ Run</button>
+      <button class="btn" id="back" style="background:#fff;color:var(--text);border:1px solid var(--line)">← Back to tools</button>
+    </section>
+
+    <section class="panel">
+      <h3>Tool · iframe (tool's own screen)</h3>
+      <div class="sub">Everything inside the dashed box belongs to the tool, including its inputs, results and visuals.</div>
+      <div class="empty" id="empty">Select a project, then press Run</div>
+      <iframe id="frame" title="Tool" class="hidden"></iframe>
+    </section>
+  </main>
+
+  <section class="panel" style="margin:0 20px 20px">
+    <h3>Engineering Labs · Saved records (below the workspace)</h3>
+    <div class="sub">Endpoint receives pushed data <span class="n">#13</span> · checks the contract <span class="n">#14</span> · every save = new record <span class="n">#16</span></div>
+    <div id="records" class="recs"><div class="sub">Nothing received yet.</div></div>
+  </section>
+</section>
+
+<!-- ================= TOOL 1: BEARING CAPACITY (mock) ================= -->
+<template id="tool-bearing">
+<style>
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f8fafc;color:#111827;font-size:13px}
+  .top{background:#fff;border-bottom:1px solid #e5e7eb;padding:12px 16px}
+  .brand{font-size:10px;letter-spacing:.08em;color:#0284c7;font-weight:700}
+  h1{margin:2px 0;font-size:22px}
+  .desc{color:#4b5563;font-size:12px}.doc{font-size:11px;color:#6b7280;margin-top:2px}
+  .wrap{padding:12px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .c{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px}
+  .c h4{margin:0 0 8px;font-size:12px;letter-spacing:.05em;text-transform:uppercase}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  label{display:block;font-size:12px;color:#374151;margin:6px 0 4px}
+  input,select{width:100%;padding:7px 8px;border:1px solid #e5e7eb;border-radius:6px;background:#f3f4f6;font-size:13px;box-sizing:border-box}
+  input.from{background:#eff6ff;border:2px solid #2563eb}
+  .hint{font-size:11px;color:#6b7280;margin-top:3px}
+  .kv{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:12.5px}
+  .kv b{font-weight:600}
+  .big{display:flex;justify-content:space-between;align-items:center;background:#f3f4f6;border-radius:8px;padding:10px 12px;margin:6px 0}
+  .big span{font-size:26px;font-weight:700;color:#dc2626}
+  .pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px}
+  .g{background:#dcfce7;color:#15803d}.a{background:#fef3c7;color:#b45309}.r{background:#fee2e2;color:#b91c1c}.v{background:#e0f2fe;color:#0369a1}
+  .sw{display:flex;align-items:center;gap:8px;font-size:12px}
+  .full{grid-column:1/-1}
+  .btns{display:flex;gap:8px;margin-top:4px}
+  button{padding:9px 14px;border:0;border-radius:6px;cursor:pointer;font-weight:600}
+  .go{background:#111;color:#fff}.alt{background:#e5e7eb;color:#6b7280}
+  .out{margin-top:8px;color:#047857;font-size:12px}
+  .empty{color:#9ca3af;font-size:12px;padding:8px 0}
+</style>
+<div class="top">
+  <div class="brand">CRESCO ENGINEERING LABS · TOOL (MOCK)</div>
+  <h1>Bearing Capacity</h1>
+  <div class="desc">Universal converter: DCP / CBR / UCS → bearing capacity. Simplified method q_allow = Nc × cu / FoS (mock numbers).</div>
+  <div class="doc">MOCK-GEO-CALC-001 Rev D.3.1</div>
+</div>
+<div class="wrap">
+  <div class="c full">
+    <h4>Project (received from Engineering Labs)</h4>
+    <div class="row2">
+      <div><label>Project</label><input id="project" class="from" readonly></div>
+      <div><label>Site address</label><input id="address" class="from" readonly></div>
+    </div>
+  </div>
+
+  <div class="c">
+    <h4>Input</h4>
+    <div class="row2">
+      <div><label>Input type</label>
+        <select id="type"><option value="CBR">CBR (%)</option><option value="DCP">DCP (blows/100mm)</option><option value="UCS">UCS (kPa)</option></select></div>
+      <div><label>From geotech report?</label>
+        <div class="sw"><input type="checkbox" id="geo" checked style="width:auto"> Yes</div>
+        <div class="hint">Data by a registered geotechnical engineer.</div></div>
+    </div>
+    <label id="valLabel">Enter CBR (%)</label>
+    <input id="val" type="number" step="any" placeholder="e.g. 3">
+    <div class="hint" id="valHint">Typical range: 2–50% for clays.</div>
+    <div class="row2">
+      <div><label>Test depth (m)</label><input id="tdepth" type="number" step="any" placeholder="e.g. 0.5"></div>
+      <div><label>Groundwater encountered?</label><select id="gw"><option>No</option><option>Yes</option></select></div>
+    </div>
+  </div>
+
+  <div class="c">
+    <h4>Factor of safety and limits</h4>
+    <div class="kv"><span>FoS applied</span><b id="fosShow">2.5</b></div>
+    <div class="sw" style="margin-top:6px"><input type="checkbox" id="ovr" style="width:auto"> Override FoS</div>
+    <input id="fosv" type="number" step="any" placeholder="e.g. 3.0" disabled style="margin-top:6px">
+    <div class="row2">
+      <div><label>Cap (kPa)</label><input id="cap" type="number" value="300"><div class="hint">0 = off</div></div>
+      <div><label>Min (kPa)</label><input id="min" type="number" value="100"><div class="hint">Pass/fail minimum</div></div>
+    </div>
+    <h4 style="margin-top:12px">Footing</h4>
+    <div class="row2">
+      <div><label>Footing type</label><select id="ftype"><option>Strip</option><option>Pad</option></select></div>
+      <div><label>Width B (m)</label><input id="B" type="number" step="any" value="0.6"></div>
+      <div><label>Embedment Df (m)</label><input id="Df" type="number" step="any" value="0.5"></div>
+    </div>
+  </div>
+
+  <div class="c">
+    <h4>Strength &amp; index properties</h4>
+    <div id="strength"><div class="empty">Enter a value to see results</div></div>
+  </div>
+  <div class="c">
+    <h4>Undrained shear strength (cu)</h4>
+    <div id="cuBox"><div class="empty">-</div></div>
+  </div>
+
+  <div class="c">
+    <h4>Bearing capacity</h4>
+    <div id="bcBox"><div class="empty">-</div></div>
+  </div>
+  <div class="c">
+    <h4>Footing visual (updates live)</h4>
+    <svg viewBox="0 0 300 180" width="100%" height="180">
+      <rect x="0" y="0" width="300" height="60" fill="#e0f2fe"/>
+      <rect id="soil" x="0" y="60" width="300" height="120" fill="#d6c3a5"/>
+      <line id="gwl" x1="0" x2="300" y1="150" y2="150" stroke="#2563eb" stroke-dasharray="6 4" stroke-width="2" visibility="hidden"/>
+      <text id="gwt" x="296" y="146" font-size="9" fill="#2563eb" text-anchor="end" visibility="hidden">Groundwater</text>
+      <rect id="foot" x="120" y="60" width="60" height="18" fill="#9ca3af" stroke="#4b5563"/>
+      <rect id="col" x="142" y="20" width="16" height="40" fill="#9ca3af" stroke="#4b5563"/>
+      <path id="arrow" d="M150 2 L150 18" stroke="#111" stroke-width="2" marker-end="url(#ah)"/>
+      <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="#111"/></marker></defs>
+      <g id="bulbs" fill="none" stroke="#7c2d12" stroke-opacity=".35"></g>
+      <text id="soilLbl" x="8" y="174" font-size="10" fill="#3f2a14">Soil: -</text>
+      <text id="qLbl" x="292" y="174" font-size="11" font-weight="700" text-anchor="end" fill="#111">q_allow -</text>
+      <text id="pfLbl" x="8" y="14" font-size="11" font-weight="700" fill="#6b7280"></text>
+    </svg>
+    <div class="hint">Soil colour = consistency · footing size = B and Df · bulbs = stressed zone</div>
+  </div>
+
+  <div class="c full">
+    <h4>Derived factors &amp; method</h4>
+    <div id="dfBox"><div class="empty">-</div></div>
+  </div>
+
+  <div class="full">
+    <div class="btns">
+      <button class="go" id="go">Save &amp; send to Engineering Labs</button>
+      <button class="alt" id="bad">Send without the contract</button>
+    </div>
+    <div class="out" id="out"></div>
+  </div>
+</div>
+<script>
+  var runId=null, last=null;
+  function $(id){return document.getElementById(id)}
+  function num(id){var x=parseFloat($(id).value);return isNaN(x)?null:x}
+  function f(x,d){return (Math.round(x*Math.pow(10,d))/Math.pow(10,d)).toFixed(d)}
+  function kv(k,v){return '<div class="kv"><span>'+k+'</span><b>'+v+'</b></div>'}
+
+  addEventListener('message',function(e){
+    if(!e.data||e.data.type!=='load')return;
+    var d=e.data.data; runId=d.run_id; $('project').value=d.project; $('address').value=d.address;
+  });
+
+  $('type').onchange=function(){
+    var t=this.value;
+    $('valLabel').textContent = t==='CBR'?'Enter CBR (%)':t==='DCP'?'Enter DCP (blows/100mm)':'Enter UCS (kPa)';
+    $('valHint').textContent = t==='CBR'?'Typical range: 2–50% for clays.':t==='DCP'?'Typical range: 1–20 blows/100mm.':'Typical range: 25–400 kPa.';
+    calc();
+  };
+  $('ovr').onchange=function(){ $('fosv').disabled=!this.checked; calc(); };
+  ['val','geo','fosv','cap','min','ftype','B','Df','gw','tdepth'].forEach(function(id){ $(id).addEventListener('input',calc); $(id).addEventListener('change',calc); });
+
+  function consistency(cu){ return cu<12?['Very soft','#e7dcc8']:cu<25?['Soft','#dccbb0']:cu<50?['Firm','#d6c3a5']:cu<100?['Stiff','#c4a77d']:cu<200?['Very stiff','#a8865a']:['Hard','#8b6a43']; }
+
+  function calc(){
+    var t=$('type').value, v=num('val'), geo=$('geo').checked;
+    if(!(v>0)){ last=null; ['strength','cuBox','bcBox','dfBox'].forEach(function(id){$(id).innerHTML='<div class="empty">Enter a value to see results</div>'}); return; }
+    var cbr,dcp,dpi,cuC,cuB,cuD,cu;
+    if(t==='CBR'){cbr=v; dpi=Math.pow(292/cbr,1/1.12); dcp=100/dpi;}
+    else if(t==='DCP'){dcp=v; dpi=100/dcp; cbr=292/Math.pow(dpi,1.12);}
+    else {cbr=(v/2)/14.5; dpi=Math.pow(292/cbr,1/1.12); dcp=100/dpi;}
+    if(t==='UCS'){ cu=v/2; cuC=cuB=cuD=null; } else { cuC=14.5*cbr; cuB=21.9*cbr; cuD=20.1*cbr; cu=Math.min(cuC,cuB,cuD); }
+    var fos = $('ovr').checked && num('fosv')>0 ? num('fosv') : (geo?2.5:3.0);
+    $('fosShow').textContent=f(fos,1);
+    var gw=$('gw').value==='Yes';
+    var qult=5.14*cu*(gw?0.85:1);
+    var qallow=qult/fos, cap=num('cap')||0, min=num('min')||0, capped=false;
+    if(cap>0&&qallow>cap){qallow=cap;capped=true;}
+    var pass=qallow>=min;
+    var cons=consistency(cu);
+    var valid=cbr>=2&&cbr<=50;
+    var conf = !valid?['AMBER, outside calibration','a']:geo?['GREEN, within calibration','g']:['AMBER, no geotech report','a'];
+    var B=num('B')||0.6, Df=num('Df')||0.5, ft=$('ftype').value;
+    var cap_load = ft==='Strip'? qallow*B : qallow*B*B;
+
+    $('strength').innerHTML = kv('DCP (blows/100mm)',f(dcp,1))+kv('DPI (mm/blow)',f(dpi,1))+kv('CBR (%)',f(cbr,1))
+      +kv('CBR validity','<span class="pill '+(valid?'v':'a')+'">'+(valid?'VALID':'CHECK')+'</span>')+kv('SPT N60 (equiv.)',Math.max(1,Math.round(cbr*0.7)));
+    $('cuBox').innerHTML = (t==='UCS'? kv('cu = UCS / 2 (kPa)',f(cu,1)) :
+        kv('cu Conservative (kPa)',f(cuC,1))+kv('cu Black 1962 (kPa)',f(cuB,1))+kv('cu De Beer (kPa)',f(cuD,1)))
+      +kv('Adopted cu = MIN (kPa)','<span style="font-size:15px">'+f(cu,1)+'</span>')+kv('Consistency',cons[0])+kv('Equivalent UCS = 2×cu (kPa)',Math.round(2*cu));
+    $('bcBox').innerHTML = kv('q_ult (kPa)',Math.round(qult))
+      +'<div class="big"><b>Adopted q_allow (kPa)</b><span>'+Math.round(qallow)+'</span></div>'
+      +kv('Check vs min '+min+' kPa','<span class="pill '+(pass?'g':'r')+'">'+(pass?'PASS':'FAIL')+'</span>')
+      +kv('Confidence','<span class="pill '+conf[1]+'">'+conf[0]+'</span>')
+      +kv(ft==='Strip'?'Allowable line load (kN/m)':'Allowable pad load (kN)',f(cap_load,1))
+      +(capped?kv('Note','Capped at '+cap+' kPa'):'');
+    $('dfBox').innerHTML = kv('Nc (φ=0)','5.14')+kv('FoS applied',f(fos,1))+kv('FoS basis',$('ovr').checked?'Manual override':geo?'CBR with geotech report':'No geotech report')
+      +kv('Groundwater reduction',gw?'× 0.85':'None')+kv('Test depth',num('tdepth')!=null?f(num('tdepth'),2)+' m':'-')
+      +kv('Method',(t==='UCS'?'UCS → cu':t+' → CBR → cu')+' → Simplified (Nc×cu/FoS)');
+
+    // Visual
+    $('soil').setAttribute('fill',cons[1]);
+    var w=Math.min(260,Math.max(30,B*100)), d=Math.min(60,Math.max(6,Df*40)), x=150-w/2;
+    var foot=$('foot'); foot.setAttribute('x',x); foot.setAttribute('width',w); foot.setAttribute('y',60+d-18<60?60:60+d-18);
+    $('col').setAttribute('height',Math.max(10,40+d-18)); $('col').setAttribute('y',20);
+    var fy=+foot.getAttribute('y')+18, g=$('bulbs'); g.innerHTML='';
+    for(var i=1;i<=3;i++){ var e=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+      e.setAttribute('cx',150); e.setAttribute('cy',fy); e.setAttribute('rx',w/2*(0.6+i*0.45)); e.setAttribute('ry',w/2*(0.5+i*0.4)); g.appendChild(e); }
+    $('gwl').setAttribute('visibility',gw?'visible':'hidden'); $('gwt').setAttribute('visibility',gw?'visible':'hidden');
+    $('soilLbl').textContent='Soil: '+cons[0]+' (cu '+f(cu,0)+' kPa)';
+    $('qLbl').textContent='q_allow '+Math.round(qallow)+' kPa';
+    $('pfLbl').textContent=pass?'PASS':'FAIL'; $('pfLbl').setAttribute('fill',pass?'#15803d':'#b91c1c');
+
+    last={ inputs:{input_type:t, value:v, from_geotech_report:geo, fos:fos, cap_kpa:cap, min_kpa:min, footing_type:ft, width_m:B, embedment_m:Df, groundwater:gw},
+           results:{cbr_pct:+f(cbr,1), cu_kpa:+f(cu,1), consistency:cons[0], q_ult_kpa:Math.round(qult), q_allow_kpa:Math.round(qallow), check:pass?'PASS':'FAIL'} };
+  }
+
+  $('go').onclick=function(){
+    if(!last){ $('out').style.color='#b91c1c'; $('out').textContent='Enter a value first.'; return; }
+    $('out').style.color='#047857'; $('out').textContent='q_allow '+last.results.q_allow_kpa+' kPa sent to Engineering Labs. PDF saved to SharePoint.';
+    parent.postMessage({type:'file', name:'BearingCapacity_'+runId+'.pdf'},'*');
+    parent.postMessage({type:'push', payload:{run_id:runId, tool:'bearing-capacity', project:$('project').value, inputs:last.inputs, results:last.results}},'*');
+  };
+  $('bad').onclick=function(){ $('out').style.color='#b45309'; $('out').textContent='Sent data in the wrong format.'; parent.postMessage({type:'push',payload:{value:123}},'*'); };
+</script>
+</template>
+
+<!-- ================= TOOL 2: WIND CLASSIFICATION (mock) ================= -->
+<template id="tool-wind">
+<style>
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f8fafc;color:#111827;font-size:13px}
+  .top{background:#fff;border-bottom:1px solid #e5e7eb;padding:12px 16px}
+  .brand{font-size:10px;letter-spacing:.08em;color:#7c3aed;font-weight:700}
+  h1{margin:2px 0;font-size:22px}.desc{color:#4b5563;font-size:12px}
+  .wrap{padding:12px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .c{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px}
+  .c h4{margin:0 0 8px;font-size:12px;letter-spacing:.05em;text-transform:uppercase}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  label{display:block;font-size:12px;color:#374151;margin:6px 0 4px}
+  input,select{width:100%;padding:7px 8px;border:1px solid #e5e7eb;border-radius:6px;background:#f3f4f6;font-size:13px;box-sizing:border-box}
+  input.from{background:#eff6ff;border:2px solid #2563eb}
+  .kv{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:12.5px}
+  .big{text-align:center;padding:10px;border-radius:10px;background:#f5f3ff;margin-bottom:6px}
+  .big .cls{font-size:40px;font-weight:800;color:#6d28d9;line-height:1}
+  .full{grid-column:1/-1}
+  .scale{display:flex;gap:4px;margin-top:8px}
+  .scale div{flex:1;text-align:center;font-size:11px;padding:5px 0;border-radius:4px;background:#f1f5f9;color:#64748b}
+  .scale div.on{background:#6d28d9;color:#fff;font-weight:700}
+  button{padding:9px 14px;border:0;border-radius:6px;cursor:pointer;font-weight:600}
+  .go{background:#111;color:#fff}.alt{background:#e5e7eb;color:#6b7280}
+  .out{margin-top:8px;color:#047857;font-size:12px}
+  .hint{font-size:11px;color:#6b7280;margin-top:3px}
+</style>
+<div class="top">
+  <div class="brand">THIRD-PARTY TOOL VIA MIDDLEWARE (MOCK)</div>
+  <h1>Wind Classification</h1>
+  <div class="desc">Site wind class from region, terrain, shielding and topography (mock logic, AS 4055 style).</div>
+</div>
+<div class="wrap">
+  <div class="c full">
+    <h4>Project (received from Engineering Labs)</h4>
+    <div class="row2">
+      <div><label>Project</label><input id="project" class="from" readonly></div>
+      <div><label>Site address</label><input id="address" class="from" readonly></div>
+    </div>
+  </div>
+  <div class="c">
+    <h4>Site inputs</h4>
+    <div class="row2">
+      <div><label>Wind region</label><select id="region"><option value="A">A</option><option value="B">B</option><option value="C">C (cyclonic)</option></select></div>
+      <div><label>Terrain category</label><select id="tc"><option value="3">TC1</option><option value="2" selected>TC2</option><option value="1">TC2.5</option><option value="0">TC3</option></select></div>
+      <div><label>Shielding</label><select id="sh"><option value="0">Full (FS)</option><option value="1" selected>Partial (PS)</option><option value="2">None (NS)</option></select></div>
+      <div><label>Topography</label><select id="topo"><option value="0">T0 (flat)</option><option value="1">T1</option><option value="2">T2 (hill)</option></select></div>
+      <div><label>Building height (m)</label><input id="h" type="number" step="any" placeholder="e.g. 6.5"></div>
+      <div><label>Roof pitch (°)</label><input id="pitch" type="number" step="any" placeholder="e.g. 22.5"></div>
+    </div>
+    <div class="hint">Results and the map update as you change inputs.</div>
+  </div>
+  <div class="c">
+    <h4>Result</h4>
+    <div class="big"><div class="hint">Wind classification</div><div class="cls" id="cls">-</div></div>
+    <div class="kv"><span>Design gust speed (m/s)</span><b id="spd">-</b></div>
+    <div class="kv"><span>Score (mock)</span><b id="score">-</b></div>
+    <div class="kv"><span>Roof pitch check</span><b id="pc">-</b></div>
+    <div class="scale" id="scale"></div>
+  </div>
+  <div class="c full">
+    <h4>Site map (tool's visual, updates live)</h4>
+    <svg viewBox="0 0 600 220" width="100%" height="220">
+      <rect width="600" height="220" fill="#e7efe5"/>
+      <path id="hill" d="M0 220 Q300 220 600 220" fill="#c9d8b6"/>
+      <path d="M0 150 L600 120" stroke="#fff" stroke-width="10"/>
+      <path d="M220 0 L260 220" stroke="#fff" stroke-width="8"/>
+      <g id="trees"></g>
+      <circle id="halo" cx="300" cy="110" r="40" fill="#6d28d9" opacity=".18"/>
+      <path d="M300 82 c-9 0 -14 6 -14 14 c0 10 14 26 14 26 s14-16 14-26 c0-8 -5-14 -14-14z" fill="#dc2626"/>
+      <circle cx="300" cy="96" r="5" fill="#fff"/>
+      <g id="winds" stroke="#6d28d9" stroke-width="2.5" fill="none" stroke-linecap="round"></g>
+      <rect x="8" y="8" width="170" height="24" rx="5" fill="#fff" opacity=".9"/>
+      <text id="mapLbl" x="16" y="24" font-size="12" fill="#111">📍 -</text>
+      <text id="clsLbl" x="592" y="24" font-size="14" font-weight="800" fill="#6d28d9" text-anchor="end">-</text>
+    </svg>
+  </div>
+  <div class="full">
+    <div style="display:flex;gap:8px"><button class="go" id="go">Save &amp; send to Engineering Labs</button><button class="alt" id="bad">Send without the contract</button></div>
+    <div class="out" id="out"></div>
+  </div>
+</div>
+<script>
+  var runId=null,last=null;
+  function $(id){return document.getElementById(id)}
+  var CLASSES=['N1','N2','N3','N4','N5','N6'], SPEED={N1:34,N2:40,N3:50,N4:61,N5:74,N6:86,C1:50,C2:61,C3:74,C4:86};
+  addEventListener('message',function(e){ if(!e.data||e.data.type!=='load')return; var d=e.data.data; runId=d.run_id;
+    $('project').value=d.project; $('address').value=d.address; $('mapLbl').textContent='📍 '+d.address.split(',')[0]; calc(); });
+  ['region','tc','sh','topo','h','pitch'].forEach(function(id){ $(id).addEventListener('input',calc); $(id).addEventListener('change',calc); });
+
+  function calc(){
+    var r=$('region').value, tc=+$('tc').value, sh=+$('sh').value, tp=+$('topo').value, h=parseFloat($('h').value), p=parseFloat($('pitch').value);
+    var score={A:0,B:2,C:3}[r]+tc+sh+tp+(h>8.5?1:0);
+    var cls = r==='C' ? 'C'+Math.min(4,Math.max(1,score-2)) : CLASSES[Math.min(5,Math.max(0,score-1))];
+    $('cls').textContent=cls; $('clsLbl').textContent=cls; $('spd').textContent=SPEED[cls]; $('score').textContent=score;
+    $('pc').textContent = isNaN(p)?'-':(p>35?'Steep, check uplift':'OK');
+    var list = r==='C'?['C1','C2','C3','C4']:CLASSES;
+    $('scale').innerHTML=list.map(function(c){return '<div class="'+(c===cls?'on':'')+'">'+c+'</div>'}).join('');
+    // map visual
+    var idx=list.indexOf(cls), strength=(idx+1)/list.length;
+    $('halo').setAttribute('r',30+strength*70); $('halo').setAttribute('opacity',(0.12+strength*0.25).toFixed(2));
+    var hy=[220,170,120][tp]; $('hill').setAttribute('d','M0 220 Q300 '+hy+' 600 220');
+    var t=$('trees'); t.innerHTML=''; var n=[14,6,0][sh];
+    for(var i=0;i<n;i++){ var c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx',340+(i%7)*30); c.setAttribute('cy',60+Math.floor(i/7)*40); c.setAttribute('r',10); c.setAttribute('fill','#7fa86a'); t.appendChild(c); }
+    var w=$('winds'); w.innerHTML=''; var k=2+idx;
+    for(var j=0;j<k;j++){ var y=40+j*(150/k), pth=document.createElementNS('http://www.w3.org/2000/svg','path');
+      pth.setAttribute('d','M20 '+y+' q40 -12 80 0 t80 0'); w.appendChild(pth); }
+    last={inputs:{region:r, terrain_category:$('tc').selectedOptions[0].text, shielding:$('sh').selectedOptions[0].text, topography:$('topo').selectedOptions[0].text, height_m:isNaN(h)?null:h, roof_pitch_deg:isNaN(p)?null:p},
+          results:{wind_class:cls, gust_speed_ms:SPEED[cls]}};
+  }
+  calc();
+  $('go').onclick=function(){ $('out').textContent='Wind class '+last.results.wind_class+' sent to Engineering Labs. PDF saved to SharePoint.';
+    parent.postMessage({type:'file',name:'WindClass_'+runId+'.pdf'},'*');
+    parent.postMessage({type:'push',payload:{run_id:runId,tool:'wind-classification',project:$('project').value,inputs:last.inputs,results:last.results}},'*'); };
+  $('bad').onclick=function(){ $('out').style.color='#b45309'; $('out').textContent='Sent data in the wrong format.'; parent.postMessage({type:'push',payload:{value:123}},'*'); };
+</script>
+</template>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+
+  // Mock tool list. Only two are clickable.
+  const TOOLS = [
+    { id: "bearing", name: "Bearing Capacity", desc: "DCP / CBR / UCS to bearing capacity, simplified method.", socket: "Socket A · Frappe", cls: "a", cat: "Geotechnical", live: true },
+    { id: "wind", name: "Wind Classification", desc: "Site wind class from region, terrain, shielding and topography.", socket: "Socket C · Middleware", cls: "c", cat: "Structural", live: true },
+    { id: "bracing", name: "Wind Wall Bracing", desc: "Racking demand vs bracing capacity.", socket: "Socket B · Excel", cls: "b", cat: "Structural" },
+    { id: "arr", name: "ARR / IFD Rainfall", desc: "Design rainfall intensities.", socket: "Socket C · Middleware", cls: "c", cat: "Civil" },
+    { id: "climate", name: "Climate Zone Lookup", desc: "NCC climate zone by location.", socket: "Socket A · Frappe", cls: "a", cat: "Energy" },
+    { id: "piles", name: "Screw Piles", desc: "Screw pile capacity check.", socket: "Socket A · Frappe", cls: "a", cat: "Geotechnical" },
+    { id: "carbon", name: "Embodied Carbon", desc: "Environmental and embodied-carbon estimate.", socket: "Socket B · Excel", cls: "b", cat: "Environmental" },
+    { id: "spt", name: "SPT Correlations", desc: "SPT N to soil parameters.", socket: "Socket B · Excel", cls: "b", cat: "Geotechnical" },
+  ];
+  const PORTAL_CORE = {
+    "PRJ-0001": { name: "Sample Project A", address: "1 Sample St, Sydney NSW" },
+    "PRJ-0002": { name: "Sample Project B", address: "2 Example Rd, Wagga Wagga NSW" },
+    "PRJ-0003": { name: "Sample Project C", address: "3 Demo Ave, Newcastle NSW" },
+  };
+  let current = null, runId = null, saves = 0;
+
+  // ---------- Tool list ----------
+  function renderTools(q = "") {
+    q = q.toLowerCase();
+    $("toolGrid").innerHTML = TOOLS.filter((t) => (t.name + t.desc + t.cat + t.socket).toLowerCase().includes(q)).map((t) => `
+      <div class="card ${t.live ? "live" : "off"}" data-id="${t.id}">
+        <div class="tags"><span class="tag ${t.cls}">${t.socket}</span><span class="tag">${t.cat}</span></div>
+        <h4>${t.name}</h4>
+        <p>${t.desc}</p>
+        <div class="foot">${t.live ? "Open tool →" : "Mock only, not clickable"}</div>
+      </div>`).join("");
+    document.querySelectorAll(".card.live").forEach((c) => c.addEventListener("click", () => openTool(c.dataset.id)));
+  }
+  renderTools();
+  $("search").addEventListener("input", (e) => renderTools(e.target.value));
+
+  // ---------- Workspace ----------
+  function openTool(id) {
+    current = TOOLS.find((t) => t.id === id);
+    $("viewList").classList.add("hidden");
+    $("viewWs").classList.remove("hidden");
+    $("crumb").innerHTML = `<a id="crumbBack">Tools</a> / ${current.name}`;
+    $("crumbBack").onclick = backToList;
+    $("wsTool").textContent = current.name;
+    $("frame").classList.add("hidden");
+    $("empty").classList.remove("hidden");
+    $("run").disabled = !$("project").value;
+    window.scrollTo(0, 0);
+  }
+  function backToList() {
+    $("viewWs").classList.add("hidden");
+    $("viewList").classList.remove("hidden");
+    $("crumb").textContent = "Tools";
+  }
+  $("back").addEventListener("click", backToList);
+
+  function flash(id) { const el = $(id); el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), 900); }
+  const now = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+  // #11: project → Portal Core
+  $("project").addEventListener("change", (e) => {
+    const id = e.target.value;
+    $("pname").value = ""; $("addr").value = ""; $("run").disabled = true;
+    if (!id) return;
+    flash("portalCore");
+    $("pcLog").textContent = `→ GET project ${id} (placeholder endpoint)…`;
+    setTimeout(() => {
+      const p = PORTAL_CORE[id];
+      $("pname").value = p.name; $("addr").value = p.address;
+      $("pcLog").textContent = `← returned ${id}: ${p.name}, ${p.address}`;
+      $("run").disabled = !current;
+    }, 500);
+  });
+
+  // Run: open the tool in the iframe and hand over project data
+  $("run").addEventListener("click", () => {
+    runId = "RUN-" + Math.floor(Math.random() * 90000 + 10000);
+    const f = $("frame");
+    $("empty").classList.add("hidden"); f.classList.remove("hidden");
+    f.onload = () => f.contentWindow.postMessage({ type: "load", data: { run_id: runId, project: $("project").value, address: $("addr").value } }, "*");
+    const tpl = $(current.id === "bearing" ? "tool-bearing" : "tool-wind").innerHTML;
+    f.srcdoc = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + tpl + "</body></html>";
+  });
+
+  // Engineering Labs endpoint (#13, #14, #16) + files elsewhere (#15)
+  window.addEventListener("message", (e) => {
+    const m = e.data;
+    if (!m) return;
+    if (m.type === "file") {
+      flash("sharepoint");
+      if ($("spFiles").classList.contains("muted")) { $("spFiles").innerHTML = ""; $("spFiles").classList.remove("muted"); }
+      $("spFiles").insertAdjacentHTML("beforeend", `<div class="file">📄 ${m.name} · ${now()}</div>`);
+      return;
+    }
+    if (m.type !== "push") return;
+    const p = m.payload, list = $("records");
+    if (list.querySelector(".sub")) list.innerHTML = "";
+    const missing = ["run_id", "tool", "project", "inputs", "results"].filter((k) => !(k in p));
+    if (missing.length) {
+      list.insertAdjacentHTML("afterbegin", `<div class="rec bad"><b style="color:var(--bad)">✗ Rejected · ${now()}</b><br>Doesn't follow the contract. Missing: ${missing.join(", ")}</div>`);
+      return;
+    }
+    saves += 1;
+    list.querySelectorAll(".rec.new").forEach((r) => r.classList.remove("new"));
+    list.insertAdjacentHTML("afterbegin", `<div class="rec new"><b style="color:var(--ok)">✓ Save #${saves} · ${now()}</b><br>${p.tool} · ${p.project} · ${p.run_id}
+      <pre>results: ${JSON.stringify(p.results, null, 1)}</pre></div>`);
+  });
+</script>
+</body>
+</html>

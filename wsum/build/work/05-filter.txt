@@ -1,0 +1,1 @@
+The filter narrows the tools by type. The three types are now Frappe, Excel and third party, in line with the three sockets.

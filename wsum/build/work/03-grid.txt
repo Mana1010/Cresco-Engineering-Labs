@@ -1,0 +1,1 @@
+This is the redesigned Tools Registry. Each tool is a card, showing its type, version and category, and the card highlights when you hover over it.

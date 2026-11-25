@@ -1,0 +1,1 @@
+Next, I'll build the New Tool form, so a tool can be registered in Engineering Labs. It will capture the tool's details and type, whether Frappe, Excel or third party, and where the tool can be reached. It will also let us define the tool's input and output fields, which are dynamic for each tool. Thank you.
